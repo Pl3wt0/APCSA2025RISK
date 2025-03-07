@@ -1,3 +1,4 @@
+package Files;
 /**
  * Interface for playable games.
  * Ensures all board games have a method to start the game.
