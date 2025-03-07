@@ -1,3 +1,4 @@
+package Files;
 /**
  * Abstract class representing a board game.
  * Defines a common structure for board-based games like Tic-Tac-Toe, Checkers, etc.
