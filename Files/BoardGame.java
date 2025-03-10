@@ -27,7 +27,7 @@ public abstract class BoardGame {
     public abstract boolean placePiece(int row, int col, char player);
 
     /** Abstract method to check if a player has won */
-    public abstract boolean checkWin();
+    public abstract boolean checkWin(char player);
 
     /** Concrete method to display the board */
     public void displayBoard() {
