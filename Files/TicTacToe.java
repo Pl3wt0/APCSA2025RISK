@@ -41,7 +41,13 @@ public class TicTacToe extends BoardGame implements Playable{
                 return true;
             }
         
-            return false;
+        
+        }
+        return false;
+        
+    }
+
+    public void startGame(){
         
     }
     
