@@ -43,6 +43,12 @@ public class TicTacToe extends BoardGame implements Playable{
         
         
         }
+        if(board[0][2] == board [1][1] && board [1][1] == board[2][0] && board [0][2] == board[2][0]){
+            if(player == board[0][2]){
+                return true;
+            }
+        }
+
         return false;
         
     }
