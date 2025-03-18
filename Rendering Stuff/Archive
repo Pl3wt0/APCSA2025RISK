@@ -1,0 +1,348 @@
+package Cube.SceneObjects;
+import java.awt.color.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.Timer;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
+import Cube.Renderables.*;
+import Cube.*;
+
+import java.util.*;
+import tools.a;
+import java.awt.*;
+
+public class Cube implements SceneObject {
+    private double x;
+    private double y;
+    private double z;
+    private double xVelocity;
+    private double yVelocity;
+    private double zVelocity;
+    private double scale;
+    private double polar;
+    private double alpha;
+    private int age = 0;
+
+    private Color faceColor = new Color(100,100,100);
+    private Color lineColor = new Color(0,0,0);
+
+    private ArrayList<double[]> points = new ArrayList<double[]>(8);
+    private ArrayList<Line> lines = new ArrayList<Line>(12);
+    private ArrayList<Face> faces = new ArrayList<Face>(6);
+
+    private static int[][] lineNumbers = {{0,1},{0,2},{0,4},{1,3},{2,3},{1,5},{2,6},{3,7},{4,5},{4,6},{5,7},{6,7}};
+    private static int[][] faceNumbers = {{0,1,3,2},{0,2,6,4},{0,1,5,4},{1,3,7,5},{2,3,7,6},{4,5,7,6}};
+
+
+    public Cube(double x, double y, double z, double scale, double polar, double alpha) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.scale = scale;
+        this.polar = polar;
+        this.alpha = alpha;
+        double[] zeroPoint = {0,0,0};
+        for (int i = 0; i < 8; i++) {
+            points.add(zeroPoint);
+        }
+        updateLists();
+    }
+
+    public double calculatePolar(double x, double y, double z) {
+        double length = Math.sqrt(x * x + y * y);
+        if (length == 0) {
+            return 0;
+        }
+        return Math.acos(x / length) * Math.signum(y);
+    }
+
+    public double calculateAlpha(double x, double y, double z) {
+        double length = Math.sqrt(x * x + y * y + z * z);
+        if (length == 0) {
+            return 0;
+        }
+        return Math.acos(z / length);
+    }
+
+    public double[] calculatePoint(double p, double a, double r) {
+        double x = r * Math.sin(a) * Math.cos(p);
+        double y = r * Math.sin(a) * Math.sin(p);
+        double z = r * Math.cos(a);
+
+        double[] point = {x,y,z};
+
+        return point;
+    }
+
+    
+    public void updateLists() {
+
+        
+
+        int x = 0;
+        for (int i = -1; i <= 1; i+=2) {
+            for (int j = -1; j <= 1; j+=2) {
+                for (int k = -1; k <= 1; k+=2) {
+                    double[] point = {i,j,k};
+                    points.set(x, point);
+                    x++;
+                }
+            }
+        }
+        
+        for (double[] point : points) {
+            double polar = calculatePolar(point[0], point[1], point[2]);
+            double alpha = calculateAlpha(point[0], point[1], point[2]);
+            double r = Math.sqrt(point[0] * point[0] + point[1] * point[1] + point[2] * point[2]);
+
+            polar += this.polar;
+
+            double[] point2 = calculatePoint(polar, alpha, r);
+
+            point[0] = point2[0];
+            point[1] = point2[1];
+            point[2] = point2[2];
+
+             double angle = Math.atan(point2[2] / point2[0]);
+
+            if (point2[0] < 0) {
+                angle += Math.PI;
+            }
+    
+            angle -= (this.alpha);
+    
+            double r2 = Math.sqrt(point2[0] * point2[0] + point2[2] * point2[2]);    
+
+            point[0] = Math.cos(angle) * r2;
+            point[1] = point2[1];
+            point[2] = Math.sin(angle) * r2;
+ 
+            point[0] = point[0] * scale + this.x;
+            point[1] = point[1] * scale + this.y;
+            point[2] = point[2] * scale + this.z;
+        }
+
+        lines.clear();
+        for (int i = 0; i < 12; i++) {
+            int[] lineNumber = lineNumbers[i];
+            Line line = new Line(points.get(lineNumber[0]), points.get(lineNumber[1]), lineColor);
+            lines.add(line);
+        }
+
+        faces.clear();
+        for (int i = 0; i < 6; i++) {
+            ArrayList<double[]> facePoints = new ArrayList<double[]>(4);
+            int[] faceNumber = faceNumbers[i];
+            for (int number : faceNumber) {
+                facePoints.add(points.get(number));
+            }
+            faces.add(new Face(facePoints, faceColor));
+        }
+    }
+
+    
+    public void printPoints() {
+        for (double[] point : points) {
+            System.out.println(Arrays.toString(point));
+        }
+    }
+
+    public double[] getPosition() {
+        double[] center = {x,y,z};
+        return center;
+    }
+
+    public ArrayList<Renderable> getRenderables() {
+        updateLists();
+        ArrayList<Renderable> renderables = new ArrayList<Renderable>();
+        renderables.addAll(lines);
+        renderables.addAll(faces);
+        return renderables;
+    }
+
+    public void tick(int tps, int tick,  ArrayList<SceneObject> sceneObjects, IsKeyPressed isKeyPressed) {
+        age++;
+        zVelocity -= 9.8 / tps;
+
+        faceColor = new Color(Math.max(Math.min(128 - (int)x * 7,255),0),Math.max(Math.min(128 - (int)y * 7,255),0),Math.max(Math.min(128 - (int)z * 7,255),0));
+
+/*         if (z + zVelocity / tps <= 0) {
+            zVelocity += 9.8 / tps;
+            zVelocity *= -1;
+        }
+        if (z + zVelocity / tps >= 30) {
+            zVelocity -= 9.8 / tps;
+            zVelocity *= -1;
+        }
+        if (y + yVelocity / tps <= -15) {
+            yVelocity *= -1;
+        }
+        if (y + yVelocity / tps >= 15) {
+            yVelocity *= -1;
+        }
+        if (x + xVelocity / tps <= -15) {
+            xVelocity *= -1;
+        }
+        if (x + xVelocity / tps >= 15) {
+            xVelocity *= -1;
+        }
+
+
+ 
+          if (tick % 120 == 0) {
+            double distance = Tools3D.getDistance(x, 5.5, y, 5.5, z, 0);
+            double strength = 50/Math.sqrt(distance);
+            xVelocity += (x - 5) / distance * strength;
+            yVelocity += (y - 5) / distance * strength;
+            zVelocity += (z - 5) / distance * strength;
+        }
+  
+        rotate(1/tps, 1/tps);
+ */
+        if (Math.random() > 0.99) {
+
+        }
+
+/*         if (tick % tps == 0) {
+            int x = (int)(Math.random() * scale * 3);
+            int y = (int)(Math.random() * scale * 3);
+            int z = (int)(Math.random() * scale * 3);
+
+            sceneObjects.add(new Particle(x,y,z,1,1,"/Users/ian/Downloads/Dune.jpg"));
+        }
+ */ 
+        double drag = 0.2;
+
+/*         if (age > 100) {
+            sceneObjects.remove(this);
+        }
+ */
+/*          xVelocity *= 1 - (drag / tps);
+        yVelocity *= 1 - (drag / tps);
+        zVelocity *= 1 - (drag / tps);
+
+        x += (xVelocity / tps);
+        y += (yVelocity / tps);
+        z += (zVelocity / tps);
+ */        
+     }
+
+    public String toString() {
+        return ("Cube: " + x + ", " + y + ", " + z + "; scale: " + scale + "; rotation: " + polar + " " + alpha);
+    }
+
+    public void rectifyAngles() {
+        polar %= Math.PI * 2;
+        alpha %= Math.PI * 2;
+    }
+
+    public void rotate(double polar, double alpha) {
+        this.polar += polar;
+        this.alpha += alpha;
+        rectifyAngles();
+    }
+
+    public void setRotation(double polar, double alpha) {
+        this.polar = polar;
+        this.alpha = alpha;
+        rectifyAngles();
+    }
+
+    public void move(double x, double y, double z) {
+        this.x += x;
+        this.y += y;
+        this.z += z;
+    }
+
+    public void setPosition(double x, double y, double z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+}
+
+
+
+
+Old first half of getScreenPoint:
+
+        double newX = point[0] - camera.x;
+        double newY = point[1] - camera.y;
+        double newZ = point[2] - camera.z;
+
+        double polar = calculatePolar(newX,newY,newZ);
+        double alpha = calculateAlpha(newX,newY,newZ);
+        double r = Math.sqrt(newX * newX + newY * newY + newZ * newZ);
+
+        double[] point2 = calculatePoint(polar - camera.polar, alpha, r);
+
+        double angle = Math.atan(point2[2] / point2[0]);
+
+        if (point2[0] < 0) {
+            angle += Math.PI;
+        }
+
+        angle -= (camera.alpha - (Math.PI / 2));
+
+        double r2 = Math.sqrt(point2[0] * point2[0] + point2[2] * point2[2]);
+
+        double[] convertedPoint = {Math.cos(angle) * r2, point2[1], Math.sin(angle) * r2};
+  
+
+
+
+
+package Cube.SceneObjects;
+
+import tools.a;
+
+import java.util.ArrayList;
+
+import Cube.IsKeyPressed;
+import Cube.Renderable;
+import Cube.SceneObject;
+
+public class Chunk implements SceneObject {
+    private int[] coords;
+    private Cube[][][] content = new Cube[16][16][16];
+
+    public Chunk() {
+        int[] coords = {0,0,0};
+        this.coords = coords;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                for (int k = 0; k < 8; k++) {
+                    if (i%2==0 && j%2==0 && k%2==0) {
+                        content[i][j][k] = new Cube((coords[0] * 16 + i * 2), (coords[1] * 16 + j * 2), (coords[2] * 16 + k * 2), 1,0, 0);
+                    }
+                }
+            }
+        }
+    }
+
+    public void tick(int tps, int tick,  ArrayList<SceneObject> sceneObjects, IsKeyPressed isKeyPressed) {
+
+    }
+
+    public ArrayList<Renderable> getRenderables() {
+        ArrayList<Renderable> renderables = new ArrayList<Renderable>();
+        for (int i = 0; i < 16; i++) {
+            for (int j = 0; j < 16; j++) {
+                for (int k = 0; k < 16; k++) {
+                    if (content[i][j][k] != null) {
+                        if ((i == 0 || i == 15 || j == 0 || j == 15 || k == 0 || k == 15) 
+                        || (content[i + 1][j][k] != null || content[i - 1][j][k] != null || content[i][j + 1][k] != null || content[i][j - 1][k] != null || content[i][j][k + 1] != null || content[i][j][k - 1] != null)) {
+                            renderables.addAll(content[i][j][k].getRenderables());
+                        }
+                    }
+                }
+            }
+        }
+        return renderables;
+    }
+
+}
