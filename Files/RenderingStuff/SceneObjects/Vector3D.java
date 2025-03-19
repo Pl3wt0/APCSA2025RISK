@@ -1,6 +1,6 @@
-package Cube.SceneObjects;
+package Files.RenderingStuff.SceneObjects;
 
-import Cube.SceneObject;
+import Files.RenderingStuff.SceneObject;
 import tools.a;
 
 public class Vector3D extends Mesh implements MeshInterface {    

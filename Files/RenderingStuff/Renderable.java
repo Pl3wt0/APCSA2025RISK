@@ -1,4 +1,4 @@
-package Cube;
+package Files.RenderingStuff;
 import java.awt.*;
 
 public interface Renderable extends SceneObject {

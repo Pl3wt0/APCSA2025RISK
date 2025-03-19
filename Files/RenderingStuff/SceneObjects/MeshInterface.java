@@ -1,4 +1,4 @@
-package Cube.SceneObjects;
+package Files.RenderingStuff.SceneObjects;
 
 public interface MeshInterface {
     public int[][] getLineNumbers();

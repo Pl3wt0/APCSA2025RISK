@@ -1,15 +1,15 @@
-package Cube.Renderables;
+package Files.RenderingStuff.Renderables;
 
 import java.util.ArrayList;
 
-import Cube.Camera;
-import Cube.IsKeyPressed;
-import Cube.PanelInfo;
-import Cube.Renderable;
-import Cube.SceneInfo;
-import Cube.SceneObject;
-import Cube.Tools3D;
-import Cube.SceneObjects.*;
+import Files.RenderingStuff.Camera;
+import Files.RenderingStuff.IsKeyPressed;
+import Files.RenderingStuff.PanelInfo;
+import Files.RenderingStuff.Renderable;
+import Files.RenderingStuff.SceneInfo;
+import Files.RenderingStuff.SceneObject;
+import Files.RenderingStuff.Tools3D;
+import Files.RenderingStuff.SceneObjects.*;
 import tools.a;
 
 import java.awt.*;

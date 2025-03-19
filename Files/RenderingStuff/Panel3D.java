@@ -1,4 +1,4 @@
-package Cube;
+package Files.RenderingStuff;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;

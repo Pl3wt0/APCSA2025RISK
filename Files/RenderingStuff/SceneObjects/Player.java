@@ -1,8 +1,8 @@
-package Cube.SceneObjects;
+package Files.RenderingStuff.SceneObjects;
 
 import java.util.ArrayList;
 
-import Cube.*;
+import Files.RenderingStuff.*;
 
 public class Player implements SceneObject {
     private double x;

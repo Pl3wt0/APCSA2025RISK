@@ -1,12 +1,12 @@
-package Cube.SceneObjects;
+package Files.RenderingStuff.SceneObjects;
 
 import java.util.ArrayList;
 
-import Cube.IsKeyPressed;
-import Cube.PanelInfo;
-import Cube.Renderable;
-import Cube.SceneInfo;
-import Cube.SceneObject;
+import Files.RenderingStuff.IsKeyPressed;
+import Files.RenderingStuff.PanelInfo;
+import Files.RenderingStuff.Renderable;
+import Files.RenderingStuff.SceneInfo;
+import Files.RenderingStuff.SceneObject;
 
 public class RecursiveCube implements SceneObject{
     private double x;

@@ -1,4 +1,4 @@
-package Cube.Renderables;
+package Files.RenderingStuff.Renderables;
 import java.awt.color.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,15 +13,15 @@ import javax.swing.Timer;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import Cube.IsKeyPressed;
-import Cube.PanelInfo;
-import Cube.Renderable;
-import Cube.SceneInfo;
-import Cube.SceneObject;
-import Cube.Renderables.Face;
-import Cube.Renderables.Line;
-import Cube.Tools3D;
-import Cube.Camera;
+import Files.RenderingStuff.IsKeyPressed;
+import Files.RenderingStuff.PanelInfo;
+import Files.RenderingStuff.Renderable;
+import Files.RenderingStuff.SceneInfo;
+import Files.RenderingStuff.SceneObject;
+import Files.RenderingStuff.Renderables.Face;
+import Files.RenderingStuff.Renderables.Line;
+import Files.RenderingStuff.Tools3D;
+import Files.RenderingStuff.Camera;
 
 import java.util.*;
 import tools.a;

@@ -1,4 +1,4 @@
-package Cube;
+package Files.RenderingStuff;
 import tools.a;
 
 import java.awt.KeyEventDispatcher;

@@ -1,6 +1,6 @@
-package Cube.SceneObjects;
+package Files.RenderingStuff.SceneObjects;
 
-import Cube.SceneObject;
+import Files.RenderingStuff.SceneObject;
 
 public class Cube extends Mesh implements MeshInterface {
     private static double[][] points = {{-1,-1,-1},{-1,-1,1},{-1,1,-1},{-1,1,1},{1,-1,-1},{1,-1,1},{1,1,-1},{1,1,1}};

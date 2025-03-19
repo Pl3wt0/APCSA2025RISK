@@ -1,4 +1,4 @@
-package Cube;
+package Files.RenderingStuff;
 
 
 public class Point3D {

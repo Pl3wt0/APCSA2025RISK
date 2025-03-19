@@ -1,11 +1,11 @@
-package Cube.SceneObjects;
+package Files.RenderingStuff.SceneObjects;
 
 import java.util.ArrayList;
 
-import Cube.PanelInfo;
-import Cube.Scene;
-import Cube.SceneInfo;
-import Cube.Tools3D;
+import Files.RenderingStuff.PanelInfo;
+import Files.RenderingStuff.Scene;
+import Files.RenderingStuff.SceneInfo;
+import Files.RenderingStuff.Tools3D;
 import tools.*;
 
 public class Graph extends Mesh implements MeshInterface{

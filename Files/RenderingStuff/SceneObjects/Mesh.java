@@ -1,11 +1,11 @@
-package Cube.SceneObjects;
+package Files.RenderingStuff.SceneObjects;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.awt.*;
 
-import Cube.*;
-import Cube.Renderables.*;
+import Files.RenderingStuff.*;
+import Files.RenderingStuff.Renderables.*;
 import tools.a;
 
 public abstract class Mesh implements SceneObject {

@@ -1,8 +1,8 @@
-package Cube.SceneObjects;
+package Files.RenderingStuff.SceneObjects;
 
-import Cube.PanelInfo;
-import Cube.SceneInfo;
-import Cube.Renderables.*;
+import Files.RenderingStuff.PanelInfo;
+import Files.RenderingStuff.SceneInfo;
+import Files.RenderingStuff.Renderables.*;
 
 public class FallingCube extends Cube {
     private Graph graph;

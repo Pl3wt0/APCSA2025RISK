@@ -1,9 +1,9 @@
-package Cube;
+package Files.RenderingStuffe;
 
 import java.util.ArrayList;
 
-import Cube.SceneObjects.*;
-import Cube.SceneObjects.Player;
+import Files.RenderingStuff.SceneObjects.*;
+import Files.RenderingStuff.SceneObjects.Player;
 import tools.a;
 import java.awt.*;
 import javax.swing.*;

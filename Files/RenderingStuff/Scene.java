@@ -1,7 +1,7 @@
-package Cube;
+package Files.RenderingStuff;
 
-import Cube.SceneObjects.*;
-import Cube.Renderables.*;
+import Files.RenderingStuff.SceneObjects.*;
+import Files.RenderingStuff.Renderables.*;
 
 import java.util.*;
 import tools.a;

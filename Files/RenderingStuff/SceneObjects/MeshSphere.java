@@ -1,18 +1,18 @@
-package Cube.SceneObjects;
+package Files.RenderingStuff.SceneObjects;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.awt.*;
 
-import Cube.IsKeyPressed;
-import Cube.PanelInfo;
-import Cube.Renderable;
-import Cube.SceneInfo;
-import Cube.SceneObject;
-import Cube.Renderables.Face;
-import Cube.Renderables.Line;
-import Cube.Tools3D;
+import Files.RenderingStuff.IsKeyPressed;
+import Files.RenderingStuff.PanelInfo;
+import Files.RenderingStuff.Renderable;
+import Files.RenderingStuff.SceneInfo;
+import Files.RenderingStuff.SceneObject;
+import Files.RenderingStuff.Renderables.Face;
+import Files.RenderingStuff.Renderables.Line;
+import Files.RenderingStuff.Tools3D;
 import tools.a;
 
 
