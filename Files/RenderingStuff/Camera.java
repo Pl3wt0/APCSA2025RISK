@@ -1,4 +1,4 @@
-package Files.RenderingStuffe;
+package Files.RenderingStuff;
 
 import java.util.ArrayList;
 
