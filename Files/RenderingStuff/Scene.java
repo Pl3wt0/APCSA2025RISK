@@ -1,6 +1,7 @@
 package Files.RenderingStuff;
 
 import Files.RenderingStuff.SceneObjects.*;
+import Files.GameRunner;
 import Files.RenderingStuff.Renderables.*;
 
 import java.util.*;
@@ -39,7 +40,7 @@ public class Scene {
 
         }
  */        
-        Graph graph = new Graph(-10, 10, -10, 10, 70, 70, -50, 50, -50, 50){
+         Graph graph = new Graph(-10, 10, -10, 10, 70, 70, -50, 50, -50, 50){
             public double function(double x, double y, double t) {
                 return 4 * (Math.sin(x + t) + Math.sin(y + t));
             }
@@ -47,7 +48,7 @@ public class Scene {
         sceneObjects.add(graph);
 
 
-/*         sceneObjects.add(new MeshSphere(0, 0, 100, 1, 10) {
+ /*         sceneObjects.add(new MeshSphere(0, 0, 100, 1, 10) {
             private double xVelocity = 0;
             private double yVelocity = 0;
             private double zVelocity = 0;
@@ -74,6 +75,8 @@ public class Scene {
         this.containingPanel = containingPanel;
         baseSetup();
         setScene();
+
+        
     }
 
     public void baseSetup() {
@@ -84,6 +87,10 @@ public class Scene {
             throw new Error("Camera failed");
         }    
         isKeyPressed = new IsKeyPressed();
+
+        InteractionHandler.setSceneInfo(sceneInfo);
+        GameRunner gameThread = new GameRunner();
+        gameThread.start();
     }
 
     public SceneInfo getSceneInfo() {
