@@ -10,7 +10,8 @@ public class Territory {
     String playerOwner = "";
     String continent = "";
 
-    public Territory(String continent) {
+    public Territory(String continent, String playerOwner) {
         this.continent = continent;
+        this.playerOwner = playerOwner;
     }
 }
