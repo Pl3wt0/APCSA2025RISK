@@ -30,7 +30,12 @@ public class Deck {
      * @return      the card that is drawn from the deck
      * 
      */
-    public Card drawRandom(){
 
+    // i think this is about what you want? - blake
+    public Card drawRandom(){
+        int random = (int) (Math.random() * deck.size());
+        Card drawn = deck.get(random);
+        deck.remove(random);
+        return drawn;
     }
 }
