@@ -4,6 +4,11 @@ public class Card {
     private boolean cannon;
     private boolean troop; 
 
+    public Card(boolean horse, boolean cannon, boolean troop){
+        this.horse = horse;
+        this.cannon = cannon;
+        this.troop = troop;
+    }
     // logic
     // three horse
     // three cannon
