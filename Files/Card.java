@@ -9,6 +9,35 @@ public class Card {
         this.cannon = cannon;
         this.troop = troop;
     }
+
+    public boolean getHorse(){
+        return horse;
+    }
+
+    public boolean getCannon(){
+        return cannon;
+    }
+
+    public boolean getTroop(){
+        return troop;
+    }
+
+    public String toString(){
+        if (horse && cannon && troop){
+            return "Joker";
+        }
+
+        if(horse){
+            return "Horse";
+        }
+        if(cannon){
+            return "Cannon";
+        }
+        if(troop){
+            return "Troop";
+        }
+        return "-1";
+    }
     // logic
     // three horse
     // three cannon
