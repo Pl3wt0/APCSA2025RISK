@@ -38,6 +38,23 @@ public class Player {
             return false;
         }
     }
-    
+
+    /**
+     * Accesses the number associated with the Player object
+     * 
+     * @return Player Number
+     */
+    public Integer getNum(){
+        return playerNum;
+    }
+
+    /**
+     * Accesses the name of the player object
+     * 
+     * @return Player Name
+     */
+    public String getName(){
+        return playerName;
+    }
 
 }
