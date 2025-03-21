@@ -24,7 +24,6 @@ public class Deck {
         }
     }
 
-    // i think this is about what you want? - blake
     /** 
      * draws a random card, removes it from the deck, returns it
      * @return Card
