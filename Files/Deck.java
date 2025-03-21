@@ -24,14 +24,11 @@ public class Deck {
         }
     }
 
-    /**
-     * Draws a random Card from the deck and removes it
-     * 
-     * @return      the card that is drawn from the deck
-     * 
-     */
-
     // i think this is about what you want? - blake
+    /** 
+     * draws a random card, removes it from the deck, returns it
+     * @return Card
+     */
     public Card drawRandom(){
         int random = (int) (Math.random() * deck.size());
         Card drawn = deck.get(random);
