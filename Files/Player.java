@@ -27,8 +27,8 @@ public class Player {
      * Calls drawCard() from deck to get a random card
      * Only adds a Card if hand has less than 5 Card objects
      * 
-     * @param deck
-     * @return boolean
+     * @param deck Deck object that card is drawn from
+     * @return boolean if card is added to the deck then return true; else return false.
      */
     public boolean addCard(Deck deck){
         if(hand.size()<5){
