@@ -17,6 +17,10 @@ public abstract class Mesh implements SceneObject {
     protected double phi;
     protected boolean doRotate = true;
 
+    protected double xVelocity;
+    protected double yVelocity;
+    protected double zVelocity;
+
     public Mesh(double x, double y, double z, double scale, double theta, double phi) {
         this.x = x;
         this.y = y;
@@ -222,6 +226,12 @@ public abstract class Mesh implements SceneObject {
         rectifyAngles();
     }
 
+    public void setVelocities(double xVelocity, double yVelocity, double zVelocity) {
+        this.xVelocity = xVelocity;
+        this.yVelocity = yVelocity;
+        this.zVelocity = zVelocity;
+    }
+
     public double distanceTo(Mesh other) {
         double[] point1 = this.getPosition();
         double[] point2 = other.getPosition();
@@ -240,6 +250,10 @@ public abstract class Mesh implements SceneObject {
     }
 
     public void tick(PanelInfo panelInfo, SceneInfo sceneInfo) {
+        x += xVelocity * sceneInfo.getLastFrameLength();
+        y += yVelocity * sceneInfo.getLastFrameLength();
+        z += zVelocity * sceneInfo.getLastFrameLength();
+
         rectifyAngles();
     }
 

@@ -2,30 +2,20 @@ package Files;
 import java.util.ArrayList;
 public class Deck {
     ArrayList<Card> deck = new ArrayList<Card>();
-    ArrayList<Card> discardDeck = new ArrayList<Card>();
     public Deck(){
         for(int i = 0; i<44; i++){
             if(i<14){
-                deck.add(Card(horse));
+                deck.add(new Card(true,false,false));
             }
             if(i>=14 && i<28){
-                deck.add(Card(troop));
+                deck.add(new Card(false,true,false));
             }
             if(i>=28 && i<42){
-                deck.add(Card(cannon));
+                deck.add(new Card(false,false,true));
             }
             if(i>=42){
-                deck.add(Card(Joker));
+                deck.add(new Card(true,true,true));
             }
         }
-    }
-    public Card drawCard(){
-        if(deck.length > 1){
-        return deck.remove((Int)(Math.random()*44));
-        }
-        else{
-            this.reshuffle();
-            drawCard();
-        }   
     }
 }
