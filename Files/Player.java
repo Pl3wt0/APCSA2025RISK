@@ -42,7 +42,7 @@ public class Player {
     /**
      * Accesses the number associated with the Player object
      * 
-     * @return Player Number
+     * @return Integer Player Number
      */
     public Integer getNum(){
         return playerNum;
@@ -51,7 +51,7 @@ public class Player {
     /**
      * Accesses the name of the player object
      * 
-     * @return Player Name
+     * @return Integer Player Name
      */
     public String getName(){
         return playerName;

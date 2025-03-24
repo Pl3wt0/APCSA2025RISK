@@ -25,8 +25,9 @@ public class Deck {
     }
 
     /** 
-     * draws a random card, removes it from the deck, returns it
-     * @return Card
+     *Draws a random card, removes it from the deck, returns it
+     * 
+     * @return Card card that is drawn from the deck 
      */
     public Card drawRandom(){
         int random = (int) (Math.random() * deck.size());
