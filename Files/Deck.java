@@ -2,6 +2,7 @@ package Files;
 import java.util.ArrayList;
 public class Deck {
     ArrayList<Card> deck = new ArrayList<Card>();
+    ArrayList<Card> discardDeck = new ArrayList<Card>();
     public Deck(){
         for(int i = 0; i<44; i++){
             if(i<14){
@@ -17,5 +18,14 @@ public class Deck {
                 deck.add(Card(Joker));
             }
         }
+    }
+    public Card drawCard(){
+        if(deck.length > 1){
+        return deck.remove((Int)(Math.random()*44));
+        }
+        else{
+            this.reshuffle();
+            drawCard();
+        }   
     }
 }
