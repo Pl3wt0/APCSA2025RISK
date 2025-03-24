@@ -14,11 +14,18 @@ public class Player {
      * @param String name of the player
      * @param Integer number to identify the player
      */
-    public Player(String name, Integer playerNum){
+    public Player(Integer playerNum){
         this.playerNum = playerNum;
-        playerName = name;
     }
 
+    /**
+     * Sets the player's name to the parameter passed in
+     * 
+     * @param name String that you wish to set the player's name to
+     */
+    public void setName(String name){
+        playerName = name;
+    }
 
     /**
      * Accesses the number associated with the Player object
