@@ -7,18 +7,25 @@ public class Territory {
     private ArrayList<GamePiece> pieces = new ArrayList<>();
     private ArrayList<Territory> neighbors = new ArrayList<>();
 
-    private String playerOwner = "";
+    private Integer playerOwner;
     private String continent = "";
 
     /**
      * Constructs a Territory object with the continent
-     * and the player who owns the territory
      * 
      * @param continent what continetn the territory is located on
-     * @param playerOwner the player who owns the continent
+     * 
      */
-    public Territory(String continent, String playerOwner) {
+    public Territory(String continent) {
         this.continent = continent;
-        this.playerOwner = playerOwner;
+    }
+
+    /**
+     * Sets the owner of the territory object
+     * 
+     * @param playerNum the number of the player that is being set as the owner
+     */
+    public void setOwner(Integer playerNum){
+
     }
 }
