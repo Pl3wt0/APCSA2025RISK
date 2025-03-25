@@ -1,4 +1,5 @@
-/Files/APCSA2025Test.code-workspace
 /Files/config.jdgenerator
 /Files/javadoc
-/.vscode/settings.json
+/.vscode/*
+/.idea/*
+/APCSA2025Test.iml
