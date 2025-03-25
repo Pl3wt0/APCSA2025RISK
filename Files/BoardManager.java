@@ -8,12 +8,13 @@ public class BoardManager {
     /**
      * Constructs the BoardManager object
      * Instantiates the individual Player objects in players
+     * Starts number for players at 0
      * 
      * @param numOfPlayers number of players in the game
      */
     public BoardManager(Integer numOfPlayers){
         for(int i =0;i<numOfPlayers;i++){
-            players.add(new Player(i+1));
+            players.add(new Player(i));
         }
     }
 
@@ -25,7 +26,7 @@ public class BoardManager {
     public void initalizeTerritoryOwners(){
         Integer territoriesPerPlayer = territories.size()/players.size();
         Integer excessTerritories = territories.size()%territoriesPerPlayer;
-        Integer playerNum = 0;
+        Integer playerNum = -1;
 
         for(int i=0;i<territories.size()-excessTerritories;i++){
             if(i%players.size() == 0){
@@ -37,9 +38,14 @@ public class BoardManager {
             territories.get(i).setOwner(i-territories.size());
         }
 
-        
-
     }
 
+    /**
+     * Determines amoutn fo troops given to player at the end
+     * 
+     */
+    public Integer determineTroopAmt(Integer playerNum){
+        
+    }
 
 }

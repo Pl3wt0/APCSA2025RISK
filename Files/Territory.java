@@ -28,4 +28,22 @@ public class Territory {
     public void setOwner(Integer playerNum){
 
     }
+
+    /**
+     * Accessor method for the contient instance variable
+     * 
+     * @return String contient that territory is located on
+     */
+    public String getContinent(){
+
+    }
+
+    /**
+     * Accessor method for playerOwner insance variable
+     * 
+     * @return Integer the number associated with the player who owns the territory
+     */
+    public Integer getOwner(){
+
+    }
 }
