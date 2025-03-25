@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class BoardManager {
     private ArrayList <Player> players = new ArrayList<Player>();
-    ArrayList <Territory> territories = new ArrayList<Territory>();
+    private ArrayList <Territory> territories = new ArrayList<Territory>();
     
     /**
      * Constructs the BoardManager object

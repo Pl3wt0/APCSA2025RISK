@@ -49,7 +49,6 @@ public class Card {
      * 
      * @return String type of card: Horse, Cannon, Troop, or Joker
      */
-    @Override
     public String toString(){
         if (horse && cannon && troop){
             return "Joker";
