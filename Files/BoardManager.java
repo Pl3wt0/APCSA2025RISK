@@ -83,6 +83,13 @@ public class BoardManager {
      *@return Interger of troop number
      */
     public Integer determineNumDice(boolean attack, String territoryName){
+        if(attack){
+          if(territories.getTerritoryByName(territoryName).getPieces().size() > 3){
+            return 3;
+          }else{
+            return territories.getTerritoryName(territoryName).getPieces().size();
+          }
+          }  
         
     }
 }
