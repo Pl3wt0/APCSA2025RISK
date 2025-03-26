@@ -13,7 +13,7 @@ public class Territory {
     /**
      * Constructs a Territory object with the continent
      * 
-     * @param continent what continetn the territory is located on
+     * @param continent what continent the territory is located on
      * 
      */
     public Territory(String continent) {
@@ -26,7 +26,7 @@ public class Territory {
      * @param playerNum the number of the player that is being set as the owner
      */
     public void setOwner(Integer playerNum){
-
+        playerOwner = playerNum;
     }
 
     /**
@@ -35,7 +35,7 @@ public class Territory {
      * @return String contient that territory is located on
      */
     public String getContinent(){
-
+        return continent;
     }
 
     /**
@@ -44,6 +44,6 @@ public class Territory {
      * @return Integer the number associated with the player who owns the territory
      */
     public Integer getOwner(){
-
+        return playerOwner;
     }
 }
