@@ -41,11 +41,19 @@ public class BoardManager {
     }
 
     /**
-     * Determines amoutn fo troops given to player at the end
+     * Determines amount of troops given to player at the start of turn
      * 
+     * @return Integer amount of troops given at start of turn
      */
     public Integer determineTroopAmt(Integer playerNum){
         
     }
 
+
+    /**
+     * 
+     */
+    public Integer determineNumDice(boolean attack, String territoryName){
+        
+    }
 }
