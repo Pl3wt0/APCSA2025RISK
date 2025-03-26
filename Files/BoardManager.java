@@ -46,16 +46,35 @@ public class BoardManager {
      * @return Integer amount of troops given at start of turn
      */
     public Integer determineTroopAmnt( Player temp){
-        Integer numTerritory = 0; 
-        Interger continentBonus = 0;
-        for( territory T: territoryList){
-            if(temp.getNum() == t.getOwner()) numTerritory++;
-        }
-        //check entire continent later
-        if(numTerritory < 9 ) numTerritory = 9;
-        return numTerritory/3; 
+        int numTerritory = 0;
+    int continentBonus = 0;
+
+    // Count number of territories the player owns
+    for (Territory t : territories) {
+        if (temp.getNum() == t.getOwner()) {
+            numTerritory++;
         }
     }
+
+    // Minimum base troops is 3
+    int baseTroops = Math.max(numTerritory / 3, 3);
+
+    // Check for full continent control
+    for (Continent c : continents) {
+        boolean ownsAll = true;
+        for (Territory t : c.getTerritories()) {
+            if (t.getOwner() != temp.getNum()) {
+                ownsAll = false;
+                break;
+            }
+        }
+        if (ownsAll) {
+            continentBonus += c.getBonusTroops();
+        }
+    }
+
+    return baseTroops + continentBonus;
+}
 
 
         /**
