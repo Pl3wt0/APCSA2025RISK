@@ -42,16 +42,26 @@ public class BoardManager {
 
     /**
      * Determines amount of troops given to player at the start of turn
-     * 
+     *   *  @param playerObject
      * @return Integer amount of troops given at start of turn
      */
-    public Integer determineTroopAmt(Integer playerNum){
-        
+    public Integer determineTroopAmnt( Player temp){
+        Integer numTerritory = 0; 
+        Interger continentBonus = 0;
+        for( territory T: territoryList){
+            if(temp.getNum() == t.getOwner()) numTerritory++;
+        }
+        //check entire continent later
+        if(numTerritory < 9 ) numTerritory = 9;
+        return numTerritory/3; 
+        }
     }
 
 
-    /**
-     * 
+        /**
+     * Determines amoutn fo troops given to player at the end
+     *  @param playerObject
+     *@return Interger of troop number
      */
     public Integer determineNumDice(boolean attack, String territoryName){
         
