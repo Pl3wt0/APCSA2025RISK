@@ -9,7 +9,25 @@ public class Territory {
 
     private Integer playerOwner;
     private String continent = "";
+    private String territoryName = "";
 
+    /**
+     * Sets the name of the territory
+     * 
+     * @param name the name to assign to the territory
+     */
+    public void setTerritoryName(String name) {
+        this.territoryName = name;
+    }
+
+    /**
+     * Accessor method for the territoryName instance variable
+     * 
+     * @return String the name of the territory
+     */
+    public String getTerritoryName() {
+        return territoryName;
+    }
     /**
      * Constructs a Territory object with the continent
      * 
