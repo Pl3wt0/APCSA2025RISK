@@ -1,9 +1,16 @@
 package Files;
+import Files.Continent;
 import java.util.ArrayList;
 
 public class BoardManager {
     private ArrayList <Player> players = new ArrayList<Player>();
     private ArrayList <Territory> territories = new ArrayList<Territory>();
+    Continent northAmerica = new Continent(Arraylist<Territory>("Alaska", "Northwest Territory", "Alberta", "Western United States", "Eastern United States", "Central America", "Ontario", "Quebec", "Greenland"), 5);
+    Continent asia = new Continent(ArrayList<Territory>("Afghanistan", "Middle East", "India", "Siam", "China", "Japan", "Mongolia", "Irkutsk", "Yakutsk", "Siberia", "Kamchatka", "Ural"), 7);
+    Continent europe = new Continent(ArrayList<Territory>("Iceland", "Great Britain", "Northern Europe", "Western Europe", "Southern Europe", "Scandinavia", "Ukraine"), 5);
+    Continent africa = new Continent(ArrayList<Territory>("Egypt", "North Africa", "East Africa", "Congo", "South Africa", "Madagascar"), 3);
+    Continent southAmerica = new Continent(ArrayList<Territory>("Brazil", "Peru", "Argentina", "Venezuela"), 2);
+    Continent australia = new Continent(ArrayList<Territory>("Indonesia", "New Guinea", "Western Austraila", "Eastern Australia"), 2);
     
     /**
      * Constructs the BoardManager object
@@ -46,15 +53,55 @@ public class BoardManager {
      * @return Integer amount of troops given at start of turn
      */
     public Integer determineTroopAmnt( Player temp){
-        Integer numTerritory = 0; 
-        Interger continentBonus = 0;
-        for( territory T: territoryList){
-            if(temp.getNum() == t.getOwner()) numTerritory++;
+        int numTerritory = 0;
+        int continentBonus = 0;
+
+        // Count number of territories the player owns
+        for (Territory t : territories) {
+            if (temp.getNum() == t.getOwner()) {
+                numTerritory++;
+            }
         }
-        //check entire continent later
-        if(numTerritory < 9 ) numTerritory = 9;
-        return numTerritory/3; 
+
+        // Minimum base troops is 3
+        int baseTroops = Math.max(numTerritory / 3, 3);
+
+        // Check for full continent control
+        for (Continent c : continents) {
+            boolean ownsAll = true;
+            for (Territory t : c.getTerritories()) {
+                if (t.getOwner() != temp.getNum()) {
+                    ownsAll = false;
+                    break;
+                }
+            }
+            if (ownsAll) {
+                continentBonus += c.getBonusTroops();
+            }
         }
+<<<<<<< HEAD
     }   
     
+=======
+
+        return baseTroops + continentBonus;
+    }
+
+
+        /**
+     * Determines amoutn fo troops given to player at the end
+     *  @param playerObject
+     *@return Interger of troop number
+     */
+    public Integer determineNumDice(boolean attack, String territoryName){
+        if(attack){
+          if(territories.getTerritoryByName(territoryName).getPieces().size() > 3){
+            return 3;
+          }else{
+            return territories.getTerritoryName(territoryName).getPieces().size();
+          }
+        }  
+        
+    }
+>>>>>>> 91f1f65f0be05dd2a953454125853c6c0d62af30
 }
