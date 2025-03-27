@@ -55,22 +55,6 @@ public class BoardManager {
         if(numTerritory < 9 ) numTerritory = 9;
         return numTerritory/3; 
         }
-    }
-
-
-        /**
-     * Determines amoutn fo troops given to player at the end
-     *  @param playerObject
-     *@return Interger of troop number
-     */
-    public Integer determineNumDice(boolean attack, String territoryName){
-        if(attack){
-          if(territories.getTerritoryByName(territoryName).getPieces().size() > 3){
-            return 3;
-          }else{
-            return territories.getTerritoryName(territoryName).getPieces().size();
-          }
-          }  
-        
-    }
+    }   
+    
 }

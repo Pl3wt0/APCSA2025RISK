@@ -7,6 +7,24 @@ public class Territory {
     private ArrayList<GamePiece> pieces = new ArrayList<>();
     private ArrayList<Territory> neighbors = new ArrayList<>();
 
+    /**
+     * Accessor method for the neighbors instance variable
+     * 
+     * @return ArrayList<Territory> the list of neighboring territories
+     */
+    public ArrayList<Territory> getNeighbors() {
+        return neighbors;
+    }
+
+    /**
+     * Adds a neighbor to the neighbors list
+     * 
+     * @param neighbor the neighboring territory to add
+     */
+    public void addNeighbor(Territory neighbor) {
+        neighbors.add(neighbor);
+    }
+
     private Integer playerOwner;
     private String continent = "";
     private String territoryName = "";
@@ -64,4 +82,31 @@ public class Territory {
     public Integer getOwner(){
         return playerOwner;
     }
+
+    /**
+     * Accessor method for the pieces instance variable
+     * 
+     * @return ArrayList<GamePiece> the list of game pieces in the territory
+     */
+    public ArrayList<GamePiece> getPieces() {
+        return pieces;
+    }
+
+    public Integer determineNumDice(boolean attack, String territoryName){
+        if(attack){
+          if(this.getPieces().size() > 3){
+            return 3;
+          }else{
+            return this.getPieces().size();
+          }
+          }
+          else{
+            if(this.getPieces().size() > 2){
+                return 2;
+            }else{
+                return this.getPieces().size();
+            }
+            }
+      }  
+    
 }
