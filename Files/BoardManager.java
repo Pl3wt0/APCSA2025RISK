@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class BoardManager {
     private ArrayList <Player> players = new ArrayList<Player>();
     private ArrayList <Territory> territories = new ArrayList<Territory>();
-    Continent northAmerica = new Continent(listOfNATerritories, 5);
+    Continent northAmerica = new Continent(Arraylist<String>("Alaska", "Northwest"), 5);
     Continent asia = new Continent(listOfAsiaTerritories, 7);
     Continent europe = new Continent(listOfEuropeTerritories, 5);
     Continent africa = new Continent(listOfAfricaTerritories, 3);

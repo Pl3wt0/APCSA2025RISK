@@ -1,12 +1,11 @@
 public class Continent {
-    private List<Territory> territories;
+    private ArrayList<String> territories;
     private int bonusTroops;
 
-    public Continent(List<Territory> territories, int bonusTroops) {
+    public Continent(ArrayList<String> territories, int bonusTroops) {
         this.territories = territories;
         this.bonusTroops = bonusTroops;
     }
 
-    public List<Territory> getTerritories() { return territories; }
     public int getBonusTroops() { return bonusTroops; }
 }
