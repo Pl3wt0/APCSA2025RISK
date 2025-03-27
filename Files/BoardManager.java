@@ -1,15 +1,16 @@
 package Files;
+import Files.Continent;
 import java.util.ArrayList;
 
 public class BoardManager {
     private ArrayList <Player> players = new ArrayList<Player>();
     private ArrayList <Territory> territories = new ArrayList<Territory>();
-    Continent northAmerica = new Continent(Arraylist<String>("Alaska", "Northwest Territory", "Alberta", "Western United States", "Eastern United States", "Central America", "Ontario", "Quebec", "Greenland"), 5);
-    Continent asia = new Continent(ArrayList<String>("Afghanistan", "Middle East", "India", "Siam", "China", "Japan", "Mongolia", "Irkutsk", "Yakutsk", "Siberia", "Kamchatka", "Ural"), 7);
-    Continent europe = new Continent(ArrayList<String>("Iceland", "Great Britain", "Northern Europe", "Western Europe", "Southern Europe", "Scandinavia", "Ukraine"), 5);
-    Continent africa = new Continent(ArrayList<String>("Egypt", "North Africa", "East Africa", "Congo", "South Africa", "Madagascar"), 3);
-    Continent southAmerica = new Continent(ArrayList<String>("Brazil", "Peru", "Argentina", "Venezuela"), 2);
-    Continent australia = new Continent(ArrayList<String>("Indonesia", "New Guinea", "Western Austraila", "Eastern Australia"), 2);
+    Continent northAmerica = new Continent(Arraylist<Territory>("Alaska", "Northwest Territory", "Alberta", "Western United States", "Eastern United States", "Central America", "Ontario", "Quebec", "Greenland"), 5);
+    Continent asia = new Continent(ArrayList<Territory>("Afghanistan", "Middle East", "India", "Siam", "China", "Japan", "Mongolia", "Irkutsk", "Yakutsk", "Siberia", "Kamchatka", "Ural"), 7);
+    Continent europe = new Continent(ArrayList<Territory>("Iceland", "Great Britain", "Northern Europe", "Western Europe", "Southern Europe", "Scandinavia", "Ukraine"), 5);
+    Continent africa = new Continent(ArrayList<Territory>("Egypt", "North Africa", "East Africa", "Congo", "South Africa", "Madagascar"), 3);
+    Continent southAmerica = new Continent(ArrayList<Territory>("Brazil", "Peru", "Argentina", "Venezuela"), 2);
+    Continent australia = new Continent(ArrayList<Territory>("Indonesia", "New Guinea", "Western Austraila", "Eastern Australia"), 2);
     
     /**
      * Constructs the BoardManager object
