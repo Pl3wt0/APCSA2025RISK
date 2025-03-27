@@ -10,6 +10,7 @@ public class BoardManager {
     Continent africa = new Continent(listOfAfricaTerritories, 3);
     Continent southAmerica = new Continent(listOfSATerritories, 2);
     Continent australia = new Continent(listOfAustraliaTerritories, 2);
+    private ArrayList <Continent> continents = new ArrayList<Continent>(northAmerica, asia, europe, africa, southAmerica, australia);
     
     /**
      * Constructs the BoardManager object
