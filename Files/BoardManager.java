@@ -53,34 +53,34 @@ public class BoardManager {
      */
     public Integer determineTroopAmnt( Player temp){
         int numTerritory = 0;
-    int continentBonus = 0;
+        int continentBonus = 0;
 
-    // Count number of territories the player owns
-    for (Territory t : territories) {
-        if (temp.getNum() == t.getOwner()) {
-            numTerritory++;
-        }
-    }
-
-    // Minimum base troops is 3
-    int baseTroops = Math.max(numTerritory / 3, 3);
-
-    // Check for full continent control
-    for (Continent c : continents) {
-        boolean ownsAll = true;
-        for (Territory t : c.getTerritories()) {
-            if (t.getOwner() != temp.getNum()) {
-                ownsAll = false;
-                break;
+        // Count number of territories the player owns
+        for (Territory t : territories) {
+            if (temp.getNum() == t.getOwner()) {
+                numTerritory++;
             }
         }
-        if (ownsAll) {
-            continentBonus += c.getBonusTroops();
-        }
-    }
 
-    return baseTroops + continentBonus;
-}
+        // Minimum base troops is 3
+        int baseTroops = Math.max(numTerritory / 3, 3);
+
+        // Check for full continent control
+        for (Continent c : continents) {
+            boolean ownsAll = true;
+            for (Territory t : c.getTerritories()) {
+                if (t.getOwner() != temp.getNum()) {
+                    ownsAll = false;
+                    break;
+                }
+            }
+            if (ownsAll) {
+                continentBonus += c.getBonusTroops();
+            }
+        }
+
+        return baseTroops + continentBonus;
+    }
 
 
         /**
@@ -95,7 +95,7 @@ public class BoardManager {
           }else{
             return territories.getTerritoryName(territoryName).getPieces().size();
           }
-          }  
+        }  
         
     }
 }
