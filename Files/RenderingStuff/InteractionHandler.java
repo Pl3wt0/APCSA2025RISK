@@ -9,12 +9,22 @@ public class InteractionHandler {
         InteractionHandler.sceneInfo = sceneInfo;
     }
 
+    /**
+     * 
+     * @param time Time to sleep in millliseconds
+     */
     public static void sleep(int time) {
         try {
             Thread.sleep(time);
         } catch (InterruptedException e) {}
     }
 
+    /**
+     * 
+     * @param mesh Mesh to move
+     * @param location Location to move to
+     * @param time Time to take moving in seconds
+     */
     public static void moveObject(Mesh mesh, double[] location, double time) {
         double[] meshLocation = mesh.getPosition();
         mesh.setVelocities((location[0] - meshLocation[0]) / time, (location[1] - meshLocation[1]) / time, (location[2] - meshLocation[2]) / time);

@@ -192,9 +192,25 @@ public class Camera extends Robot {
         return invertedMatrix;
     }
 
+    public double[][] getDirectionMatrix() {
+        return directionMatrix;
+    }
+
     public double[] getPosition() {
         double[] point = { x, y, z };
         return point;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public double getZ() {
+        return z;
     }
 
     public double[] getRotation() {

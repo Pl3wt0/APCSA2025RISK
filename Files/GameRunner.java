@@ -21,6 +21,5 @@ public class GameRunner extends Thread {
 
 
         InteractionHandler.sleep(5000);
-        InteractionHandler.doSomething();
     }
 }
