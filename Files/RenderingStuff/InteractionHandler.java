@@ -25,5 +25,14 @@ public class InteractionHandler {
     public static void doSomething() {
         sceneInfo.getCamera().rotate(1,0);
     }
+
+    /**
+     * Method to check if player wants to host or connect to another player
+     * 
+     * @return null if player is hosting returns ip if player is a peer
+     */
+    public static String getPlayerConnection(){
+
+    }
 }
 
