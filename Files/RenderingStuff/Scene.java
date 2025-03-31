@@ -19,10 +19,15 @@ public class Scene {
     private double lastFrameLength = 0.01;
 
     public void setScene() {
-        camera.setValues(-5, 0, 0, 0, (Math.PI / 2), 1);
+        camera.setValues(-5, 0, 1, 0, (Math.PI / 2), 1);
         Player player = new Player(camera);
         sceneObjects.add(player);
         camera.setPlayer(player);
+
+        double[] point = {0,0,0};
+
+        sceneObjects.add(new Image3D(point, 800, 497, "Risk.PNG"));
+        sceneObjects.add(new Cube(0, 0, 0, 10, 0, 0));
         
         
 /*      for (int i = 0; i < 10; i += 1) {
@@ -40,13 +45,13 @@ public class Scene {
 
         }
  */        
-         Graph graph = new Graph(-10, 10, -10, 10, 70, 70, -50, 50, -50, 50){
+/*          Graph graph = new Graph(-10, 10, -10, 10, 70, 70, -50, 50, -50, 50){
             public double function(double x, double y, double t) {
                 return 4 * (Math.sin(x + t) + Math.sin(y + t));
             }
         };
         sceneObjects.add(graph);
-
+ */
 
  /*         sceneObjects.add(new MeshSphere(0, 0, 100, 1, 10) {
             private double xVelocity = 0;
@@ -89,7 +94,7 @@ public class Scene {
         isKeyPressed = new IsKeyPressed();
 
         InteractionHandler.setSceneInfo(sceneInfo);
-        GameRunner gameThread = new GameRunner();
+        GameRunner gameThread = new GameRunner(sceneInfo);
         gameThread.start();
     }
 

@@ -79,6 +79,10 @@ public class BoardManager {
                 continentBonus += c.getBonusTroops();
             }
         }
+<<<<<<< HEAD
+    }   
+    
+=======
 
         return baseTroops + continentBonus;
     }
@@ -99,4 +103,5 @@ public class BoardManager {
         }  
         
     }
+>>>>>>> 91f1f65f0be05dd2a953454125853c6c0d62af30
 }

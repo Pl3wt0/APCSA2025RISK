@@ -21,6 +21,9 @@ public abstract class Mesh implements SceneObject {
     protected double yVelocity;
     protected double zVelocity;
 
+    protected Color lineColor = new Color(0, 0, 0);
+    protected Color faceColor = new Color(100, 100, 100);
+
     public Mesh(double x, double y, double z, double scale, double theta, double phi) {
         this.x = x;
         this.y = y;

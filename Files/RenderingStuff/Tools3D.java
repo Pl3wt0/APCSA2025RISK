@@ -238,4 +238,44 @@ public class Tools3D {
         double[] renderablePoint = r.getPosition();
         return getDistance(renderablePoint[0], camera.x, renderablePoint[1], camera.y, renderablePoint[2], camera.z);
     }
+
+    public static double[] getFloorPoint(Camera camera, int screenX, int screenY, Dimension dimension, double z) {
+        double[][] invertedMatrix = camera.getInvertedMatrix();
+        z = camera.getZ() - z;
+
+        double screenSizeX = dimension.getWidth();
+        double screenSizeY = dimension.getHeight();
+        double min = Math.min(screenSizeX, screenSizeY);
+
+        double sX = (screenX - screenSizeX / 2) * 2 * camera.scale / min;
+        double sY = (screenY - screenSizeY / 2) * 2 * camera.scale / min;
+
+        double[][] matrix1 = {{1, -invertedMatrix[0][0], -invertedMatrix[1][0]},
+                            {-sX, -invertedMatrix[0][1], -invertedMatrix[1][1]},
+                            {sY, -invertedMatrix[0][2], -invertedMatrix[1][2]}};
+        double determinant1 = Tools3D.determinant(matrix1);
+
+        double[][] matrix2 = {{invertedMatrix[2][0] * z, -invertedMatrix[0][0], -invertedMatrix[1][0]},
+                            {invertedMatrix[2][1] * z, -invertedMatrix[0][1], -invertedMatrix[1][1]},
+                            {invertedMatrix[2][2] * z, -invertedMatrix[0][2], -invertedMatrix[1][2]}};
+        double determinant2 = Tools3D.determinant(matrix2);
+
+        double[][] matrix3 = {{1, invertedMatrix[2][0] * z, -invertedMatrix[1][0]},
+                            {-sX, invertedMatrix[2][1] * z, -invertedMatrix[1][1]},
+                            {sY, invertedMatrix[2][2] * z, -invertedMatrix[1][2]}};
+        double determinant3 = Tools3D.determinant(matrix3);
+
+        double[][] matrix4 = {{1, -invertedMatrix[0][0], invertedMatrix[2][0] * z},
+                            {-sX, -invertedMatrix[0][1], invertedMatrix[2][1] * z},
+                            {sY, -invertedMatrix[0][2], invertedMatrix[2][2] * z}};
+        double determinant4 = Tools3D.determinant(matrix4);
+
+
+         if (determinant2 / determinant1 < 0) {
+            double[] point = {camera.getX() - determinant3 / determinant1, camera.getY() - determinant4 / determinant1};
+            return point;
+        } else {
+            return null;
+        }
+     }
 }
