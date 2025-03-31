@@ -22,13 +22,15 @@ import java.io.IOException;
 public class Image3D implements Renderable {
 
     private double[] location;
-    private double scale;
+    private double xWidth;
+    private double yWidth;
     private BufferedImage image;
 
 
-    public Image3D(double[] location, double scale, String fileLocation) {
+    public Image3D(double[] location, double xWidth, double yWidth, String fileLocation) {
         this.location = location;
-        this.scale = scale;
+        this.xWidth = xWidth;
+        this.yWidth = yWidth;
         try {                
             image = ImageIO.read(new File(fileLocation));
         } catch (IOException ex) {
@@ -55,7 +57,7 @@ public class Image3D implements Renderable {
                     if (oldFloorPoint == null) {
                         distortedImage.setRGB(x, y, 0x00000000); // Set alpha to 0 for transparency
                     } else {
-                        int[] floorPoint = {-(int)((oldFloorPoint[0]) * width / scale), (int)((oldFloorPoint[1]) * height / scale)};
+                        int[] floorPoint = {-(int)((oldFloorPoint[0]) * width / xWidth), (int)((oldFloorPoint[1]) * height / yWidth)};
                         if (floorPoint[0] > 0 && floorPoint[0] < image.getWidth() && floorPoint[1] > 0 && floorPoint[1] < image.getHeight()) {
                             int rbg = image.getRGB(floorPoint[0], floorPoint[1]);
                             distortedImage.setRGB(x, y, rbg);

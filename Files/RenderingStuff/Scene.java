@@ -26,9 +26,8 @@ public class Scene {
 
         double[] point = {0,0,0};
 
-        sceneObjects.add(new Image3D(point, 100, "Risk.PNG"));
-        sceneObjects.add(new Cube(10, 0, 0, 10, 0, 0));
-        
+        sceneObjects.add(new Image3D(point, 800, 497, "Risk.PNG"));
+        sceneObjects.add(new Cube(0, 0, 0, 10, 0, 0));
         
         
 /*      for (int i = 0; i < 10; i += 1) {
@@ -95,7 +94,7 @@ public class Scene {
         isKeyPressed = new IsKeyPressed();
 
         InteractionHandler.setSceneInfo(sceneInfo);
-        GameRunner gameThread = new GameRunner();
+        GameRunner gameThread = new GameRunner(sceneInfo);
         gameThread.start();
     }
 

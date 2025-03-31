@@ -1,5 +1,7 @@
 package Files.RenderingStuff;
 
+import java.awt.Color;
+
 import Files.RenderingStuff.SceneObjects.*;
 
 public class InteractionHandler {
@@ -35,5 +37,10 @@ public class InteractionHandler {
     public static void doSomething() {
         sceneInfo.getCamera().rotate(1,0);
     }
+
+    public static Color getColor(int playerNum) {
+        return new Color(0, 100, 200);
+    }
+    
 }
 
