@@ -8,7 +8,7 @@ import java.util.Arrays;
 public class BoardManager {
     private ArrayList<Player> players = new ArrayList<Player>();
     private ArrayList<Territory> territories = new ArrayList<Territory>();
-    Continent northAmerica = new Continent(new ArrayList<>(Arrays.asList(
+    private static Continent northAmerica = new Continent(new ArrayList<>(Arrays.asList(
         new Territory("Alaska"),
         new Territory("Northwest Territory"),
         new Territory("Alberta"),
@@ -19,7 +19,7 @@ public class BoardManager {
         new Territory("Quebec"),
         new Territory("Greenland")
     )), 5);
-    Continent asia = new Continent(new ArrayList<>(Arrays.asList(
+    private static Continent asia = new Continent(new ArrayList<>(Arrays.asList(
         new Territory("Afghanistan"),
         new Territory("Middle East"),
         new Territory("India"),
@@ -33,7 +33,7 @@ public class BoardManager {
         new Territory("Kamchatka"),
         new Territory("Ural")
     )), 7);
-    Continent europe = new Continent(new ArrayList<>(Arrays.asList(
+    private static Continent europe = new Continent(new ArrayList<>(Arrays.asList(
         new Territory("Iceland"),
         new Territory("Great Britain"),
         new Territory("Northern Europe"),
@@ -42,7 +42,7 @@ public class BoardManager {
         new Territory("Scandinavia"),
         new Territory("Ukraine")
     )), 5);
-    Continent africa = new Continent(new ArrayList<>(Arrays.asList(
+    private static Continent africa = new Continent(new ArrayList<>(Arrays.asList(
         new Territory("Egypt"),
         new Territory("North Africa"),
         new Territory("East Africa"),
@@ -50,13 +50,13 @@ public class BoardManager {
         new Territory("South Africa"),
         new Territory("Madagascar")
     )), 3);
-    Continent southAmerica = new Continent(new ArrayList<>(Arrays.asList(
+    private static Continent southAmerica = new Continent(new ArrayList<>(Arrays.asList(
         new Territory("Brazil"),
         new Territory("Peru"),
         new Territory("Argentina"),
         new Territory("Venezuela")
     )), 2);
-    Continent australia = new Continent(new ArrayList<>(Arrays.asList(
+    private static Continent australia = new Continent(new ArrayList<>(Arrays.asList(
         new Territory("Indonesia"),
         new Territory("New Guinea"),
         new Territory("Western Australia"),
@@ -76,11 +76,35 @@ public class BoardManager {
         }
     }
 
+        public Continent getNorthAmerica() {
+            return northAmerica;
+        }
+    
+        public Continent getAsia() {
+            return asia;
+        }
+    
+        public Continent getEurope() {
+            return europe;
+        }
+    
+        public Continent getAfrica() {
+            return africa;
+        }
+    
+        public Continent getSouthAmerica() {
+            return southAmerica;
+        }
+    
+        public Continent getAustralia() {
+            return australia;
+        }
+
     /**
-     * Evenly divides all the territories between the players.
-     * If the amount of territories does not evenly divide by the amount of players
-     * then the extra territories are added one by one in turn order
-     */
+    * Evenly divides all the territories between the players.
+    * If the amount of territories does not evenly divide by the amount of players
+    * then the extra territories are added one by one in turn order
+    */
     public void initalizeTerritoryOwners(){
         Integer territoriesPerPlayer = territories.size()/players.size();
         Integer excessTerritories = territories.size()%territoriesPerPlayer;
@@ -99,10 +123,10 @@ public class BoardManager {
     }
 
     /**
-     * Determines amount of troops given to player at the start of turn
-     *   *  @param playerObject
-     * @return Integer amount of troops given at start of turn
-     */
+    * Determines amount of troops given to player at the start of turn
+    *   *  @param playerObject
+    * @return Integer amount of troops given at start of turn
+    */
     public Integer determineTroopAmnt(Player temp){
         int numTerritory = 0;
         int continentBonus = 0;
