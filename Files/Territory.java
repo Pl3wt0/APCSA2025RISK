@@ -6,6 +6,18 @@ public class Territory {
 
     private ArrayList<GamePiece> pieces = new ArrayList<>();
     private ArrayList<Territory> neighbors = new ArrayList<>();
+    private Integer playerOwner;
+    private String territoryName = "";
+
+    /**
+     * Constructs a Territory object with the continent
+     * 
+     * @param name name of territory
+     * 
+     */
+    public Territory(String name) {
+        territoryName = name;
+    }
 
     /**
      * Accessor method for the neighbors instance variable
@@ -25,10 +37,7 @@ public class Territory {
         neighbors.add(neighbor);
     }
 
-    private Integer playerOwner;
-    private String continent = "";
-    private String territoryName = "";
-
+    
     /**
      * Sets the name of the territory
      * 
@@ -46,15 +55,7 @@ public class Territory {
     public String getTerritoryName() {
         return territoryName;
     }
-    /**
-     * Constructs a Territory object with the continent
-     * 
-     * @param continent what continent the territory is located on
-     * 
-     */
-    public Territory(String continent) {
-        this.continent = continent;
-    }
+    
 
     /**
      * Sets the owner of the territory object
@@ -65,14 +66,6 @@ public class Territory {
         playerOwner = playerNum;
     }
 
-    /**
-     * Accessor method for the contient instance variable
-     * 
-     * @return String contient that territory is located on
-     */
-    public String getContinent(){
-        return continent;
-    }
 
     /**
      * Accessor method for playerOwner insance variable
