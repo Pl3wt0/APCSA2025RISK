@@ -13,13 +13,6 @@ public class JSONTransmitter {
     private static final int PORT = 5000;
 
     public static void main(String[] args) {
-        
-        ArrayList<Player> players = new ArrayList<>();
-        players.add(new Player(0));
-        players.add(new Player(1));
-        
-        JSONManager.writeJSONGameState(players);
-        //String hostIP = InteractionHandler.getPlayerConnection();
 
        /*try{
             if(hostIP.equals(null)){
