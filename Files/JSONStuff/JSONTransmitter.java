@@ -23,12 +23,12 @@ public class JSONTransmitter {
         } catch (IOException e){
             System.out.println("Error: " + e.getMessage());
         }
-        
+        */
         try{
             startHost();
         }catch(IOException e){};
 
-        */
+        
         
     }
 
@@ -93,10 +93,10 @@ public class JSONTransmitter {
     }
 
     private static void receiveJsonFile(Socket socket) throws IOException {
-        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+       
 
         // Receive file name
-        String fileName = in.readLine();
+        String fileName = "Files\\JSONStuff\\JSONGameStates\\GameState.json";
         System.out.println("Receiving file: " + fileName);
 
         File file = new File("received_" + fileName);
