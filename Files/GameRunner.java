@@ -22,10 +22,8 @@ public class GameRunner extends Thread {
         //Call InteractionHandler static methods to interact w/ engine for animations and player decisions
 
 
-
+        sceneInfo.getSceneObjects().add(new GamePiece("", 0));
 
         InteractionHandler.sleep(5000);
-        double[] point = {100, 100, 0};
-        InteractionHandler.moveObject((Cube)(sceneInfo.getSceneObjects().get(2)), point, 10);
     }
 }

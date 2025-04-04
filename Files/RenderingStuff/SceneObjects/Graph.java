@@ -27,7 +27,7 @@ public class Graph extends Mesh implements MeshInterface{
     private static ArrayList<int[]> faceNumbers = new ArrayList<int[]>();
 
     public Graph(double xMin, double xMax, double yMin, double yMax, int xPrecision, int yPrecision, double xSpaceMin, double xSpaceMax, double ySpaceMin, double ySpaceMax) {
-        super(0, 0, 0, 1, 0, 0);
+        super(0, 0, 0, 1);
         setDoRotate(false);
         this.xMin = xMin;
         this.xMax = xMax;

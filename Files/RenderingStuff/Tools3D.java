@@ -39,44 +39,15 @@ public class Tools3D {
         return point;
     }   
 
-    public static double[] adjustPoint(double[] point, double scale, double theta, double phi, double x, double y, double z) {
-        double[] newPoint = point.clone();
+    public static double[] adjustPoint(double[] point, double scale, double[] rotation1, double[] rotation2, double x, double y, double z) {
+        double[] rotation3 = crossProduct(rotation1, rotation2);
 
-        double angle;
-        if (newPoint[0] == 0.0 || newPoint[0] == -0.0) {
-            angle = Math.PI/2;
-        } else {
-            angle = Math.atan(newPoint[2] / newPoint[0]);
-        }
+        double adjustedX = (point[0] * rotation1[0] + point[1] * rotation2[0] + point[2] * rotation3[0]) * scale + x;
+        double adjustedY = (point[0] * rotation1[1] + point[1] * rotation2[1] + point[2] * rotation3[1]) * scale + y;
+        double adjustedZ = (point[0] * rotation1[2] + point[1] * rotation2[2] + point[2] * rotation3[2]) * scale + z;
 
-
-        if (newPoint[0] < 0) {
-            angle += Math.PI;
-        }
-        
-
-        angle -= (phi);
-
-        double r2 = Math.sqrt(newPoint[0] * newPoint[0] + newPoint[2] * newPoint[2]);    
-
-        newPoint[0] = Math.cos(angle) * r2;
-        newPoint[2] = Math.sin(angle) * r2;
-
-        double newTheta = Tools3D.calculateTheta(newPoint[0], newPoint[1], newPoint[2]);
-        double newPhi = Tools3D.calculatePhi(newPoint[0], newPoint[1], newPoint[2]);
-        double r = Math.sqrt(newPoint[0] * newPoint[0] + newPoint[1] * newPoint[1] + newPoint[2] * newPoint[2]);
-
-        newTheta += theta;
-
-        newPoint = Tools3D.calculatePoint(newTheta, newPhi, r);
- 
-        newPoint[0] = newPoint[0] * scale + x;
-        newPoint[1] = newPoint[1] * scale + y;
-        newPoint[2] = newPoint[2] * scale + z;
-
-
-
-        return newPoint;
+        double[] returnPoint = {adjustedX, adjustedY, adjustedZ};
+        return returnPoint;
     }
 
     public static double[] getScreenPoint(double[] point, Camera camera, Dimension dimension) {
@@ -134,6 +105,18 @@ public class Tools3D {
         }
         return sum;
     }
+    
+    public static double magnitude(double[] v) {
+        return v[0] * v[0] + v[1] * v[1] + v[2] * v[2];
+    }
+
+    public static double[] scalarMult(double[] vector, double scalar) {
+        double[] returnVector = vector.clone();
+        for (int i = 0; i < returnVector.length; i++) {
+            returnVector[i] *= scalar;
+        }
+        return returnVector;
+    }
 
     public static double[] vectorSum(double[] v1, double[] v2) {
         if (v1.length != v2.length) {
@@ -155,6 +138,14 @@ public class Tools3D {
             returnVector[i] = v1[i] - v2[i];
         }
         return returnVector;
+    }
+
+    public static double square(double[] v) {
+        return v[0] * v[0] + v[1] * v[1] + v[2] * v[2];
+    }
+
+    public static double angleBetween(double[] v1, double[] v2) {
+        return Math.acos(Tools3D.dotProduct(v1, v2) / Tools3D.magnitude(v1) / Tools3D.magnitude(v2));
     }
     
     public static void swapRows(double[][] matrix, int row1, int row2) {

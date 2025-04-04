@@ -13,7 +13,8 @@ public class GamePiece extends Cube {
      * @param playerNum number of the player who owns the gamepiece
      */
     public GamePiece(String color, Integer playerNum) {
-        super(0, 0, 0, 10, 0, 0);
+        super(0, 0, 0, 10);
+        
         this.faceColor = InteractionHandler.getColor(playerNum);
         this.color = color;
         this.playerNum = playerNum;

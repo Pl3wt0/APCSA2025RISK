@@ -28,7 +28,7 @@ public class Runner3D {
 
                 JFrame frame = new JFrame("Runner3D");
 
-                Panel3D panel = new Panel3D(30, 30, 1);
+                Panel3D panel = new Panel3D(100, 100, 1);
                 frame.add(panel);
 
                 BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);

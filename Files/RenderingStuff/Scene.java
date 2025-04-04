@@ -27,7 +27,16 @@ public class Scene {
         double[] point = {0,0,0};
 
         sceneObjects.add(new Image3D(point, 800, 497, "Risk.PNG"));
-        sceneObjects.add(new Cube(0, 0, 0, 10, 0, 0));
+        sceneObjects.add(new Cube(0, 0, 0, 10) {
+            double[] rotationVector = {1, 1, 1};
+
+            @Override
+            public void tick(PanelInfo panelInfo, SceneInfo sceneInfo) {
+                super.tick(panelInfo, sceneInfo);
+                
+                rotate(rotationVector, sceneInfo.getLastFrameLength());
+            }
+        });
         
         
 /*      for (int i = 0; i < 10; i += 1) {
