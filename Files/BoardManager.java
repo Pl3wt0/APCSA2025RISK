@@ -7,7 +7,6 @@ import java.util.Arrays;
 
 public class BoardManager {
     private ArrayList<Player> players = new ArrayList<Player>();
-    private ArrayList<Territory> territories = new ArrayList<Territory>();
     private static Continent northAmerica = new Continent(new ArrayList<>(Arrays.asList(
         new Territory("Alaska"),
         new Territory("Northwest Territory"),
@@ -76,27 +75,27 @@ public class BoardManager {
         }
     }
 
-        public Continent getNorthAmerica() {
+        public static Continent getNorthAmerica() {
             return northAmerica;
         }
     
-        public Continent getAsia() {
+        public static Continent getAsia() {
             return asia;
         }
     
-        public Continent getEurope() {
+        public static Continent getEurope() {
             return europe;
         }
     
-        public Continent getAfrica() {
+        public static Continent getAfrica() {
             return africa;
         }
     
-        public Continent getSouthAmerica() {
+        public static Continent getSouthAmerica() {
             return southAmerica;
         }
     
-        public Continent getAustralia() {
+        public static Continent getAustralia() {
             return australia;
         }
 

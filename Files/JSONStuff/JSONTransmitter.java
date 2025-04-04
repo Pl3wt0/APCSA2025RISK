@@ -1,35 +1,45 @@
-package Files;
+package Files.JSONStuff;
 
-import com.google.gson.Gson;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.io.*;
-import java.net.*;
-import java.util.Scanner;
 
-public class P2PGameTCP {
+import Files.Player;
+
+import java.util.ArrayList;
+
+
+public class JSONTransmitter {
     private static final int PORT = 5000;
-    private static final Gson gson = new Gson();
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter mode (host/peer): ");
-        String mode = scanner.nextLine();
+        
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(new Player(0));
+        players.add(new Player(1));
+        
+        JSONManager.writeJSONGameState(players);
+        //String hostIP = InteractionHandler.getPlayerConnection();
 
-        try {
-            if (mode.equalsIgnoreCase("host")) {
+       /*try{
+            if(hostIP.equals(null)){
                 startHost();
-            } else {
-                System.out.print("Enter host IP: ");
-                String hostIp = scanner.nextLine();
-                startPeer(hostIp);
+            }else{
+                startPeer(hostIP);
             }
-        } catch (IOException e) {
-            System.err.println("Error: " + e.getMessage());
-        } finally {
-            scanner.close();
+        } catch (IOException e){
+            System.out.println("Error: " + e.getMessage());
         }
+        
+        try{
+            startHost();
+        }catch(IOException e){};
+
+        */
+        
     }
 
-    public static void startHost() throws IOException {
+     private static void startHost() throws IOException {
         ServerSocket serverSocket = new ServerSocket(PORT);
         System.out.println("Waiting for connection on port " + PORT + "...");
 
@@ -40,55 +50,28 @@ public class P2PGameTCP {
         serverSocket.close();
     }
 
-    public static void startPeer(String hostIp) throws IOException {
+    private static void startPeer(String hostIp) throws IOException {
         Socket socket = new Socket(hostIp, PORT);
         System.out.println("Connected to host!");
 
         handleConnection(socket, false); // Peer receives JSON
     }
-
-    public static void handleConnection(Socket socket, boolean isHost) throws IOException {
-        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-        Scanner scanner = new Scanner(System.in);
-
+    
+    private static void handleConnection(Socket socket, boolean isHost) throws IOException {   
         if (isHost) {
             // Host: Send JSON file
-            System.out.print("Enter JSON file path to send: ");
-            String filePath = scanner.nextLine();
+            String filePath = "Files\\JSONStuff\\JSONGameStates\\GameState.json";
             sendJsonFile(socket, filePath);
         } else {
             // Peer: Receive JSON file
             receiveJsonFile(socket);
         }
-
-        // Start a separate thread for messages
-        Thread readThread = new Thread(() -> {
-            try {
-                String message;
-                while ((message = in.readLine()) != null) {
-                    System.out.println("\nPeer: " + message);
-                    System.out.print("You: ");
-                }
-            } catch (IOException e) {
-                System.out.println("Connection closed.");
-            }
-        });
-
-        readThread.start();
-
-        while (true) {
-            System.out.print("You: ");
-            String message = scanner.nextLine();
-            out.println(message);
-            if (message.equalsIgnoreCase("exit")) {
-                break;
-            }
-        }
-
         socket.close();
-        scanner.close();
-    }
+      }
+        
+
+        
+    
 
     private static void sendJsonFile(Socket socket, String filePath) throws IOException {
         File file = new File(filePath);
@@ -137,3 +120,6 @@ public class P2PGameTCP {
         System.out.println("File received and saved as: " + file.getAbsolutePath());
     }
 }
+
+   
+
