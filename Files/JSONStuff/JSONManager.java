@@ -5,7 +5,6 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -34,9 +33,7 @@ public class JSONManager {
         gameState.put("Europe", BoardManager.getEurope().getTerritories());
         gameState.put("NorthAmerica", BoardManager.getNorthAmerica().getTerritories());
         gameState.put("SouthAmerica", BoardManager.getSouthAmerica().getTerritories());
-        for(int i=0;i<players.size();i++){
-            gameState.put("Player", players);
-        }
+        gameState.put("Player", players);
 
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {

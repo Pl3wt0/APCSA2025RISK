@@ -7,10 +7,16 @@ import java.io.*;
 import Files.Player;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.LinkedHashMap;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 
 public class JSONTransmitter {
     private static final int PORT = 5000;
+    private static Map<Integer,Socket> ipAdresses = new LinkedHashMap<>();
 
     public static void main(String[] args) {
 
@@ -37,6 +43,8 @@ public class JSONTransmitter {
         System.out.println("Waiting for connection on port " + PORT + "...");
 
         Socket socket = serverSocket.accept();
+        ipAdresses.put((Integer)0,socket);
+        
         System.out.println("Peer connected!");
 
         handleConnection(socket, true); // Host sends JSON
@@ -96,10 +104,10 @@ public class JSONTransmitter {
        
 
         // Receive file name
-        String fileName = "Files\\JSONStuff\\JSONGameStates\\GameState.json";
+        String fileName = "GameState.json";
         System.out.println("Receiving file: " + fileName);
 
-        File file = new File("received_" + fileName);
+        File file = new File("Files\\JSONStuff\\JSONGameStates\\received_" + fileName);
         FileOutputStream fos = new FileOutputStream(file);
         BufferedInputStream bis = new BufferedInputStream(socket.getInputStream());
 
