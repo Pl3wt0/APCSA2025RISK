@@ -1,10 +1,12 @@
 package Files.JSONStuff;
 
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.io.*;
 
 import Files.Player;
+import tools.ColorAdapter;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -13,10 +15,16 @@ import java.util.LinkedHashMap;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.awt.Color;
+
 
 public class JSONTransmitter {
     private static final int PORT = 5000;
-    private static Map<Integer,Socket> ipAdresses = new LinkedHashMap<>();
+    private static Map<Integer,InetAddress> ipAdresses = new LinkedHashMap<>();
+    private static Gson gson = new GsonBuilder()
+    .registerTypeAdapter(Color.class, new ColorAdapter()) // Register custom adapter
+    .setPrettyPrinting()
+    .create();
 
     public static void main(String[] args) {
 
@@ -43,17 +51,20 @@ public class JSONTransmitter {
         System.out.println("Waiting for connection on port " + PORT + "...");
 
         Socket socket = serverSocket.accept();
-        ipAdresses.put((Integer)0,socket);
+        ipAdresses.put((Integer)0,socket.getInetAddress());
+        writeIPJSON();
         
         System.out.println("Peer connected!");
 
         handleConnection(socket, true); // Host sends JSON
         serverSocket.close();
+        startHost();
     }
 
     private static void startPeer(String hostIp) throws IOException {
         Socket socket = new Socket(hostIp, PORT);
         System.out.println("Connected to host!");
+        System.out.println(socket.getInetAddress());
 
         handleConnection(socket, false); // Peer receives JSON
     }
@@ -119,6 +130,23 @@ public class JSONTransmitter {
 
         fos.close();
         System.out.println("File received and saved as: " + file.getAbsolutePath());
+    }
+
+    private static void writeIPJSON(){
+    String fileName = "Files\\JSONStuff\\JSONGameStates\\IPAdresses.json";
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+        writer.write(gson.toJson(ipAdresses));
+    System.out.println("JSON file created successfully!");
+        
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+
+    try(FileReader reader = new FileReader(fileName)){
+
+    }catch(IOException e){
+
+    }
     }
 }
 
