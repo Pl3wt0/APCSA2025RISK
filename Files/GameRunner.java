@@ -23,6 +23,8 @@ public class GameRunner extends Thread {
 
 
         sceneInfo.getSceneObjects().add(new GamePiece("", 0));
+        double[] point = {0, 100, 0};
+        InteractionHandler.moveObject((Mesh)(sceneInfo.getSceneObjects().get(0)), point, 3);
 
         InteractionHandler.sleep(5000);
     }

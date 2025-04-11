@@ -2,6 +2,7 @@ package Files.RenderingStuff;
 
 import Files.RenderingStuff.SceneObjects.*;
 import Files.GameRunner;
+import Files.RenderingStuff.GUIElements.CustomButton;
 import Files.RenderingStuff.Renderables.*;
 
 import java.util.*;
@@ -11,6 +12,7 @@ import javax.swing.*;
 
 public class Scene {
     private ArrayList<SceneObject> sceneObjects = new ArrayList<SceneObject>();
+    private ArrayList<GUIElement> guiElements = new ArrayList<GUIElement>();
     private Camera camera;
     private IsKeyPressed isKeyPressed;
     private SceneInfo sceneInfo;
@@ -19,24 +21,22 @@ public class Scene {
     private double lastFrameLength = 0.01;
 
     public void setScene() {
-        camera.setValues(-5, 0, 1, 0, (Math.PI / 2), 1);
-        Player player = new Player(camera);
-        sceneObjects.add(player);
-        camera.setPlayer(player);
+        camera.setValues(-386.4161352963328, 409.89117845434197, 351.6666666666672, -1.57, 2.85, 1);
+        camera.setControllable(false);
 
         double[] point = {0,0,0};
 
         sceneObjects.add(new Image3D(point, 800, 497, "Risk.PNG"));
-        sceneObjects.add(new Cube(0, 0, 0, 10) {
-            double[] rotationVector = {1, 1, 1};
-
+        guiElements.add(new CustomButton(point, 800, 497, "Risk.PNG") {
             @Override
             public void tick(PanelInfo panelInfo, SceneInfo sceneInfo) {
+                // TODO Auto-generated method stub
                 super.tick(panelInfo, sceneInfo);
-                
-                rotate(rotationVector, sceneInfo.getLastFrameLength());
+                this.getLocation()[0] += 1;
             }
         });
+
+        sceneObjects.add(new Cube(0, 0, 0, 10));
         
         
 /*      for (int i = 0; i < 10; i += 1) {
@@ -96,7 +96,7 @@ public class Scene {
     public void baseSetup() {
         sceneInfo = new SceneInfo(this);
         try {
-            camera = new Camera();
+            camera = new Camera(containingPanel.getSize());
         } catch (AWTException e) {
             throw new Error("Camera failed");
         }    
@@ -111,12 +111,16 @@ public class Scene {
         return sceneInfo;
     }
 
-    public void tickScene(int tps, int tick) {
+    public void tickScene(int fps, int tick) {
         PanelInfo panelInfo = containingPanel.getPanelInfo();
-        camera.tick(tps, tick, sceneObjects, isKeyPressed);
+        camera.tick(fps, tick, sceneObjects, isKeyPressed);
         ArrayList<SceneObject> sceneObjectsCopy = (ArrayList<SceneObject>)sceneObjects.clone();
         for (SceneObject sceneObject : sceneObjectsCopy) {
             sceneObject.tick(panelInfo, sceneInfo);
+        }
+        ArrayList<GUIElement> guiElementsCopy = (ArrayList<GUIElement>)guiElements.clone();
+        for (GUIElement guiElement : guiElementsCopy) {
+            guiElement.tick(panelInfo, sceneInfo);
         }
     }
 
@@ -144,6 +148,10 @@ public class Scene {
 
         for (Renderable renderable : toRender) {
             renderable.render(g2d, panelInfo, sceneInfo);
+        }
+
+        for (GUIElement guiElement : guiElements) {
+            guiElement.render(g2d, panelInfo, sceneInfo);
         }
     }
 

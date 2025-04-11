@@ -14,7 +14,6 @@ import java.awt.image.BufferedImage;
 
 
 public class Panel3D extends JPanel {
-    public int tps;
     public int fps;
     public int tick;
     private double tickCount;
@@ -22,21 +21,20 @@ public class Panel3D extends JPanel {
 
     private PanelInfo panelInfo;
 
-    public Panel3D(int tps, int fps, double timeSpeed) {
-        this.tps = tps;
+    public Panel3D(int fps, double timeSpeed) {
+        super();
         this.fps = fps;
 
         panelInfo = new PanelInfo(this);
+    }
+
+    public void setUp() {
         scene = new Scene(this);
 
         Timer timer = new Timer((int) ((1.0 / fps) * 1000), new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                tickCount += (((double) (tps)) / fps);
-                while (tickCount >= 1.0) {
-                    scene.tickScene(tps, tick);
-                    tickCount -= 1.0;
-                }
+                scene.tickScene(fps, tick);
                 repaint();
             }
         });
