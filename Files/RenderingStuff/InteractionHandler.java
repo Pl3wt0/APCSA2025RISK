@@ -32,6 +32,7 @@ public class InteractionHandler {
         mesh.setVelocities((location[0] - meshLocation[0]) / time, (location[1] - meshLocation[1]) / time, (location[2] - meshLocation[2]) / time);
         sleep((int)(time * 1000));
         mesh.setPosition(location[0], location[1], location[2]);
+        mesh.setVelocities(0, 0, 0);
     }
 
     public static void doSomething() {

@@ -27,6 +27,7 @@ public class Camera extends Robot {
 
     private Player player;
 
+    private boolean controllable = true;
     private boolean active = true;
 
     public Camera(double x, double y, double z, double theta, double phi, double scale) throws AWTException {
@@ -55,13 +56,14 @@ public class Camera extends Robot {
         });
     }
 
-    public Camera() throws AWTException{
+    public Camera(Dimension dimension) throws AWTException{
         x = 0;
         y = 0;
         z = 0;
         theta = 0;
         phi = Math.PI / 2;
         scale = 1;
+        this.dimension = dimension;
         calculateMatrix();
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
             @Override
@@ -79,6 +81,7 @@ public class Camera extends Robot {
                 return false;
             }
         });
+        mouseMove((int)(dimension.getWidth() / 2), (int)(dimension.getHeight() / 2));    
     }
 
     public void setPlayer(Player player) {
@@ -114,8 +117,8 @@ public class Camera extends Robot {
         }
     }
 
-    public void tick(int tps, int tick,  ArrayList<SceneObject> sceneObjects, IsKeyPressed isKeyPressed) {
-        
+    public void tick(int fps, int tick,  ArrayList<SceneObject> sceneObjects, IsKeyPressed isKeyPressed) {
+        a.prl(this);
     }
 
     public void renderTick(int fps, int tick, ArrayList<SceneObject> sceneObjects, IsKeyPressed isKeyPressed, Dimension dimension) {
@@ -123,7 +126,7 @@ public class Camera extends Robot {
 
         if (player != null) {
             goTo(player.getPosition());
-        } else {
+        } else if (controllable){
             if (IsKeyPressed.isWPressed()) {
                 moveRelative(speed / fps,0,0);
             }
@@ -151,6 +154,7 @@ public class Camera extends Robot {
             mouseMove((int)(dimension.getWidth() / 2), (int)(dimension.getHeight() / 2));    
         }
         calculateMatrix();
+        rectifyAngles();
     }
 
     public ArrayList<Renderable> getRenderables() {
@@ -218,13 +222,29 @@ public class Camera extends Robot {
         return rotation;
     }
 
+    public void setControllable(boolean value) {
+        controllable = value;
+        if (value == false) {
+            active = false;
+            a.prl("hi");
+        }
+    }
+
+    public boolean isControllable() {
+        return controllable;
+    }
+
     public void setActive() {
-        mouseMove((int)(dimension.getWidth() / 2), (int)(dimension.getHeight() / 2));    
-        active = true;
+        if (controllable) {
+            mouseMove((int)(dimension.getWidth() / 2), (int)(dimension.getHeight() / 2));    
+            active = true;    
+        }
     }
 
     public void setInactive() {
-        active = false;
+        if (controllable) {
+            active = false;
+        }
     }
 
     public String toString() {
