@@ -52,14 +52,21 @@ public class JSONManager {
         String nativeFileExt = "JSONGameStates/GameState.json";
         boolean isValid = true;
 
-        try(BufferedReader recivedFile = new BufferedReader(new FileReader(recivedFileExt)); BufferedReader nativeFile = new BufferedReader(new FileReader(nativeFileExt))  ) {
-            if(!(recivedFile.readLine().equals(nativeFile.readLine()))){
-                isValid = false;
+        try(BufferedReader recievedFile = new BufferedReader(new FileReader(recivedFileExt)); BufferedReader nativeFile = new BufferedReader(new FileReader(nativeFileExt))  ) {
+            String recivedLine = recievedFile.readLine();
+            String nativeLine = nativeFile.readLine();
+            while(recivedLine != null && nativeLine != null){
+                if(!(recivedLine.equals(nativeLine))){
+                    isValid = false;
+                }
             }
+                
         }catch(IOException e){
             System.out.println(e);
         }
         return isValid;
     }
+
+    
 }
 

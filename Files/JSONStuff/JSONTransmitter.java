@@ -7,6 +7,7 @@ import java.io.*;
 
 import Files.Player;
 import tools.ColorAdapter;
+import tools.InetAddressAdapter;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -14,15 +15,19 @@ import java.util.LinkedHashMap;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import java.awt.Color;
+
+import java.lang.reflect.Type;
 
 
 public class JSONTransmitter {
     private static final int PORT = 5000;
-    private static Map<Integer,InetAddress> ipAdresses = new LinkedHashMap<>();
+    private static Map<Integer,InetAddress> ipAddresses = new LinkedHashMap<>();
     private static Gson gson = new GsonBuilder()
     .registerTypeAdapter(Color.class, new ColorAdapter()) // Register custom adapter
+    .registerTypeAdapter(InetAddress.class, new InetAddressAdapter())
     .setPrettyPrinting()
     .create();
 
@@ -39,6 +44,7 @@ public class JSONTransmitter {
         }
         */
         try{
+            reInitializeIPs();
             startHost();
         }catch(IOException e){};
 
@@ -51,20 +57,40 @@ public class JSONTransmitter {
         System.out.println("Waiting for connection on port " + PORT + "...");
 
         Socket socket = serverSocket.accept();
-        ipAdresses.put((Integer)0,socket.getInetAddress());
+        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+        String input = in.readLine(); // wait for the player number
+        if (input != null) {
+            int playerNumber = gson.fromJson(input, Integer.class);
+            InetAddress peerIp = socket.getInetAddress();
+
+            ipAddresses.put(playerNumber, peerIp);
+
+            System.out.println("Player " + playerNumber + " connected from " + peerIp.getHostAddress());
+        }
         writeIPJSON();
         
-        System.out.println("Peer connected!");
+
+
 
         handleConnection(socket, true); // Host sends JSON
         serverSocket.close();
         startHost();
     }
 
-    private static void startPeer(String hostIp) throws IOException {
+    private static void startPeer(String hostIp,Integer playerNum) throws IOException {
         Socket socket = new Socket(hostIp, PORT);
         System.out.println("Connected to host!");
-        System.out.println(socket.getInetAddress());
+        
+        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+
+
+    
+        String json = gson.toJson(playerNum); // just send the int
+        out.println(json);
+
+
+        
 
         handleConnection(socket, false); // Peer receives JSON
     }
@@ -133,20 +159,33 @@ public class JSONTransmitter {
     }
 
     private static void writeIPJSON(){
-    String fileName = "Files\\JSONStuff\\JSONGameStates\\IPAdresses.json";
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
-        writer.write(gson.toJson(ipAdresses));
-    System.out.println("JSON file created successfully!");
+        String fileName = "Files\\JSONStuff\\JSONGameStates\\IPAddresses.json";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            writer.write(gson.toJson(ipAddresses));
+        System.out.println("JSON file created successfully!");
         
-    } catch (IOException e) {
-        e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try(FileReader reader = new FileReader(fileName)){
+
+        }catch(IOException e){
+
+        }
     }
 
-    try(FileReader reader = new FileReader(fileName)){
+    private static void reInitializeIPs(){
+         Type mapType = new TypeToken<LinkedHashMap<Integer, InetAddress>>() {}.getType();
 
-    }catch(IOException e){
+         try (FileReader reader = new FileReader("Files\\JSONStuff\\JSONGameStates\\IPAddresses.json")) {
+            LinkedHashMap<Integer, InetAddress> ipMap = gson.fromJson(reader, mapType);
 
-    }
+                        
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 
