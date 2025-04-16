@@ -3,3 +3,5 @@
 /.vscode/*
 /.idea/*
 /APCSA2025Test.iml
+/Files/JSONStuff/JSONGameStates/*
+!/Files/JSONStuff/JSONGameStates/README.md

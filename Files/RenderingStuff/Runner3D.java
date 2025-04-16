@@ -28,8 +28,9 @@ public class Runner3D {
 
                 JFrame frame = new JFrame("Runner3D");
 
-                Panel3D panel = new Panel3D(30, 30, 1);
+                Panel3D panel = new Panel3D(60, 1);
                 frame.add(panel);
+                a.prl(panel.getDimension().getWidth());
 
                 BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
                 Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImg, new Point(0, 0), "blank cursor");
@@ -51,6 +52,7 @@ public class Runner3D {
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.pack();
                 frame.setLocationRelativeTo(null);
+                panel.setUp();
                 frame.setVisible(true);
                 frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
             }

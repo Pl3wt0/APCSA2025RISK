@@ -8,7 +8,7 @@ public class FallingCube extends Cube {
     private Graph graph;
 
     public FallingCube(double x, double y, double z, double scale, double theta, double phi, Graph graph) {
-        super(x, y, z, scale, theta, phi);
+        super(x, y, z, scale);
         this.graph = graph;
     }
 

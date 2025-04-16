@@ -27,7 +27,7 @@ public class MeshSphere extends Mesh implements MeshInterface {
     private Color lineColor = new Color(0,0,0);
 
     public MeshSphere(double x, double y, double z, double scale, int precision) {
-        super(x, y, z, scale, 0, 0);
+        super(x, y, z, scale);
         setDoRotate(false);
         this.precision = precision;
     }
@@ -73,7 +73,7 @@ public class MeshSphere extends Mesh implements MeshInterface {
     }
 
     public String toString() {
-        return ("MeshSphere: " + getX() + ", " + getY() + ", " + getZ() + "; scale: " + getScale() + "; rotation: " + getTheta() + " " + getPhi());
+        return ("MeshSphere: " + getX() + ", " + getY() + ", " + getZ() + "; scale: " + getScale() + "; rotation: " + getRotation1() + " " + getRotation2());
     }
 
     public int[][] getLineNumbers() {

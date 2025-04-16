@@ -1,5 +1,6 @@
+package Files;
 
-import Files.Territory;
+import java.util.ArrayList;
 
 public class Continent {
     private ArrayList<Territory> territories;
@@ -9,6 +10,6 @@ public class Continent {
         this.territories = territories;
         this.bonusTroops = bonusTroops;
     }
-    public Territory getTerritories() { return territories; }
+    public ArrayList<Territory> getTerritories() { return territories; }
     public int getBonusTroops() { return bonusTroops; }
 }

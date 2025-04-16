@@ -12,7 +12,7 @@ public class Vector3D extends Mesh implements MeshInterface {
     private double headSize;
     
     public Vector3D(double x, double y, double z, double x2, double y2, double z2, double vectorScale, double headSize) {
-        super(x, y, z, 1, 0, 0);
+        super(x, y, z, 1);
         double[] vector = {x2, y2, z2};
         this.vector = vector;
         this.vectorScale = vectorScale;
@@ -21,15 +21,17 @@ public class Vector3D extends Mesh implements MeshInterface {
     }
     
     public String toString() {
-        return ("Cube2: " + getX() + ", " + getY() + ", " + getZ() + "; scale: " + getScale() + "; rotation: " + getTheta() + " " + getPhi());
+        return ("Vector3D: " + getX() + ", " + getY() + ", " + getZ() + "; scale: " + getScale() + "; rotation: " + getRotation1() + " " + getRotation2());
     }
 
     public int[][] getLineNumbers() {
         return lineNumbers;
     }
+
     public int[][] getFaceNumbers() {
         return faceNumbers;
     }
+
     public double[][] getPoints() {
         double[] point1 = {0, 0, 0};
         double[] point2 = {vector[0] * vectorScale, vector[1] * vectorScale, vector[2] * vectorScale};

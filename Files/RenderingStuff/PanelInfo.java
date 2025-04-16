@@ -23,10 +23,6 @@ public class PanelInfo {
         return panel.fps;
     }
 
-    public int getTps() {
-        return panel.tps;
-    }
-
     public Dimension getDimension() {
         return panel.getDimension();
     }
