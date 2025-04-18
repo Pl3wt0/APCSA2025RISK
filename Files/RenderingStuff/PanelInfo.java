@@ -30,4 +30,16 @@ public class PanelInfo {
     public int getTick() {
         return panel.tick;
     }
+
+    public void addMouseListener(MouseListener mouseListener) {
+        panel.addOwnMouseListener(mouseListener);
+    }
+
+    public void removeMouseListener(MouseListener mouseListener) {
+        panel.removeOwnMouseListener(mouseListener);
+    }
+
+    public boolean dimensionChanged() {
+        return panel.dimensionChanged();
+    }
 }

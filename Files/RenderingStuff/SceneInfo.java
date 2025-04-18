@@ -16,6 +16,10 @@ public class SceneInfo {
         return scene.getSceneObjects();
     }
 
+    public ArrayList<GUIElement> getGuiElements() {
+        return scene.getGuiElements();
+    }
+
 
 
 /*      public ArrayList<clas> getObj(ArrayList<SceneObject> sceneObjects, Class clas) {

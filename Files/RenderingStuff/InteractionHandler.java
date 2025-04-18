@@ -1,14 +1,33 @@
 package Files.RenderingStuff;
 
 import java.awt.Color;
+import java.awt.Dimension;
 
+import Files.RenderingStuff.GUIElements.CustomButton;
+import Files.RenderingStuff.GUIElements.TextButton;
 import Files.RenderingStuff.SceneObjects.*;
+import java.util.*;
+import javax.swing.*;
+import javax.swing.Timer;
+import javax.swing.JPanel;
+import tools.a;
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.util.*;
+import tools.a;
+import javax.swing.*;
+
+
+import tools.*;
 
 public class InteractionHandler {
     private static SceneInfo sceneInfo;
+    private static PanelInfo panelInfo;
 
-    public static void setSceneInfo(SceneInfo sceneInfo) {
+    public static void setSceneInfo(SceneInfo sceneInfo, PanelInfo panelInfo) {
         InteractionHandler.sceneInfo = sceneInfo;
+        InteractionHandler.panelInfo = panelInfo;
     }
 
     /**
@@ -50,7 +69,90 @@ public class InteractionHandler {
      * @return null if player is hosting returns ip if player is a peer
      */
     public static String getPlayerConnection(){
+        return "";
+    }
 
+    /** 
+     * Ask player to choose between set of options
+     * 
+     * @param question Question to be asked in top display
+     * @param answers ArrayList of answers to be selected from
+     * 
+     * @return Index of the option chosen
+     */
+    public static int askPlayer(String question, ArrayList<String> answers) {
+        
+        ArrayList<GUIElement> guiElements = sceneInfo.getGuiElements();
+        Dimension dimension = panelInfo.getDimension();
+        double width = dimension.getWidth();
+        double height = dimension.getHeight();
+        double[] point = {0.3, 0.1};
+        double[] hitBox1 = {0.4, 0.2};
+        CustomButton questionButton = new TextButton(point, 0.4,  0.3, hitBox1, question, 30, panelInfo, sceneInfo);
+        guiElements.add(questionButton);
+
+        Integer buttonClicked = -1;
+
+        ArrayList<CustomButton> answerButtons = new ArrayList<CustomButton>();
+        for (int i = 0; i < answers.size(); i++) {
+            String answer = answers.get(i);
+            double[] location = {0.025 + 1.0 / answers.size() * i, 0.6};
+            double[] hitBox2 = {1.0 / answers.size() - 0.1, 0.1};
+            
+            final int j = i;
+            answerButtons.add(new TextButton(location, 1.0 / answers.size() - 0.05, 0.25, hitBox2, answer, 20, panelInfo, sceneInfo) {
+                private int i = j;
+                @Override
+                public void whenClicked(MouseEvent e) {
+                    // TODO Auto-generated method stub
+                    super.whenClicked(e);
+                    returnValue = Integer.valueOf(i);
+                }
+            });
+        }
+
+        for (CustomButton answerButton : answerButtons) {
+            guiElements.add(answerButton);
+        }
+
+        int returnValue = -1;
+        while (returnValue == -1) {
+            sleep(100);
+            for (CustomButton answerButton : answerButtons) {
+                if (answerButton.getReturnValue() != null) {
+                    returnValue = (Integer)answerButton.getReturnValue();
+                }
+            }
+        }
+
+        guiElements.remove(questionButton);
+        for (CustomButton answerButton : answerButtons) {
+            answerButton.remove();
+        }        
+
+        return returnValue;
+    }
+
+    /** 
+     * Displays message to user
+     * 
+     * @param message Message to be displayed
+     * @param length Length of time in seconds before display disappears
+     */
+    public static void displayMessage(String message, double length) {
+        double[] location = {0.05, 0.05};
+        TextButton button = new TextButton(location, 0.3, 0.1, null, message, 20, panelInfo, sceneInfo);
+        javax.swing.Timer timer = new javax.swing.Timer((int) (length * 1000), (new ActionListener() {
+            TextButton originButton = button;
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                originButton.remove();
+            }
+        }));
+        timer.start();
+
+        sceneInfo.getGuiElements().add(button);
     }
 }
 
