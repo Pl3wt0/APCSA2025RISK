@@ -14,10 +14,13 @@ import Files.RenderingStuff.*;
 
 public class GameRunner extends Thread {
     private SceneInfo sceneInfo;
+    private BoardManager boardManager;
     public GameRunner(SceneInfo sceneInfo) {
         this.sceneInfo = sceneInfo;
     }
     public void run() {
+
+        boardManager = new BoardManager(3);
 
         ArrayList<String> answers = new ArrayList<String>();
         answers.add("answer 1");
