@@ -32,17 +32,6 @@ public class JSONTransmitter {
     .create();
 
     public static void main(String[] args) {
-
-       /*try{
-            if(hostIP.equals(null)){
-                startHost();
-            }else{
-                startPeer(hostIP);
-            }
-        } catch (IOException e){
-            System.out.println("Error: " + e.getMessage());
-        }
-        */
         try{
             reInitializeIPs();
             startHost();
@@ -181,6 +170,7 @@ public class JSONTransmitter {
          try (FileReader reader = new FileReader("Files\\JSONStuff\\JSONGameStates\\IPAddresses.json")) {
             LinkedHashMap<Integer, InetAddress> ipMap = gson.fromJson(reader, mapType);
 
+            ipAddresses.putAll(ipMap);
                         
 
         } catch (IOException e) {
