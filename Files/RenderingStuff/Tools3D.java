@@ -53,21 +53,23 @@ public class Tools3D {
     public static double[] getScreenPoint(double[] point, Camera camera, Dimension dimension) {
         double[][] matrix = camera.getInvertedMatrix();
 
-        double[] cameraPosition = camera.getPosition();
+        double[] relativePoint = vectorDifference(point, camera.getPosition());
 
-        double x = (point[0] - cameraPosition[0]) * matrix[0][0] + (point[1] - cameraPosition[1]) * matrix[1][0] + (point[2] - cameraPosition[2]) * matrix[2][0];
-        double y = (point[0] - cameraPosition[0]) * matrix[0][1] + (point[1] - cameraPosition[1]) * matrix[1][1] + (point[2] - cameraPosition[2]) * matrix[2][1];
-        double z = (point[0] - cameraPosition[0]) * matrix[0][2] + (point[1] - cameraPosition[1]) * matrix[1][2] + (point[2] - cameraPosition[2]) * matrix[2][2];
+        double x = relativePoint[0] * matrix[0][0] + relativePoint[1] * matrix[1][0] + relativePoint[2] * matrix[2][0];
+        double y = relativePoint[0] * matrix[0][1] + relativePoint[1] * matrix[1][1] + relativePoint[2] * matrix[2][1];
+        double z = relativePoint[0] * matrix[0][2] + relativePoint[1] * matrix[1][2] + relativePoint[2] * matrix[2][2];
 
         if (x > 0) {
-            double screenX = (-y / x);
-            double screenY = (z / x);
-    
             double screenSizeX = dimension.getWidth();
             double screenSizeY = dimension.getHeight();
             double min = Math.min(screenSizeX, screenSizeY);
 
-            double[] screenPoint = {screenX * (min / 2 / camera.scale) + (screenSizeX / 2), screenY * (min / 2 / camera.scale) + (screenSizeY / 2)};
+            double scale = min / (camera.scale * x * 2);
+
+            double screenX = (-y * scale) + (screenSizeX * 0.5);
+            double screenY = (z * scale) + (screenSizeY * 0.5);
+    
+            double[] screenPoint = {screenX, screenY};
             return screenPoint;
         } else {
             return nullScreenPoint;
@@ -157,7 +159,7 @@ public class Tools3D {
         }
     }
 
-    public static void toReducedRowEchelon(double[][] matrix) { //adapted (stolen) from wikipedia
+    public static void toReducedRowEchelon(double[][] matrix) { //algorithm adapted from wikipedia
         int h = 0;
         int k = 0;
 

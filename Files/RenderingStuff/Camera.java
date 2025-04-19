@@ -117,12 +117,13 @@ public class Camera extends Robot {
         }
     }
 
-    public void tick(int fps, int tick,  ArrayList<SceneObject> sceneObjects, IsKeyPressed isKeyPressed) {
-        a.prl(this);
+    public void tick(PanelInfo panelInfo, SceneInfo sceneInfo) {
+
     }
 
-    public void renderTick(int fps, int tick, ArrayList<SceneObject> sceneObjects, IsKeyPressed isKeyPressed, Dimension dimension) {
-        this.dimension = dimension;        
+    public void renderTick(PanelInfo panelInfo, SceneInfo sceneInfo) {
+        this.dimension = panelInfo.getDimension();  
+        int fps = panelInfo.getFps();      
 
         if (player != null) {
             goTo(player.getPosition());
@@ -226,7 +227,6 @@ public class Camera extends Robot {
         controllable = value;
         if (value == false) {
             active = false;
-            a.prl("hi");
         }
     }
 

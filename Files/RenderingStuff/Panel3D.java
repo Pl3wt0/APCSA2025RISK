@@ -11,6 +11,9 @@ import javax.swing.Timer;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import java.awt.image.BufferedImage;
+import java.util.*;
+import tools.a;
+import javax.swing.*;
 
 
 public class Panel3D extends JPanel {
@@ -21,19 +24,38 @@ public class Panel3D extends JPanel {
 
     private PanelInfo panelInfo;
 
+    private BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+    private Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImg, new Point(0, 0), "blank cursor");
+
+    private ArrayList<MouseListener> mouseListeners = new ArrayList<MouseListener>();
+
+    private Dimension lastDimension;
+    private boolean dimensionChanged = true;
+
+
     public Panel3D(int fps, double timeSpeed) {
         super();
         this.fps = fps;
+        lastDimension = getSize();
 
         panelInfo = new PanelInfo(this);
-    }
 
+    }
+    
     public void setUp() {
         scene = new Scene(this);
+
+        setCursor(null);
 
         Timer timer = new Timer((int) ((1.0 / fps) * 1000), new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (!lastDimension.equals(getSize())) {
+                    lastDimension = getSize();
+                    dimensionChanged = true;
+                } else {
+                    dimensionChanged = false;
+                }
                 scene.tickScene(fps, tick);
                 repaint();
             }
@@ -42,6 +64,7 @@ public class Panel3D extends JPanel {
     }
 
     public void gainFocus() {
+        //setCursor(blankCursor);
         scene.gainFocus();
     }
 
@@ -57,6 +80,7 @@ public class Panel3D extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
         Graphics2D g2d = (Graphics2D) g.create();
         Dimension dimension = getSize();
 
@@ -65,6 +89,15 @@ public class Panel3D extends JPanel {
         scene.renderScene(g2d, dimension);
 
         tick++;
+
+        MouseListener[] oldMouseListeners = getMouseListeners().clone();
+        for (MouseListener mouseListener : oldMouseListeners) {
+            removeMouseListener(mouseListener);
+        }
+
+        for (MouseListener mouseListener : mouseListeners) {
+            addMouseListener(mouseListener);
+        }
 
         g2d.dispose();
     }
@@ -77,4 +110,15 @@ public class Panel3D extends JPanel {
         return panelInfo;
     }
 
+    public boolean dimensionChanged() {
+        return dimensionChanged;
+    }
+
+    public void addOwnMouseListener(MouseListener mouseListener) {
+        mouseListeners.add(mouseListener);
+    }
+    
+    public void removeOwnMouseListener(MouseListener mouseListener) {
+        mouseListeners.remove(mouseListener);
+    }
 }

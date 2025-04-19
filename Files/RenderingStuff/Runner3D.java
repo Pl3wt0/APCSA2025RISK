@@ -30,17 +30,11 @@ public class Runner3D {
 
                 Panel3D panel = new Panel3D(60, 1);
                 frame.add(panel);
-                a.prl(panel.getDimension().getWidth());
-
-                BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
-                Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImg, new Point(0, 0), "blank cursor");
-                frame.getContentPane().setCursor(blankCursor);
 
                 frame.addWindowFocusListener(new WindowFocusListener() {
                     @Override
                     public void windowGainedFocus(WindowEvent e) {
                         panel.gainFocus();
-                        frame.getContentPane().setCursor(blankCursor);
                     }
                     
                     @Override

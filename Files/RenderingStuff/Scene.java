@@ -25,16 +25,10 @@ public class Scene {
         camera.setControllable(false);
 
         double[] point = {0,0,0};
+        double[] hitbox = {0, 0, 800, 497};
 
         sceneObjects.add(new Image3D(point, 800, 497, "Risk.PNG"));
-        guiElements.add(new CustomButton(point, 800, 497, "Risk.PNG") {
-            @Override
-            public void tick(PanelInfo panelInfo, SceneInfo sceneInfo) {
-                // TODO Auto-generated method stub
-                super.tick(panelInfo, sceneInfo);
-                this.getLocation()[0] += 1;
-            }
-        });
+        //guiElements.add(new CustomButton(point, 800, 497, hitbox, "Risk.PNG", containingPanel.getPanelInfo()));
 
         sceneObjects.add(new Cube(0, 0, 0, 10));
         
@@ -102,18 +96,14 @@ public class Scene {
         }    
         isKeyPressed = new IsKeyPressed();
 
-        InteractionHandler.setSceneInfo(sceneInfo);
+        InteractionHandler.setSceneInfo(sceneInfo, containingPanel.getPanelInfo());
         GameRunner gameThread = new GameRunner(sceneInfo);
         gameThread.start();
     }
 
-    public SceneInfo getSceneInfo() {
-        return sceneInfo;
-    }
-
     public void tickScene(int fps, int tick) {
         PanelInfo panelInfo = containingPanel.getPanelInfo();
-        camera.tick(fps, tick, sceneObjects, isKeyPressed);
+        camera.tick(panelInfo, sceneInfo);
         ArrayList<SceneObject> sceneObjectsCopy = (ArrayList<SceneObject>)sceneObjects.clone();
         for (SceneObject sceneObject : sceneObjectsCopy) {
             sceneObject.tick(panelInfo, sceneInfo);
@@ -129,7 +119,7 @@ public class Scene {
         lastFrameTime = System.currentTimeMillis();
 
         PanelInfo panelInfo = containingPanel.getPanelInfo();
-        camera.renderTick(fps, tick, sceneObjects, isKeyPressed, dimension);
+        camera.renderTick(panelInfo, sceneInfo);
         ArrayList<SceneObject> sceneObjectsCopy = (ArrayList<SceneObject>)sceneObjects.clone();
         for (SceneObject sceneObject : sceneObjectsCopy) {
             sceneObject.renderTick(panelInfo, sceneInfo);
@@ -155,6 +145,10 @@ public class Scene {
         }
     }
 
+    public SceneInfo getSceneInfo() {
+        return sceneInfo;
+    }
+
     public void gainFocus() {
         camera.setActive();
     }
@@ -165,6 +159,10 @@ public class Scene {
 
     public ArrayList<SceneObject> getSceneObjects() {
         return sceneObjects;
+    }
+
+    public ArrayList<GUIElement> getGuiElements() {
+        return guiElements;
     }
 
     public Camera getCamera() {
