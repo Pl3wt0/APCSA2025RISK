@@ -45,6 +45,10 @@ public class Player {
         return playerName;
     }
 
+    public ArrayList<Card> getHand() {
+        return hand;
+    }
+
 
      /** 
      * Adds a Card to hand 
@@ -63,6 +67,9 @@ public class Player {
         }
     }
 
+    public void addCard(Card card) {
+        hand.add(card);
+    }
     
 
 }

@@ -39,7 +39,7 @@ public class TextButton extends CustomButton {
         
     }
 
-    private void updateImage(PanelInfo panelInfo) {
+    protected void updateImage(PanelInfo panelInfo) {
         double width = panelInfo.getDimension().getWidth();
         double height = panelInfo.getDimension().getHeight();
         BufferedImage backGroundImage = new BufferedImage((int)(xWidth * width),(int)(yWidth * height), BufferedImage.TYPE_INT_ARGB);
@@ -79,5 +79,13 @@ public class TextButton extends CustomButton {
 
         FontMetrics metrics = g2d2.getFontMetrics();
         g2d2.drawString(text, (int)((xWidth * width - metrics.stringWidth(text)) / 2), (int)((yWidth * height - metrics.getHeight()) / 2) + metrics.getAscent());
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String getText() {
+        return text;
     }
 }

@@ -15,21 +15,19 @@ import Files.RenderingStuff.*;
 public class GameRunner extends Thread {
     private SceneInfo sceneInfo;
     private BoardManager boardManager;
+
     public GameRunner(SceneInfo sceneInfo) {
         this.sceneInfo = sceneInfo;
     }
-    public void run() {
 
+    public void run() {
         boardManager = new BoardManager(3);
 
-        ArrayList<String> answers = new ArrayList<String>();
-        answers.add("answer 1");
-        answers.add("answer 2");
-        answers.add("answer 3");
-        answers.add("answer 4");
-
-        a.prl(InteractionHandler.askPlayer("question", answers));
-        InteractionHandler.displayMessage("hi", 5.0);
-
+        for (Territory territory : BoardManager.getTerritories()) {
+            a.prl("aosid");
+            GamePiece gamePiece = new GamePiece(0);
+            InteractionHandler.addSceneObject(gamePiece);
+            InteractionHandler.moveObject(gamePiece, territory.getPosition(), 0.1);
+        }
     }
 }

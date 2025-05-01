@@ -19,7 +19,6 @@ import javax.swing.*;
 public class Panel3D extends JPanel {
     public int fps;
     public int tick;
-    private double tickCount;
     private Scene scene;
 
     private PanelInfo panelInfo;
@@ -28,6 +27,7 @@ public class Panel3D extends JPanel {
     private Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImg, new Point(0, 0), "blank cursor");
 
     private ArrayList<MouseListener> mouseListeners = new ArrayList<MouseListener>();
+    private boolean mouseControlled = false;
 
     private Dimension lastDimension;
     private boolean dimensionChanged = true;
@@ -120,5 +120,14 @@ public class Panel3D extends JPanel {
     
     public void removeOwnMouseListener(MouseListener mouseListener) {
         mouseListeners.remove(mouseListener);
+    }
+
+    public void setMouseControlled(boolean value) {
+        mouseControlled = value;
+        if (value) {
+            setCursor(blankCursor);
+        } else {
+            setCursor(null);
+        }
     }
 }

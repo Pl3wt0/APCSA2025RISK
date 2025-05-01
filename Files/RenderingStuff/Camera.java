@@ -2,12 +2,15 @@ package Files.RenderingStuff;
 
 import java.util.ArrayList;
 
+import Files.RenderingStuff.GUIElements.FileButton;
 import Files.RenderingStuff.SceneObjects.*;
 import Files.RenderingStuff.SceneObjects.Player;
 import tools.a;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 
 public class Camera extends Robot {
@@ -24,45 +27,21 @@ public class Camera extends Robot {
     public double[][] invertedMatrix;
 
     public Dimension dimension;
+    public PanelInfo panelInfo;
 
     private Player player;
 
-    private boolean controllable = true;
-    private boolean active = true;
+    private boolean controllable = false;
+    private boolean active = false;
 
-    public Camera(double x, double y, double z, double theta, double phi, double scale) throws AWTException {
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        this.theta = theta;
-        this.phi = phi;
-        this.scale = scale;
-        calculateMatrix();
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
-            @Override
-            public boolean dispatchKeyEvent(KeyEvent ke) {
-                switch (ke.getID()) {
-                    case KeyEvent.KEY_PRESSED:
-                        if (ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                            if (active) {
-                                setInactive();
-                            } else {
-                                setActive();
-                            }
-                        }
-                }
-                return false;
-            }
-        });
-    }
-
-    public Camera(Dimension dimension) throws AWTException{
+    public Camera(Dimension dimension, PanelInfo panelInfo, SceneInfo sceneInfo) throws AWTException {
         x = 0;
         y = 0;
         z = 0;
         theta = 0;
         phi = Math.PI / 2;
         scale = 1;
+        this.panelInfo = panelInfo;
         this.dimension = dimension;
         calculateMatrix();
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
@@ -81,7 +60,48 @@ public class Camera extends Robot {
                 return false;
             }
         });
-        mouseMove((int)(dimension.getWidth() / 2), (int)(dimension.getHeight() / 2));    
+        Camera camera = this;
+        double[] location = {0.5, 0.5};
+        sceneInfo.getGuiElements().add(new FileButton(location, 0.1, 0.1, null, "CrossHair.png", panelInfo, sceneInfo) {
+            Camera buttonCamera = camera;
+            @Override
+            public void render(Graphics2D g2d, PanelInfo panelInfo, SceneInfo sceneInfo) {
+                if (buttonCamera.isControllable()) {
+                    double width = panelInfo.getDimension().getWidth();
+                    double height = panelInfo.getDimension().getHeight();
+                    g2d.drawImage(image, (int) (location[0] * width) - 10, (int) (location[1] * height) - 10, 20, 20, null);    
+                }
+            }
+        });
+
+        mouseMove((int)(dimension.getWidth() / 2), (int)(dimension.getHeight() / 2)); 
+        panelInfo.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // TODO Auto-generated method stub
+                a.prl(x + ", " + y + ", " + z);
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+            @Override
+            public void mousePressed(MouseEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+        });   
     }
 
     public void setPlayer(Player player) {
@@ -226,7 +246,7 @@ public class Camera extends Robot {
     public void setControllable(boolean value) {
         controllable = value;
         if (value == false) {
-            active = false;
+            setInactive();
         }
     }
 
@@ -236,13 +256,15 @@ public class Camera extends Robot {
 
     public void setActive() {
         if (controllable) {
-            mouseMove((int)(dimension.getWidth() / 2), (int)(dimension.getHeight() / 2));    
+            mouseMove((int)(dimension.getWidth() / 2), (int)(dimension.getHeight() / 2));
+            panelInfo.setMouseControlled(true);
             active = true;    
         }
     }
 
     public void setInactive() {
         if (controllable) {
+            panelInfo.setMouseControlled(false);
             active = false;
         }
     }

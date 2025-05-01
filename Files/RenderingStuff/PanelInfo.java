@@ -42,4 +42,8 @@ public class PanelInfo {
     public boolean dimensionChanged() {
         return panel.dimensionChanged();
     }
+
+    public void setMouseControlled(boolean value) {
+        panel.setMouseControlled(value);
+    }
 }

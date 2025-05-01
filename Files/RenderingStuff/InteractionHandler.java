@@ -24,6 +24,7 @@ import tools.*;
 public class InteractionHandler {
     private static SceneInfo sceneInfo;
     private static PanelInfo panelInfo;
+    private static int playerNum = 0;
 
     public static void setSceneInfo(SceneInfo sceneInfo, PanelInfo panelInfo) {
         InteractionHandler.sceneInfo = sceneInfo;
@@ -125,7 +126,7 @@ public class InteractionHandler {
             }
         }
 
-        guiElements.remove(questionButton);
+        questionButton.remove();
         for (CustomButton answerButton : answerButtons) {
             answerButton.remove();
         }        
@@ -146,13 +147,32 @@ public class InteractionHandler {
             TextButton originButton = button;
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO Auto-generated method stub
                 originButton.remove();
             }
         }));
         timer.start();
 
         sceneInfo.getGuiElements().add(button);
+    }
+
+    public static void addSceneObject(SceneObject sceneObject) {
+        sceneInfo.getSceneObjects().add(sceneObject);
+    }
+
+    public static void addGUIElement(GUIElement guiElement) {
+        sceneInfo.getGuiElements().add(guiElement);
+    }
+
+    public static SceneInfo getSceneInfo() {
+        return sceneInfo;
+    }
+
+    public static PanelInfo getPanelInfo() {
+        return panelInfo;
+    }
+
+    public static int getPlayerNum() {
+        return playerNum;
     }
 }
 

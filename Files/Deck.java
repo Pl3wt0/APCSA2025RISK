@@ -10,16 +10,16 @@ public class Deck {
     public Deck(){
         for(int i = 0; i<44; i++){
             if(i<14){
-                deck.add(new Card(true,false,false));
+                deck.add(new Card(true,false,false, null));
             }
             if(i>=14 && i<28){
-                deck.add(new Card(false,true,false));
+                deck.add(new Card(false,true,false, null));
             }
             if(i>=28 && i<42){
-                deck.add(new Card(false,false,true));
+                deck.add(new Card(false,false,true, null));
             }
             if(i>=42){
-                deck.add(new Card(true,true,true));
+                deck.add(new Card(true,true,true, null));
             }
         }
     }

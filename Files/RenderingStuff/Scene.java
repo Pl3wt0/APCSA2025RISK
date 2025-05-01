@@ -1,13 +1,20 @@
 package Files.RenderingStuff;
 
 import Files.RenderingStuff.SceneObjects.*;
+import Files.GamePiece;
 import Files.GameRunner;
 import Files.RenderingStuff.GUIElements.CustomButton;
+import Files.RenderingStuff.GUIElements.FileButton;
 import Files.RenderingStuff.Renderables.*;
 
 import java.util.*;
 import tools.a;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class Scene {
@@ -22,17 +29,13 @@ public class Scene {
 
     public void setScene() {
         camera.setValues(-386.4161352963328, 409.89117845434197, 351.6666666666672, -1.57, 2.85, 1);
-        camera.setControllable(false);
+        camera.setControllable(true);
+        camera.setActive();
 
         double[] point = {0,0,0};
-        double[] hitbox = {0, 0, 800, 497};
 
         sceneObjects.add(new Image3D(point, 800, 497, "Risk.PNG"));
-        //guiElements.add(new CustomButton(point, 800, 497, hitbox, "Risk.PNG", containingPanel.getPanelInfo()));
-
-        sceneObjects.add(new Cube(0, 0, 0, 10));
-        
-        
+                
 /*      for (int i = 0; i < 10; i += 1) {
             for (int j = 0; j < 10; j += 1) {
                 for (int k = 0; k < 10; k++) {
@@ -90,7 +93,7 @@ public class Scene {
     public void baseSetup() {
         sceneInfo = new SceneInfo(this);
         try {
-            camera = new Camera(containingPanel.getSize());
+            camera = new Camera(containingPanel.getSize(), containingPanel.getPanelInfo(), sceneInfo);
         } catch (AWTException e) {
             throw new Error("Camera failed");
         }    

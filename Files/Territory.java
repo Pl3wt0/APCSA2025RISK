@@ -7,7 +7,8 @@ public class Territory {
     private ArrayList<GamePiece> pieces = new ArrayList<>();
     private ArrayList<Territory> neighbors = new ArrayList<>();
     private Integer playerOwner;
-    private String territoryName = "";
+    private String territoryName;
+    private double[] position;
 
     /**
      * Constructs a Territory object with the continent
@@ -15,8 +16,10 @@ public class Territory {
      * @param name name of territory
      * 
      */
-    public Territory(String name) {
+    public Territory(String name, double x, double y) {
         territoryName = name;
+        double[] position = {x, y, 0};
+        this.position = position;
     }
 
     /**
@@ -101,5 +104,9 @@ public class Territory {
             }
             }
       }  
+
+      public double[] getPosition() {
+        return position;
+      }
     
 }
