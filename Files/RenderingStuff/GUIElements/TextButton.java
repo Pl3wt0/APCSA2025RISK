@@ -15,7 +15,7 @@ import javax.imageio.ImageIO;
 import org.w3c.dom.events.MouseEvent;
 
 public class TextButton extends CustomButton {
-    private String text;
+    protected String text;
     private int fontSize;
     private Color backGroundColor;
     private Color textColor;

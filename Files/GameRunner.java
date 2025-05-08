@@ -24,10 +24,11 @@ public class GameRunner extends Thread {
         boardManager = new BoardManager(3);
 
         for (Territory territory : BoardManager.getTerritories()) {
-            a.prl("aosid");
             GamePiece gamePiece = new GamePiece(0);
             InteractionHandler.addSceneObject(gamePiece);
             InteractionHandler.moveObject(gamePiece, territory.getPosition(), 0.1);
         }
+ 
+        a.prl(InteractionHandler.askForTerritory("hi").getTerritoryName());
     }
 }

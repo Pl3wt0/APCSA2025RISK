@@ -19,13 +19,16 @@ public class Player implements SceneObject {
 
     private Camera camera;
 
-    public Player(Camera camera) {
+    public Player() {
         x = 0;
         y = 0;
         z = 0;
         xVelocity = 0;
         yVelocity = 0;
         zVelocity = 0;
+    }
+
+    public void setCamera(Camera camera) {
         this.camera = camera;
     }
 
@@ -46,22 +49,22 @@ public class Player implements SceneObject {
         int fps = panelInfo.getFps();
 
         if (IsKeyPressed.isWPressed()) {
-            moveRelative(speed / fps,0,0);
+            accelerateRelative2(speed / fps,0,0);
         }
         if (IsKeyPressed.isAPressed()) {
-            moveRelative(0,-speed / fps,0);
+            accelerateRelative2(0,speed / fps,0);
         }
         if (IsKeyPressed.isSPressed()) {
-            moveRelative(-speed / fps,0,0);
+            accelerateRelative2(-speed / fps,0,0);
         }
         if (IsKeyPressed.isDPressed()) {
-            moveRelative(0,speed / fps,0);
+            accelerateRelative2(0,-speed / fps,0);
         }
         if (IsKeyPressed.isSpacePressed()) {
-            moveRelative(0,0,speed / fps);
+            accelerateRelative2(0,0,speed / fps);
         }
         if (IsKeyPressed.isShiftPressed()) {
-            moveRelative(0,0,-speed / fps);
+            accelerateRelative2(0,0,-speed / fps);
         }
 
         //zVelocity -= 10.0 / fps;

@@ -28,11 +28,13 @@ public class Scene {
     private double lastFrameLength = 0.01;
 
     public void setScene() {
-        camera.setValues(-386.4161352963328, 409.89117845434197, 351.6666666666672, -1.57, 2.85, 1);
-        camera.setControllable(true);
+        camera.setValues(-386.4161352963328, 409.89117845434197, 351.6666666666672, -(Math.PI / 2), 2.85, 1);
+        camera.setControllable(false);
         camera.setActive();
+        //camera.setPlayer(new Player(), sceneInfo);
 
         double[] point = {0,0,0};
+
 
         sceneObjects.add(new Image3D(point, 800, 497, "Risk.PNG"));
                 
@@ -99,9 +101,9 @@ public class Scene {
         }    
         isKeyPressed = new IsKeyPressed();
 
-        InteractionHandler.setSceneInfo(sceneInfo, containingPanel.getPanelInfo());
         GameRunner gameThread = new GameRunner(sceneInfo);
         gameThread.start();
+        InteractionHandler.setSceneInfo(sceneInfo, containingPanel.getPanelInfo());
     }
 
     public void tickScene(int fps, int tick) {

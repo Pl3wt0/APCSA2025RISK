@@ -20,7 +20,7 @@ public class Camera extends Robot {
     public double theta;
     public double phi;
     public double scale;
-    public double speed = 100;
+    public double speed = 1;
     public double rotateSpeed = 0.5;
 
     public double[][] directionMatrix;
@@ -78,34 +78,31 @@ public class Camera extends Robot {
         panelInfo.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                // TODO Auto-generated method stub
-                a.prl(x + ", " + y + ", " + z);
+                //a.prl(x + ", " + y + ", " + z);
             }
             @Override
             public void mouseEntered(MouseEvent e) {
-                // TODO Auto-generated method stub
                 
             }
             @Override
             public void mouseExited(MouseEvent e) {
-                // TODO Auto-generated method stub
                 
             }
             @Override
             public void mousePressed(MouseEvent e) {
-                // TODO Auto-generated method stub
                 
             }
             @Override
             public void mouseReleased(MouseEvent e) {
-                // TODO Auto-generated method stub
                 
             }
         });   
     }
 
-    public void setPlayer(Player player) {
+    public void setPlayer(Player player, SceneInfo sceneInfo) {
         this.player = player;
+        player.setCamera(this);
+        sceneInfo.getSceneObjects().add(player);
     }
 
     public void setValues(double x, double y, double z, double theta, double phi, double scale) {

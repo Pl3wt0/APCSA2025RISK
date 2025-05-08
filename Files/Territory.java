@@ -2,7 +2,9 @@ package Files;
 
 import java.util.ArrayList;
 
-public class Territory {
+import Files.RenderingStuff.Point3D;
+
+public class Territory implements Point3D {
 
     private ArrayList<GamePiece> pieces = new ArrayList<>();
     private ArrayList<Territory> neighbors = new ArrayList<>();
@@ -104,9 +106,9 @@ public class Territory {
             }
             }
       }  
-
-      public double[] getPosition() {
-        return position;
-      }
     
+    public double[] getPosition() {
+        double[] returnPoint = {position[0], position[1], 5};
+        return returnPoint;
+    }
 }

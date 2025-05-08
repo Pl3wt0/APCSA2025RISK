@@ -3,6 +3,8 @@ package Files.RenderingStuff;
 import java.awt.Color;
 import java.awt.Dimension;
 
+import Files.BoardManager;
+import Files.Territory;
 import Files.RenderingStuff.GUIElements.CustomButton;
 import Files.RenderingStuff.GUIElements.TextButton;
 import Files.RenderingStuff.SceneObjects.*;
@@ -14,6 +16,7 @@ import tools.a;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.text.RuleBasedCollator;
 import java.util.*;
 import tools.a;
 import javax.swing.*;
@@ -153,6 +156,57 @@ public class InteractionHandler {
         timer.start();
 
         sceneInfo.getGuiElements().add(button);
+    }
+
+    private static Territory askForTerritoryReturnTerritory;
+
+    public static Territory askForTerritory(String displayMessage) {
+        double[] location = {0.5, 0.05};
+        MouseListener mouseListener = new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                double[] pointOnMap = Tools3D.getFloorPoint(sceneInfo.getCamera(), e.getX(), e.getY(), panelInfo.getDimension(), 0);
+                a.prl(pointOnMap[0] + ", " + pointOnMap[1]);
+                ArrayList<Territory> territories = BoardManager.getTerritories();
+                territories.sort(Comparator.comparing((territory) -> Tools3D.getDistance((Point3D)territory, new Point3D() {
+                    public double[] getPosition() {
+                        double[] returnPoint = {pointOnMap[0], pointOnMap[1], 0};
+                        return returnPoint;
+                    };
+                })));
+                setAskForTerritoryReturnValue(territories.get(0));
+                
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {}
+            @Override
+            public void mouseExited(MouseEvent e) {}
+            @Override
+            public void mousePressed(MouseEvent e) {}
+            @Override
+            public void mouseReleased(MouseEvent e) {}
+        };
+        panelInfo.addMouseListener(mouseListener);
+
+        setAskForTerritoryReturnValue(null);
+        while (true) {
+            sleep(50);
+            if (askForTerritoryReturnTerritory != null) {
+                break;
+            }
+        }
+        
+        panelInfo.removeMouseListener(mouseListener);
+
+        Territory returnTerritory = askForTerritoryReturnTerritory;
+
+        setAskForTerritoryReturnValue(null);
+
+        return returnTerritory;
+    }
+
+    public static void setAskForTerritoryReturnValue(Territory territory) {
+        askForTerritoryReturnTerritory = territory;
     }
 
     public static void addSceneObject(SceneObject sceneObject) {

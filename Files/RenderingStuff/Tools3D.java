@@ -227,6 +227,12 @@ public class Tools3D {
         return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2) + (z1 - z2) * (z1 - z2));
     }
 
+    public static double getDistance(Point3D point1, Point3D point2) {
+        double[] v1 = point1.getPosition();
+        double[] v2 = point2.getPosition();
+        return getDistance(v1[0], v2[0], v1[1], v2[1], v1[2], v2[2]);
+    }
+
     public static double getDistance(Renderable r, Camera camera) {
         double[] renderablePoint = r.getPosition();
         return getDistance(renderablePoint[0], camera.x, renderablePoint[1], camera.y, renderablePoint[2], camera.z);
