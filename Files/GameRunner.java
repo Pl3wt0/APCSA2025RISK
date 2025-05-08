@@ -12,6 +12,8 @@ import java.awt.event.*;
 import Files.RenderingStuff.SceneObjects.*;
 import Files.RenderingStuff.*;
 
+import Files.JSONStuff.*;
+
 public class GameRunner extends Thread {
     private SceneInfo sceneInfo;
     private BoardManager boardManager;
@@ -21,6 +23,7 @@ public class GameRunner extends Thread {
     }
 
     public void run() {
+        JSONTransmitter.startConnection(null);
         boardManager = new BoardManager(3);
 
         for (Territory territory : BoardManager.getTerritories()) {

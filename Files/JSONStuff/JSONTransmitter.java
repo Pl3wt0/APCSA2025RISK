@@ -24,22 +24,25 @@ import java.lang.reflect.Type;
 
 public class JSONTransmitter {
     private static final int PORT = 5000;
-    private static Map<Integer,InetAddress> ipAddresses = new LinkedHashMap<>();
+    private static ArrayList<InetAddress> ipAddresses = new ArrayList<>();
     private static Gson gson = new GsonBuilder()
     .registerTypeAdapter(Color.class, new ColorAdapter()) // Register custom adapter
     .registerTypeAdapter(InetAddress.class, new InetAddressAdapter())
     .setPrettyPrinting()
     .create();
 
-    public static void main(String[] args) {
-        try{
-            reInitializeIPs();
-            startHost();
-        }catch(IOException e){};
-
-        
-        
+    public static void startConnection(String ip){
+        if(ip.equals(null)){
+            try{
+                startHost();
+            }catch(IOException e){}
+        }else{
+            try{
+                startPeer(ip);
+            } catch(IOException e){}
+        }
     }
+
 
      private static void startHost() throws IOException {
         ServerSocket serverSocket = new ServerSocket(PORT);
@@ -50,12 +53,11 @@ public class JSONTransmitter {
 
         String input = in.readLine(); // wait for the player number
         if (input != null) {
-            int playerNumber = gson.fromJson(input, Integer.class);
             InetAddress peerIp = socket.getInetAddress();
 
-            ipAddresses.put(playerNumber, peerIp);
+            ipAddresses.add(peerIp);
 
-            System.out.println("Player " + playerNumber + " connected from " + peerIp.getHostAddress());
+            System.out.println("Player connected from " + peerIp.getHostAddress());
         }
         writeIPJSON();
         
@@ -67,19 +69,9 @@ public class JSONTransmitter {
         startHost();
     }
 
-    private static void startPeer(String hostIp,Integer playerNum) throws IOException {
+    private static void startPeer(String hostIp) throws IOException {
         Socket socket = new Socket(hostIp, PORT);
         System.out.println("Connected to host!");
-        
-        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-
-
-    
-        String json = gson.toJson(playerNum); // just send the int
-        out.println(json);
-
-
-        
 
         handleConnection(socket, false); // Peer receives JSON
     }
