@@ -23,16 +23,17 @@ public class GameRunner extends Thread {
     }
 
     public void run() {
-        JSONTransmitter.startConnection("10.1.41.175");
-        a.prl("hi");
-        BoardManager.setUp(2);
+        BoardManager.setUp(5);
+        JSONManager.writeJSONGameState();
+        JSONTransmitter.startConnection(null);
 
-        for (Territory territory : BoardManager.getTerritories()) {
+         for (Territory territory : BoardManager.getTerritories()) {
             GamePiece gamePiece = new GamePiece(0);
             InteractionHandler.addSceneObject(gamePiece);
             InteractionHandler.moveObject(gamePiece, territory.getPosition(), 0.1);
         }
  
         a.prl(InteractionHandler.askForTerritory("hi").getTerritoryName());
+         
     }
 }

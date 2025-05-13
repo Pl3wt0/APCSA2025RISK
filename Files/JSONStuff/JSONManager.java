@@ -23,7 +23,7 @@ public class JSONManager {
     .setPrettyPrinting()
     .create(); 
 
-     public static String writeJSONGameState(ArrayList<Player> players){
+     public static String writeJSONGameState(){
         String fileName = "Files/JSONStuff/JSONGameStates/GameState.json";
 
         Map<String, Object> gameState = new LinkedHashMap<>();
@@ -33,7 +33,7 @@ public class JSONManager {
         gameState.put("Europe", BoardManager.getEurope().getTerritories());
         gameState.put("NorthAmerica", BoardManager.getNorthAmerica().getTerritories());
         gameState.put("SouthAmerica", BoardManager.getSouthAmerica().getTerritories());
-        gameState.put("Player", players);
+        gameState.put("Player", BoardManager.getPlayers());
 
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {

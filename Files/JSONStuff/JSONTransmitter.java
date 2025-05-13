@@ -31,8 +31,9 @@ public class JSONTransmitter {
     .setPrettyPrinting()
     .create();
 
+
     public static void startConnection(String ip){
-        if(ip.equals(null)){
+        if(ip == null){
             try{
                 startHost();
             }catch(IOException e){}
@@ -60,6 +61,7 @@ public class JSONTransmitter {
             System.out.println("Player connected from " + peerIp.getHostAddress());
         }
         writeIPJSON();
+        
         
 
 
