@@ -15,9 +15,8 @@ import javax.imageio.ImageIO;
 import org.w3c.dom.events.MouseEvent;
 
 public class FileButton extends CustomButton {
-    public FileButton(double[] location, double xWidth, double yWidth, double[] hitBox, String fileLocation,
-            PanelInfo panelInfo, SceneInfo sceneInfo) {
-        super(location, xWidth, yWidth, hitBox, panelInfo, sceneInfo);
+    public FileButton(SceneInfo sceneInfo, double[] location, double xWidth, double yWidth, double[] hitBox, String fileLocation) {
+        super(sceneInfo, location, xWidth, yWidth, hitBox);
         try {
             image = ImageIO.read(new File(fileLocation));
         } catch (Exception ex) {

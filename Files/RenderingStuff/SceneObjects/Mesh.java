@@ -11,7 +11,7 @@ import Files.RenderingStuff.*;
 import Files.RenderingStuff.Renderables.*;
 import tools.a;
 
-public abstract class Mesh implements SceneObject {
+public abstract class Mesh extends SceneElement implements SceneObject {
     protected double x;
     protected double y;
     protected double z;
@@ -27,7 +27,8 @@ public abstract class Mesh implements SceneObject {
     protected Color lineColor = new Color(0, 0, 0);
     protected Color faceColor = new Color(100, 100, 100);
 
-    public Mesh(double x, double y, double z, double scale) {
+    public Mesh(SceneInfo sceneInfo, double x, double y, double z, double scale) {
+        super(sceneInfo);
         this.x = x;
         this.y = y;
         this.z = z;
@@ -71,7 +72,7 @@ public abstract class Mesh implements SceneObject {
                     for (int i : faceNumber) {
                         facePoints.add(newPoints[i]);
                     }
-                    renderables.add(new Face(facePoints, new Color(100, 100, 100)));    
+                    renderables.add(new Face(sceneInfo, facePoints, new Color(100, 100, 100)));    
                 } catch (IndexOutOfBoundsException e) {
                     //a.prl("Mesh face IndexOutOfBoundsException");
                 }
@@ -82,7 +83,7 @@ public abstract class Mesh implements SceneObject {
 /*                     a.prl(lineNumber[0]);
                     a.prl(newPoints[lineNumber[0]]);
                     a.prl(newPoints[lineNumber[1]]);
- */                    renderables.add(new Line(newPoints[lineNumber[0]], newPoints[lineNumber[1]], new Color(0, 0, 0)));
+ */                    renderables.add(new Line(sceneInfo, newPoints[lineNumber[0]], newPoints[lineNumber[1]], new Color(0, 0, 0)));
                 } catch (IndexOutOfBoundsException e) {
                 }
             }
@@ -124,7 +125,7 @@ public abstract class Mesh implements SceneObject {
                     for (int i : faceNumber) {
                         facePoints.add(newPoints[i]);
                     }
-                    faceList.add(new Face(facePoints, new Color(100, 100, 100)));    
+                    faceList.add(new Face(sceneInfo, facePoints, new Color(100, 100, 100)));    
                 } catch (IndexOutOfBoundsException e) {
                     //a.prl("Mesh face IndexOutOfBoundsException");
                 }
@@ -221,6 +222,7 @@ public abstract class Mesh implements SceneObject {
     public void setScale(double scale) {
         this.scale = scale;
     }
+
     private double sum = 0;
     public void rotate(double[] rotationVector, double time) {
         double[] v1 = Tools3D.crossProduct(rotationVector, rotation1);
@@ -286,15 +288,12 @@ public abstract class Mesh implements SceneObject {
         return Math.sqrt((point1[0] - point2[0]) * (point1[0] - point2[0]) + (point1[1] - point2[1]) * (point1[1] - point2[1]) + (point1[2] - point2[2]) * (point1[2] - point2[2]));
     }
 
-    public void tick(PanelInfo panelInfo, SceneInfo sceneInfo) {
+    public void tick() {
         x += xVelocity * sceneInfo.getLastFrameLength();
         y += yVelocity * sceneInfo.getLastFrameLength();
         z += zVelocity * sceneInfo.getLastFrameLength();
     }
 
-    public void renderTick(PanelInfo panelInfo, SceneInfo sceneInfo) {
-
-    }
 
 
 }

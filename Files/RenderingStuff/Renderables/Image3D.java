@@ -8,6 +8,8 @@ import Files.RenderingStuff.Camera;
 import Files.RenderingStuff.IsKeyPressed;
 import Files.RenderingStuff.PanelInfo;
 import Files.RenderingStuff.Renderable;
+import Files.RenderingStuff.Scene;
+import Files.RenderingStuff.SceneElement;
 import Files.RenderingStuff.SceneInfo;
 import Files.RenderingStuff.SceneObject;
 import Files.RenderingStuff.Tools3D;
@@ -19,7 +21,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Image3D implements Renderable {
+public class Image3D extends SceneElement implements Renderable {
 
     private double[] location;
     private double xWidth;
@@ -27,7 +29,8 @@ public class Image3D implements Renderable {
     private BufferedImage image;
 
 
-    public Image3D(double[] location, double xWidth, double yWidth, String fileLocation) {
+    public Image3D(SceneInfo sceneInfo, double[] location, double xWidth, double yWidth, String fileLocation) {
+        super(sceneInfo);
         this.location = location;
         this.xWidth = xWidth;
         this.yWidth = yWidth;
@@ -43,7 +46,7 @@ public class Image3D implements Renderable {
         return location;
     }
 
-    public void render(Graphics2D g2d, PanelInfo panelInfo, SceneInfo sceneInfo) {
+    public void render(Graphics2D g2d) {
             Camera camera = sceneInfo.getCamera();
             Dimension dimension = panelInfo.getDimension();
 
@@ -73,12 +76,8 @@ public class Image3D implements Renderable {
         
     }
 
-    public void tick(PanelInfo panelInfo, SceneInfo sceneInfo) {
+    public void tick() {
 
-    }
-
-    public void renderTick(PanelInfo panelInfo, SceneInfo sceneInfo) {
-        
     }
 
     public ArrayList<Renderable> getRenderables() {

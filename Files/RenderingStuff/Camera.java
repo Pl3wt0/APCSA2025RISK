@@ -20,13 +20,14 @@ public class Camera extends Robot {
     public double theta;
     public double phi;
     public double scale;
-    public double speed = 1;
+    public double speed = 100;
     public double rotateSpeed = 0.5;
 
     public double[][] directionMatrix;
     public double[][] invertedMatrix;
 
     public Dimension dimension;
+    private SceneInfo sceneInfo;
     public PanelInfo panelInfo;
 
     private Player player;
@@ -42,6 +43,7 @@ public class Camera extends Robot {
         phi = Math.PI / 2;
         scale = 1;
         this.panelInfo = panelInfo;
+        this.sceneInfo = sceneInfo;
         this.dimension = dimension;
         calculateMatrix();
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
@@ -62,10 +64,10 @@ public class Camera extends Robot {
         });
         Camera camera = this;
         double[] location = {0.5, 0.5};
-        sceneInfo.getGuiElements().add(new FileButton(location, 0.1, 0.1, null, "CrossHair.png", panelInfo, sceneInfo) {
+        sceneInfo.getGuiElements().add(new FileButton(sceneInfo, location, 0.1, 0.1, null, "CrossHair.png") {
             Camera buttonCamera = camera;
             @Override
-            public void render(Graphics2D g2d, PanelInfo panelInfo, SceneInfo sceneInfo) {
+            public void render(Graphics2D g2d) {
                 if (buttonCamera.isControllable()) {
                     double width = panelInfo.getDimension().getWidth();
                     double height = panelInfo.getDimension().getHeight();
@@ -99,7 +101,7 @@ public class Camera extends Robot {
         });   
     }
 
-    public void setPlayer(Player player, SceneInfo sceneInfo) {
+    public void setPlayer(Player player) {
         this.player = player;
         player.setCamera(this);
         sceneInfo.getSceneObjects().add(player);
@@ -134,11 +136,7 @@ public class Camera extends Robot {
         }
     }
 
-    public void tick(PanelInfo panelInfo, SceneInfo sceneInfo) {
-
-    }
-
-    public void renderTick(PanelInfo panelInfo, SceneInfo sceneInfo) {
+    public void tick() {
         this.dimension = panelInfo.getDimension();  
         int fps = panelInfo.getFps();      
 

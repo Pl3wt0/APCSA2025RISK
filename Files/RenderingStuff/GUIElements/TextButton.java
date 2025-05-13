@@ -19,27 +19,26 @@ public class TextButton extends CustomButton {
     private int fontSize;
     private Color backGroundColor;
     private Color textColor;
-    public TextButton(double[] location, double xWidth, double yWidth, double[] hitBox, String text, int fontSize,
-            PanelInfo panelInfo, SceneInfo sceneInfo) {
-        super(location, xWidth, yWidth, hitBox, panelInfo, sceneInfo);
+    public TextButton(SceneInfo sceneInfo, double[] location, double xWidth, double yWidth, double[] hitBox, String text, int fontSize) {
+        super(sceneInfo, location, xWidth, yWidth, hitBox);
         this.text = text;
         this.fontSize = fontSize;
         this.backGroundColor = new Color(100, 100, 100);
         this.textColor = new Color(0, 0, 0);
-        updateImage(panelInfo);
+        updateImage();
     }
 
     @Override
-    public void render(Graphics2D g2d, PanelInfo panelInfo, SceneInfo sceneInfo) {
+    public void render(Graphics2D g2d) {
         if (panelInfo.dimensionChanged()) {
-            updateImage(panelInfo);
+            updateImage();
         }
 
-        super.render(g2d, panelInfo, sceneInfo);
+        super.render(g2d);
         
     }
 
-    protected void updateImage(PanelInfo panelInfo) {
+    protected void updateImage() {
         double width = panelInfo.getDimension().getWidth();
         double height = panelInfo.getDimension().getHeight();
         BufferedImage backGroundImage = new BufferedImage((int)(xWidth * width),(int)(yWidth * height), BufferedImage.TYPE_INT_ARGB);

@@ -7,12 +7,13 @@ import Files.RenderingStuff.Camera;
 import Files.RenderingStuff.IsKeyPressed;
 import Files.RenderingStuff.PanelInfo;
 import Files.RenderingStuff.Renderable;
+import Files.RenderingStuff.SceneElement;
 import Files.RenderingStuff.SceneInfo;
 import Files.RenderingStuff.SceneObject;
 import Files.RenderingStuff.Tools3D;
 
 
-public class Line implements Renderable {
+public class Line extends SceneElement implements Renderable {
     private double x1;
     private double x2;
     private double y1;
@@ -21,7 +22,8 @@ public class Line implements Renderable {
     private double z2;
     private Color color;
 
-    public Line(double x1, double x2, double y1, double y2, double z1, double z2, Color color) {
+    public Line(SceneInfo sceneInfo, double x1, double x2, double y1, double y2, double z1, double z2, Color color) {
+        super(sceneInfo);
         this.x1 = x1;
         this.x2 = x2;
         this.y1 = y1;
@@ -31,7 +33,8 @@ public class Line implements Renderable {
         this.color = color;
     }
 
-    public Line(double[] point1, double[] point2, Color color) {
+    public Line(SceneInfo sceneInfo, double[] point1, double[] point2, Color color) {
+        super(sceneInfo);
         this.x1 = point1[0];
         this.x2 = point2[0];
         this.y1 = point1[1];
@@ -46,12 +49,8 @@ public class Line implements Renderable {
         return position;
     }
 
-    public void tick(PanelInfo panelInfo, SceneInfo sceneInfo) {
+    public void tick() {
 
-    }
-
-    public void renderTick(PanelInfo panelInfo, SceneInfo sceneInfo) {
-        
     }
 
     public ArrayList<Renderable> getRenderables() {
@@ -60,7 +59,7 @@ public class Line implements Renderable {
         return self;
     }
 
-    public void render(Graphics2D g2d, PanelInfo panelInfo, SceneInfo sceneInfo) {
+    public void render(Graphics2D g2d) {
         Camera camera = sceneInfo.getCamera();
         Dimension dimension = panelInfo.getDimension();
         g2d.setColor(color);

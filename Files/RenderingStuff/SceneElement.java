@@ -1,11 +1,11 @@
 package Files.RenderingStuff;
 
-public class SceneElement {
+public abstract class SceneElement {
     protected SceneInfo sceneInfo;
     protected PanelInfo panelInfo;
 
-    public SceneElement(SceneInfo sceneInfo, PanelInfo panelInfo) {
+    public SceneElement(SceneInfo sceneInfo) {
         this.sceneInfo = sceneInfo;
-        this.panelInfo = panelInfo;
+        this.panelInfo = sceneInfo.getPanelInfo();
     }
 }

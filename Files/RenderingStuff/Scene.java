@@ -24,19 +24,20 @@ public class Scene {
     private IsKeyPressed isKeyPressed;
     private SceneInfo sceneInfo;
     private Panel3D containingPanel;
+    private PanelInfo panelInfo;
     private long lastFrameTime = System.currentTimeMillis();
     private double lastFrameLength = 0.01;
 
     public void setScene() {
         camera.setValues(-386.4161352963328, 409.89117845434197, 351.6666666666672, -(Math.PI / 2), 2.85, 1);
-        camera.setControllable(false);
+        camera.setControllable(true);
         camera.setActive();
-        //camera.setPlayer(new Player(), sceneInfo);
+        //camera.setPlayer(new Player());
 
         double[] point = {0,0,0};
 
 
-        sceneObjects.add(new Image3D(point, 800, 497, "Risk.PNG"));
+        sceneObjects.add(new Image3D(sceneInfo, point, 800, 497, "Risk.PNG"));
                 
 /*      for (int i = 0; i < 10; i += 1) {
             for (int j = 0; j < 10; j += 1) {
@@ -86,6 +87,7 @@ public class Scene {
 
     public Scene(Panel3D containingPanel) {
         this.containingPanel = containingPanel;
+        this.panelInfo = containingPanel.getPanelInfo();
         baseSetup();
         setScene();
 
@@ -107,27 +109,16 @@ public class Scene {
     }
 
     public void tickScene(int fps, int tick) {
-        PanelInfo panelInfo = containingPanel.getPanelInfo();
-        camera.tick(panelInfo, sceneInfo);
+        camera.tick();
+
         ArrayList<SceneObject> sceneObjectsCopy = (ArrayList<SceneObject>)sceneObjects.clone();
         for (SceneObject sceneObject : sceneObjectsCopy) {
-            sceneObject.tick(panelInfo, sceneInfo);
+            sceneObject.tick();
         }
+
         ArrayList<GUIElement> guiElementsCopy = (ArrayList<GUIElement>)guiElements.clone();
         for (GUIElement guiElement : guiElementsCopy) {
-            guiElement.tick(panelInfo, sceneInfo);
-        }
-    }
-
-    public void renderTickScene(int fps, int tick, Dimension dimension) {
-        lastFrameLength = (System.currentTimeMillis() - lastFrameTime) / 1000.0;
-        lastFrameTime = System.currentTimeMillis();
-
-        PanelInfo panelInfo = containingPanel.getPanelInfo();
-        camera.renderTick(panelInfo, sceneInfo);
-        ArrayList<SceneObject> sceneObjectsCopy = (ArrayList<SceneObject>)sceneObjects.clone();
-        for (SceneObject sceneObject : sceneObjectsCopy) {
-            sceneObject.renderTick(panelInfo, sceneInfo);
+            guiElement.tick();
         }
     }
 
@@ -142,11 +133,12 @@ public class Scene {
         Collections.reverse(toRender);
 
         for (Renderable renderable : toRender) {
-            renderable.render(g2d, panelInfo, sceneInfo);
+            renderable.render(g2d);
         }
 
+
         for (GUIElement guiElement : guiElements) {
-            guiElement.render(g2d, panelInfo, sceneInfo);
+            guiElement.render(g2d);
         }
     }
 
@@ -180,6 +172,10 @@ public class Scene {
 
     public Panel3D getContainingPanel() {
         return containingPanel;
+    }
+
+    public PanelInfo getPanelInfo() {
+        return panelInfo;
     }
 
     public double getLastFrameLength() {

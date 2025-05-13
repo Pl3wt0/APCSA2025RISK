@@ -16,6 +16,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import Files.RenderingStuff.IsKeyPressed;
 import Files.RenderingStuff.PanelInfo;
 import Files.RenderingStuff.Renderable;
+import Files.RenderingStuff.SceneElement;
 import Files.RenderingStuff.SceneInfo;
 import Files.RenderingStuff.SceneObject;
 import Files.RenderingStuff.Renderables.Face;
@@ -27,7 +28,7 @@ import java.util.*;
 import tools.a;
 import java.awt.*;
 
-public class Particle implements Renderable {
+public class Particle extends SceneElement implements Renderable {
     private double x;
     private double y;
     private double z;
@@ -36,7 +37,8 @@ public class Particle implements Renderable {
 
     private Image image;
     
-    public Particle(double x, double y, double z, double width, double height, String location) {
+    public Particle(SceneInfo sceneInfo, double x, double y, double z, double width, double height, String location) {
+        super(sceneInfo);
         try {                
             image = ImageIO.read(new File(location));
         } catch (IOException ex) {
@@ -55,7 +57,7 @@ public class Particle implements Renderable {
         return point;
     }
     
-    public void render(Graphics2D g2d, PanelInfo panelInfo, SceneInfo sceneInfo) {
+    public void render(Graphics2D g2d) {
         Camera camera = sceneInfo.getCamera();
         Dimension dimension = panelInfo.getDimension();
         double[] point = {x,y,z};
@@ -74,12 +76,8 @@ public class Particle implements Renderable {
         return self;
     }
 
-    public void tick(PanelInfo panelInfo, SceneInfo sceneInfo) {
+    public void tick() {
 
-    }
-
-    public void renderTick(PanelInfo panelInfo, SceneInfo sceneInfo) {
-        
     }
 
 

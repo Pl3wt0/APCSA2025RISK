@@ -92,7 +92,7 @@ public class InteractionHandler {
         double height = dimension.getHeight();
         double[] point = {0.3, 0.1};
         double[] hitBox1 = {0.4, 0.2};
-        CustomButton questionButton = new TextButton(point, 0.4,  0.3, hitBox1, question, 30, panelInfo, sceneInfo);
+        CustomButton questionButton = new TextButton(sceneInfo, point, 0.4,  0.3, hitBox1, question, 30);
         guiElements.add(questionButton);
 
         Integer buttonClicked = -1;
@@ -104,7 +104,7 @@ public class InteractionHandler {
             double[] hitBox2 = {1.0 / answers.size() - 0.1, 0.1};
             
             final int j = i;
-            answerButtons.add(new TextButton(location, 1.0 / answers.size() - 0.05, 0.25, hitBox2, answer, 20, panelInfo, sceneInfo) {
+            answerButtons.add(new TextButton(sceneInfo, location, 1.0 / answers.size() - 0.05, 0.25, hitBox2, answer, 20) {
                 private int i = j;
                 @Override
                 public void whenClicked(MouseEvent e) {
@@ -145,7 +145,7 @@ public class InteractionHandler {
      */
     public static void displayMessage(String message, double length) {
         double[] location = {0.05, 0.05};
-        TextButton button = new TextButton(location, 0.3, 0.1, null, message, 20, panelInfo, sceneInfo);
+        TextButton button = new TextButton(sceneInfo, location, 0.3, 0.1, null, message, 20);
         javax.swing.Timer timer = new javax.swing.Timer((int) (length * 1000), (new ActionListener() {
             TextButton originButton = button;
             @Override

@@ -1,5 +1,6 @@
 package Files.RenderingStuff.SceneObjects;
 
+import Files.RenderingStuff.SceneInfo;
 import Files.RenderingStuff.SceneObject;
 import tools.a;
 
@@ -11,8 +12,8 @@ public class Vector3D extends Mesh implements MeshInterface {
     private double vectorScale;
     private double headSize;
     
-    public Vector3D(double x, double y, double z, double x2, double y2, double z2, double vectorScale, double headSize) {
-        super(x, y, z, 1);
+    public Vector3D(SceneInfo sceneInfo, double x, double y, double z, double x2, double y2, double z2, double vectorScale, double headSize) {
+        super(sceneInfo, x, y, z, 1);
         double[] vector = {x2, y2, z2};
         this.vector = vector;
         this.vectorScale = vectorScale;

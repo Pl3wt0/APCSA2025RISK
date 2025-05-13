@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import Files.RenderingStuff.*;
 
-public class Player implements SceneObject {
+public class Player extends SceneElement implements SceneObject {
     private double x;
     private double y;
     private double z;
@@ -19,7 +19,8 @@ public class Player implements SceneObject {
 
     private Camera camera;
 
-    public Player() {
+    public Player(SceneInfo sceneInfo) {
+        super(sceneInfo);
         x = 0;
         y = 0;
         z = 0;
@@ -41,11 +42,7 @@ public class Player implements SceneObject {
         return new ArrayList<Renderable>();
     }
 
-    public void tick(PanelInfo panelInfo, SceneInfo sceneInfo) {
-
-    }
-
-    public void renderTick(PanelInfo panelInfo, SceneInfo sceneInfo) {
+    public void tick() {
         int fps = panelInfo.getFps();
 
         if (IsKeyPressed.isWPressed()) {
@@ -76,6 +73,7 @@ public class Player implements SceneObject {
         x += (xVelocity / fps);
         y += (yVelocity / fps);
         z += (zVelocity / fps);
+
     }
 
     private void rectifyAngles() {

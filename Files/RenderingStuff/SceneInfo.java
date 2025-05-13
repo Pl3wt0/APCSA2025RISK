@@ -44,4 +44,8 @@ public class SceneInfo {
         return scene.getLastFrameLength();
     }
 
+    public PanelInfo getPanelInfo() {
+        return scene.getPanelInfo();
+    }
+
 }

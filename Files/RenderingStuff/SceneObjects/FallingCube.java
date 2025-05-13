@@ -1,19 +1,20 @@
 package Files.RenderingStuff.SceneObjects;
 
 import Files.RenderingStuff.PanelInfo;
+import Files.RenderingStuff.Scene;
 import Files.RenderingStuff.SceneInfo;
 import Files.RenderingStuff.Renderables.*;
 
 public class FallingCube extends Cube {
     private Graph graph;
 
-    public FallingCube(double x, double y, double z, double scale, double theta, double phi, Graph graph) {
-        super(x, y, z, scale);
+    public FallingCube(SceneInfo sceneInfo, double x, double y, double z, double scale, double theta, double phi, Graph graph) {
+        super(sceneInfo, x, y, z, scale);
         this.graph = graph;
     }
 
-    public void tick(PanelInfo panelInfo, SceneInfo sceneInfo) {
-        super.tick(panelInfo, sceneInfo);
+    public void tick() {
+        super.tick();
         z -= 5;
         
         boolean intersectsAny = false;

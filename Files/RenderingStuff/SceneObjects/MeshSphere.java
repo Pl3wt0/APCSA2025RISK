@@ -26,19 +26,15 @@ public class MeshSphere extends Mesh implements MeshInterface {
     private Color faceColor = new Color(100,100,100);
     private Color lineColor = new Color(0,0,0);
 
-    public MeshSphere(double x, double y, double z, double scale, int precision) {
-        super(x, y, z, scale);
+    public MeshSphere(SceneInfo sceneInfo, double x, double y, double z, double scale, int precision) {
+        super(sceneInfo, x, y, z, scale);
         setDoRotate(false);
         this.precision = precision;
     }
   
-    public void tick(PanelInfo panelInfo, SceneInfo sceneInfo) {        
-
-        super.tick(panelInfo, sceneInfo);
-    }
-
-    public void renderTick(PanelInfo panelInfo, SceneInfo sceneInfo) {
+    public void tick() {        
         updateLists();
+
     }
 
     public void updateLists() {

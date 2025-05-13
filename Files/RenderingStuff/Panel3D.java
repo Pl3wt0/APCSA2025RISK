@@ -84,8 +84,6 @@ public class Panel3D extends JPanel {
         Graphics2D g2d = (Graphics2D) g.create();
         Dimension dimension = getSize();
 
-        scene.renderTickScene(fps, tick, dimension);
-
         scene.renderScene(g2d, dimension);
 
         tick++;
