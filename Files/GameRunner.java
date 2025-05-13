@@ -23,8 +23,9 @@ public class GameRunner extends Thread {
     }
 
     public void run() {
-        JSONTransmitter.startConnection(null);
-        boardManager = new BoardManager(3);
+        JSONTransmitter.startConnection("10.1.41.175");
+        a.prl("hi");
+        BoardManager.setUp(2);
 
         for (Territory territory : BoardManager.getTerritories()) {
             GamePiece gamePiece = new GamePiece(0);

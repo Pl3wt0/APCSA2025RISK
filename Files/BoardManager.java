@@ -29,7 +29,7 @@ public class BoardManager {
      * 
      * @param numOfPlayers number of players in the game
      */
-    public BoardManager(Integer numOfPlayers) {
+    public static void setUp(Integer numOfPlayers) {
         for (int i = 0; i < numOfPlayers; i++) {
             players.add(new Player(i));
         }
