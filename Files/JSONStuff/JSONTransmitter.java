@@ -140,6 +140,7 @@ public class JSONTransmitter {
     }
 
     private static void writeIPJSON(){
+        reInitializeIPs();
         String fileName = "Files\\JSONStuff\\JSONGameStates\\IPAddresses.json";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             writer.write(gson.toJson(ipAddresses));
@@ -156,19 +157,22 @@ public class JSONTransmitter {
         }
     }
 
-    private static void reInitializeIPs(){
-         Type mapType = new TypeToken<LinkedHashMap<Integer, InetAddress>>() {}.getType();
+    private static void reInitializeIPs() {
+    Gson gson = new GsonBuilder()
+        .registerTypeAdapter(InetAddress.class, new InetAddressAdapter())
+        .create();
 
-         try (FileReader reader = new FileReader("Files\\JSONStuff\\JSONGameStates\\IPAddresses.json")) {
-            LinkedHashMap<Integer, InetAddress> ipMap = gson.fromJson(reader, mapType);
+    try (FileReader reader = new FileReader("Files/JSONStuff/JSONGameStates/IPAddresses.json")) {
+        Type listType = new TypeToken<ArrayList<InetAddress>>() {}.getType();
+        ArrayList<InetAddress> loadedIPs = gson.fromJson(reader, listType);
 
-            ipAddresses.putAll(ipMap);
-                        
+        ipAddresses.addAll(loadedIPs); // assuming ipAddresses is already initialized
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    } catch (IOException e) {
+        e.printStackTrace();
     }
+}
+
 }
 
    
