@@ -6,11 +6,11 @@ import Files.RenderingStuff.Point3D;
 
 public class Territory implements Point3D {
 
-    private ArrayList<GamePiece> pieces = new ArrayList<>();
-    private ArrayList<Territory> neighbors = new ArrayList<>();
-    private Integer playerOwner;
-    private String territoryName;
-    private double[] position;
+    public ArrayList<GamePiece> pieces = new ArrayList<>();
+    public ArrayList<Territory> neighbors = new ArrayList<>();
+    public Integer playerOwner;
+    public String territoryName;
+    public double[] position;
 
     /**
      * Constructs a Territory object with the continent

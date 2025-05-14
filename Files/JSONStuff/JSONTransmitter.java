@@ -13,11 +13,14 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.LinkedHashMap;
 
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.awt.*;
 
 import java.lang.reflect.Type;
 
@@ -28,6 +31,12 @@ public class JSONTransmitter {
     private static Gson gson = new GsonBuilder()
     .registerTypeAdapter(Color.class, new ColorAdapter()) // Register custom adapter
     .registerTypeAdapter(InetAddress.class, new InetAddressAdapter())
+    .registerTypeAdapter(BufferedImage.class, new tools.BufferedImageAdapter())
+    .registerTypeAdapter(Cursor.class, new tools.CursorAdapter())
+    .registerTypeAdapter(Robot.class, new tools.RobotTypeAdapter())
+    .registerTypeAdapterFactory(new tools.JComponentTypeAdapterFactory())
+    .registerTypeAdapterFactory(new tools.AWTTypeAdapterFactory())
+    .excludeFieldsWithModifiers(java.lang.reflect.Modifier.PRIVATE)
     .setPrettyPrinting()
     .create();
 

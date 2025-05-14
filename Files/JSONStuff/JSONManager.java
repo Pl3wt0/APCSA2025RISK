@@ -5,26 +5,42 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.File;
+
+import java.net.InetAddress;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.awt.*;
 
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import Files.BoardManager;
 import Files.Player;
+
 import tools.ColorAdapter;
+import tools.InetAddressAdapter;
 
 public class JSONManager {
     private static Gson gson = new GsonBuilder()
     .registerTypeAdapter(Color.class, new ColorAdapter()) // Register custom adapter
+    .registerTypeAdapter(InetAddress.class, new InetAddressAdapter())
+    .registerTypeAdapter(BufferedImage.class, new tools.BufferedImageAdapter())
+    .registerTypeAdapter(Cursor.class, new tools.CursorAdapter())
+    .registerTypeAdapter(Robot.class, new tools.RobotTypeAdapter())
+    .registerTypeAdapterFactory(new tools.JComponentTypeAdapterFactory())
+    .registerTypeAdapterFactory(new tools.AWTTypeAdapterFactory())
+    .excludeFieldsWithModifiers(java.lang.reflect.Modifier.PRIVATE)
     .setPrettyPrinting()
-    .create(); 
+    .create();
 
      public static String writeJSONGameState(){
-        String fileName = "Files/JSONStuff/JSONGameStates/GameState.json";
+        String fileName = "C:\\Users\\lucas\\OneDrive\\Documents\\APCSARisk\\APCSA2025RISK\\Files\\JSONStuff\\JSONGameStates\\GameState.json";
 
         Map<String, Object> gameState = new LinkedHashMap<>();
         gameState.put("Asia", BoardManager.getAsia().getTerritories());
@@ -33,18 +49,28 @@ public class JSONManager {
         gameState.put("Europe", BoardManager.getEurope().getTerritories());
         gameState.put("NorthAmerica", BoardManager.getNorthAmerica().getTerritories());
         gameState.put("SouthAmerica", BoardManager.getSouthAmerica().getTerritories());
-        gameState.put("Player", BoardManager.getPlayers());
+        gameState.put("Players", BoardManager.getPlayers());
 
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+        try{
+            File file = new File(fileName);
+            
+            if (file.createNewFile()) {
+                System.out.println("File created at: " + file.getAbsolutePath());
+            } else {
+                System.out.println("File already exists at: " + file.getAbsolutePath());
+            }
+            BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
             writer.write(gson.toJson(gameState));
-        System.out.println("JSON file created successfully!");
-        
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-    return fileName;
-    }
+            System.out.println("JSON file created successfully!");
+
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("IAn is dumb");
+            e.printStackTrace();
+        }
+            return fileName;
+        }
     
 
     public static boolean validateGameStates(){
