@@ -37,7 +37,7 @@ public class Scene {
         double[] point = {0,0,0};
 
 
-        sceneObjects.add(new Image3D(sceneInfo, point, 800, 497, "Risk.PNG"));
+        sceneObjects.add(new Image3D(sceneInfo, point, 800, 497, "APCSA2025RISK\\Risk.PNG"));
                 
 /*      for (int i = 0; i < 10; i += 1) {
             for (int j = 0; j < 10; j += 1) {

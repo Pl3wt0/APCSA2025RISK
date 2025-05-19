@@ -48,7 +48,7 @@ public class Runner3D {
                 frame.setLocationRelativeTo(null);
                 panel.setUp();
                 frame.setVisible(true);
-                frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                //frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
             }
         });
     }
