@@ -40,7 +40,7 @@ public class JSONManager {
     .create();
 
      public static String writeJSONGameState(){
-        String fileName = "C:\\Users\\lucas\\OneDrive\\Documents\\APCSARisk\\APCSA2025RISK\\Files\\JSONStuff\\JSONGameStates\\GameState.json";
+        String fileName = "APCSA2025RISK\\Files\\JSONStuff\\JSONGameStates\\GameState.json";
 
         Map<String, Object> gameState = new LinkedHashMap<>();
         gameState.put("Asia", BoardManager.getAsia().getTerritories());
