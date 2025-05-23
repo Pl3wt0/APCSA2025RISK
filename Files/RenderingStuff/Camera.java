@@ -64,7 +64,7 @@ public class Camera extends Robot {
         });
         Camera camera = this;
         double[] location = {0.5, 0.5};
-        sceneInfo.getGuiElements().add(new FileButton(sceneInfo, location, 0.1, 0.1, null, "APCSA2025RISK\\CrossHair.png") {
+        sceneInfo.getGuiElements().add(new FileButton(sceneInfo, location, 0.1, 0.1, null, "CrossHair.png") {
             Camera buttonCamera = camera;
             @Override
             public void render(Graphics2D g2d) {
