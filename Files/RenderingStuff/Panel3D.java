@@ -26,7 +26,6 @@ public class Panel3D extends JPanel {
     private BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
     private Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(cursorImg, new Point(0, 0), "blank cursor");
 
-    private ArrayList<MouseListener> mouseListeners = new ArrayList<MouseListener>();
     private boolean mouseControlled = false;
 
     private Dimension lastDimension;
@@ -37,6 +36,7 @@ public class Panel3D extends JPanel {
         super();
         this.fps = fps;
         lastDimension = getSize();
+        
 
         panelInfo = new PanelInfo(this);
 
@@ -88,15 +88,6 @@ public class Panel3D extends JPanel {
 
         tick++;
 
-        MouseListener[] oldMouseListeners = getMouseListeners().clone();
-        for (MouseListener mouseListener : oldMouseListeners) {
-            removeMouseListener(mouseListener);
-        }
-
-        for (MouseListener mouseListener : mouseListeners) {
-            addMouseListener(mouseListener);
-        }
-
         g2d.dispose();
     }
 
@@ -110,14 +101,6 @@ public class Panel3D extends JPanel {
 
     public boolean dimensionChanged() {
         return dimensionChanged;
-    }
-
-    public void addOwnMouseListener(MouseListener mouseListener) {
-        mouseListeners.add(mouseListener);
-    }
-    
-    public void removeOwnMouseListener(MouseListener mouseListener) {
-        mouseListeners.remove(mouseListener);
     }
 
     public void setMouseControlled(boolean value) {

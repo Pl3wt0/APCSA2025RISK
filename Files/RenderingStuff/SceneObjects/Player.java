@@ -1,10 +1,13 @@
 package Files.RenderingStuff.SceneObjects;
 
 import java.util.ArrayList;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import Files.RenderingStuff.*;
+import tools.a;
 
-public class Player extends SceneElement implements SceneObject {
+public class Player extends SceneElement implements SceneObject, KeyListener {
     private double x;
     private double y;
     private double z;
@@ -15,7 +18,7 @@ public class Player extends SceneElement implements SceneObject {
     private double theta;
     private double phi;
 
-    private double speed = 100;
+    private double speed = 200;
 
     private Camera camera;
 
@@ -27,7 +30,17 @@ public class Player extends SceneElement implements SceneObject {
         xVelocity = 0;
         yVelocity = 0;
         zVelocity = 0;
+        panelInfo.addKeyListener(this);
     }
+
+    public void setValues(double x, double y, double z, double theta, double phi) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.theta = theta;
+        this.phi = phi;
+    }
+
 
     public void setCamera(Camera camera) {
         this.camera = camera;
@@ -46,25 +59,19 @@ public class Player extends SceneElement implements SceneObject {
         int fps = panelInfo.getFps();
 
         if (IsKeyPressed.isWPressed()) {
-            accelerateRelative2(speed / fps,0,0);
+            accelerateRelative1(speed / fps,0,0);
         }
         if (IsKeyPressed.isAPressed()) {
-            accelerateRelative2(0,speed / fps,0);
+            accelerateRelative1(0,speed / fps,0);
         }
         if (IsKeyPressed.isSPressed()) {
-            accelerateRelative2(-speed / fps,0,0);
+            accelerateRelative1(-speed / fps,0,0);
         }
         if (IsKeyPressed.isDPressed()) {
-            accelerateRelative2(0,-speed / fps,0);
-        }
-        if (IsKeyPressed.isSpacePressed()) {
-            accelerateRelative2(0,0,speed / fps);
-        }
-        if (IsKeyPressed.isShiftPressed()) {
-            accelerateRelative2(0,0,-speed / fps);
+            accelerateRelative1(0,-speed / fps,0);
         }
 
-        //zVelocity -= 10.0 / fps;
+        zVelocity -= 100.0 / fps;
 
         double[] rotation = camera.getRotation();
         setRotation(rotation[0], rotation[1]);
@@ -121,5 +128,19 @@ public class Player extends SceneElement implements SceneObject {
         this.theta = theta;
         this.phi = phi;
     }
+
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyChar() == ' ') {
+            zVelocity = 100;
+        }
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {}
+
+    @Override
+    public void keyReleased(KeyEvent e) {}
 
 }

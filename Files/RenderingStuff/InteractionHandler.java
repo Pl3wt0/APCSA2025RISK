@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import Files.BoardManager;
 import Files.Territory;
 import Files.RenderingStuff.GUIElements.CustomButton;
+import Files.RenderingStuff.GUIElements.InputButton;
 import Files.RenderingStuff.GUIElements.TextButton;
 import Files.RenderingStuff.SceneObjects.*;
 import java.util.*;
@@ -73,7 +74,25 @@ public class InteractionHandler {
      * @return null if player is hosting returns ip if player is a peer
      */
     public static String getPlayerConnection(){
-        return "";
+        ArrayList<String> answers = new ArrayList<String>();
+        answers.add("host");
+        answers.add("peer");
+        if (askPlayer("host or peer???", answers) == 0) {
+            return null;
+        } else {
+            double[] location = {0.3, 0.3};
+            InputButton inputButton = new InputButton(sceneInfo, location, 0.4, 0.2, null, 18);
+
+            sceneInfo.getGuiElements().add(inputButton);
+
+            while(!inputButton.isDone()) {
+                sleep(100);
+            }
+
+            sceneInfo.getGuiElements().remove(inputButton);
+
+            return inputButton.getText();
+        }
     }
 
     /** 
@@ -228,5 +247,32 @@ public class InteractionHandler {
     public static int getPlayerNum() {
         return playerNum;
     }
+
+
+    public static void animateGameSetUp() {
+
+    }
+
+    public static void announceMessage() {
+
+    }
+
+    public static void startWaiting(String message) {
+
+    }
+
+    public static void stopWaiting() {
+        
+    }
+
+    public static void askTroopAssignment() {
+
+    }
+
+    public static void animateTroopGain() {
+
+    }
+
+    
 }
 

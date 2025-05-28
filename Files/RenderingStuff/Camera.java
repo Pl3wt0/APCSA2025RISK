@@ -104,7 +104,6 @@ public class Camera extends Robot {
     public void setPlayer(Player player) {
         this.player = player;
         player.setCamera(this);
-        sceneInfo.getSceneObjects().add(player);
     }
 
     public void setValues(double x, double y, double z, double theta, double phi, double scale) {
