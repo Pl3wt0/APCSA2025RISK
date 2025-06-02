@@ -11,7 +11,7 @@ import java.awt.event.*;
 
 import Files.RenderingStuff.SceneObjects.*;
 import Files.RenderingStuff.*;
-
+import Files.RenderingStuff.GUIElements.InputButton;
 import Files.JSONStuff.*;
 
 public class GameRunner extends Thread {
@@ -24,16 +24,18 @@ public class GameRunner extends Thread {
 
     public void run() {
         BoardManager.setUp(5);
-        JSONManager.writeJSONGameState();
-        JSONTransmitter.startConnection(null);
+        //JSONManager.writeJSONGameState();
+        //JSONTransmitter.startConnection("10.1.41.175");
 
          for (Territory territory : BoardManager.getTerritories()) {
             GamePiece gamePiece = new GamePiece(0);
             InteractionHandler.addSceneObject(gamePiece);
-            InteractionHandler.moveObject(gamePiece, territory.getPosition(), 0.1);
+            InteractionHandler.moveObject(gamePiece, territory.getPosition(), 0.01);
         }
+
+        //a.prl(InteractionHandler.getPlayerConnection());
  
-        a.prl(InteractionHandler.askForTerritory("hi").getTerritoryName());
+        //a.prl(InteractionHandler.askForTerritory("hi").getTerritoryName());
          
     }
 }

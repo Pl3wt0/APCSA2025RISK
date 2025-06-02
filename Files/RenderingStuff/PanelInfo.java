@@ -11,6 +11,8 @@ import javax.swing.Timer;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class PanelInfo {
     private Panel3D panel;
@@ -31,12 +33,28 @@ public class PanelInfo {
         return panel.tick;
     }
 
+    public ArrayList<MouseListener> getMouseListeners() {
+        return new ArrayList<>(Arrays.asList(panel.getMouseListeners()));
+    }
+
     public void addMouseListener(MouseListener mouseListener) {
-        panel.addOwnMouseListener(mouseListener);
+        panel.addMouseListener(mouseListener);
     }
 
     public void removeMouseListener(MouseListener mouseListener) {
-        panel.removeOwnMouseListener(mouseListener);
+        panel.removeMouseListener(mouseListener);
+    }
+
+    public ArrayList<KeyListener> getKeyListeners() {
+        return new ArrayList<>(Arrays.asList(panel.getKeyListeners()));
+    }
+
+    public void addKeyListener(KeyListener keyListener) {
+        panel.addKeyListener(keyListener);
+    }
+
+    public void removeKeyListener(KeyListener keyListener) {
+        panel.removeKeyListener(keyListener);
     }
 
     public boolean dimensionChanged() {

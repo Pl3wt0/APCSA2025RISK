@@ -47,6 +47,7 @@ public class Runner3D {
                 frame.pack();
                 frame.setLocationRelativeTo(null);
                 panel.setUp();
+                panel.setFocusable(true);
                 frame.setVisible(true);
                 //frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
             }

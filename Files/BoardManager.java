@@ -36,58 +36,58 @@ public class BoardManager {
         
         continents = new ArrayList<Continent>();
         northAmerica = new Continent(new ArrayList<>(Arrays.asList(
-                new Territory("Alaska", -52, 98),
-                new Territory("Northwest Territory", -128, 100),
-                new Territory("Alberta", -130, 140),
-                new Territory("Western United States", -135, 186),
-                new Territory("Eastern United States", -199, 195),
-                new Territory("Central America", -148, 241),
-                new Territory("Ontario", -189, 143),
-                new Territory("Quebec", -245, 145),
-                new Territory("Greenland", -313, 67))), 5);
+                new Territory("Alaska", -47.16954494708539, 79.1495208478801),
+                new Territory("Northwest Territory", -125.1701244053132, 83.36468447164326),
+                new Territory("Alberta", -117.26808409831632, 124.57959524550874),
+                new Territory("Western United States", -166.91249128652166, 131.40190761322975),
+                new Territory("Eastern United States", -116.62982608336678, 181.34062808431923),
+                new Territory("Central America", -166.04109044711365, 191.48811045288477),
+                new Territory("Ontario", -122.52533665787648, 240.23053157246906),
+                new Territory("Quebec", -223.67352412533268, 132.04016562817947),
+                new Territory("Greenland", -276.0544747486142, 52.174915149491284))), 5);
         continents.add(northAmerica);
         asia = new Continent(new ArrayList<>(Arrays.asList(
-                new Territory("Afghanistan", -512, 196),
-                new Territory("Middle East", -468, 255),
-                new Territory("India", -551, 275),
-                new Territory("Siam", -616, 286),
-                new Territory("China", -604, 225),
-                new Territory("Japan", -708, 203),
-                new Territory("Mongolia", -651, 182),
-                new Territory("Irkutsk", -639, 144),
-                new Territory("Yakutsk", -662, 95),
-                new Territory("Siberia", -587, 125),
-                new Territory("Kamchatka", -735, 124),
-                new Territory("Ural", -544, 142))), 7);
+                new Territory("Afghanistan", -544.3032966580399, 182.3757126104266),
+                new Territory("Middle East", -497.7688595561624, 246.69774570476514),
+                new Territory("India", -589.8312043274859, 255.1128366198565),
+                new Territory("Siam", -648.6195069392144, 277.2749145516315),
+                new Territory("China", -642.5539113489031, 224.05224086288067),
+                new Territory("Japan", -738.4012986589385, 182.1270361491958),
+                new Territory("Mongolia", -653.2516425365014, 175.49525609590722),
+                new Territory("Irkutsk", -634.0886979687248, 134.20356470751082),
+                new Territory("Yakutsk", -657.7171225780106, 65.38393091796144),
+                new Territory("Siberia", -601.4617622007714, 86.51318883058161),
+                new Territory("Kamchatka", -728.0031030450713, 78.98102434942712),
+                new Territory("Ural", -550.3053951903319, 112.54145344306804))), 7);
         continents.add(asia);
         europe = new Continent(new ArrayList<>(Arrays.asList(
-                new Territory("Iceland", -338, 114),
+                new Territory("Iceland", -338, 100),
                 new Territory("Great Britain", -339, 159),
-                new Territory("Northern Europe", -384, 167),
-                new Territory("Western Europe", -341, 211),
-                new Territory("Southern Europe", -393, 206),
+                new Territory("Northern Europe", -404, 167),
+                new Territory("Western Europe", -346, 211),
+                new Territory("Southern Europe", -413, 206),
                 new Territory("Scandinavia", -392, 108),
                 new Territory("Ukraine", -458, 149))), 5);
         continents.add(europe);
         africa = new Continent(new ArrayList<>(Arrays.asList(
-                new Territory("Egypt", -400, 271),
-                new Territory("North Africa", -348, 305),
-                new Territory("East Africa", -443, 335),
-                new Territory("Congo", -393, 374),
-                new Territory("South Africa", -395, 435),
-                new Territory("Madagascar", -460, 431))), 3);
+                new Territory("Egypt", -435, 285),
+                new Territory("North Africa", -368, 305),
+                new Territory("East Africa", -463, 335),
+                new Territory("Congo", -423, 374),
+                new Territory("South Africa", -430, 435),
+                new Territory("Madagascar", -510, 431))), 3);
         continents.add(africa);
         southAmerica = new Continent(new ArrayList<>(Arrays.asList(
-                new Territory("Brazil", -227, 348),
-                new Territory("Peru", -172, 352),
-                new Territory("Argentina", -199, 419),
-                new Territory("Venezuela", -182, 292))), 2);
+                new Territory("Brazil", -245, 325),
+                new Territory("Peru", -190, 345),
+                new Territory("Argentina", -199, 395),
+                new Territory("Venezuela", -182, 275))), 2);
         continents.add(southAmerica);
         australia = new Continent(new ArrayList<>(Arrays.asList(
-                new Territory("Indonesia", -629, 347),
-                new Territory("New Guinea", -721, 352),
-                new Territory("Western Australia", -698, 418),
-                new Territory("Eastern Australia", -628, 417))), 2);
+                new Territory("Indonesia", -660, 364),
+                new Territory("New Guinea", -730, 340),
+                new Territory("Western Australia", -695, 425),
+                new Territory("Eastern Australia", -750, 405))), 2);
         continents.add(australia);
 
         territories = new ArrayList<Territory>();

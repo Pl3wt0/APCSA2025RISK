@@ -10,6 +10,9 @@ import Files.RenderingStuff.Renderables.*;
 import java.util.*;
 import tools.a;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -32,12 +35,45 @@ public class Scene {
         camera.setValues(-386.4161352963328, 409.89117845434197, 351.6666666666672, -(Math.PI / 2), 2.85, 1);
         camera.setControllable(true);
         camera.setActive();
-        //camera.setPlayer(new Player());
-
+/*         Player player = new Player(sceneInfo);
+        player.setValues(-386.4161352963328, 409.89117845434197, 351.6666666666672, -(Math.PI / 2), 2.85);
+        camera.setPlayer(player);
+ */
         double[] point = {0,0,0};
 
+        panelInfo.addMouseListener(new MouseListener() {
 
-        sceneObjects.add(new Image3D(sceneInfo, point, 800, 497, "Risk.PNG"));
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                a.prl(camera.getPosition());
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+            
+        });
+        
+
+        sceneObjects.add(new Image3D(sceneInfo, point, 800, 497, "RiskBoard.PNG") {
+            @Override
+            public double[] getPosition() {
+                double[] location = {0, -10000000, 0};
+                return location;
+            }
+        });
                 
 /*      for (int i = 0; i < 10; i += 1) {
             for (int j = 0; j < 10; j += 1) {
