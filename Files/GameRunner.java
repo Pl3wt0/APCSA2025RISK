@@ -25,7 +25,7 @@ public class GameRunner extends Thread {
     public void run() {
         BoardManager.setUp(5);
         //JSONManager.writeJSONGameState();
-        //JSONTransmitter.startConnection("10.1.41.175");
+        
 
          for (Territory territory : BoardManager.getTerritories()) {
             GamePiece gamePiece = new GamePiece(0);
@@ -33,7 +33,7 @@ public class GameRunner extends Thread {
             InteractionHandler.moveObject(gamePiece, territory.getPosition(), 0.01);
         }
 
-        //a.prl(InteractionHandler.getPlayerConnection());
+        JSONTransmitter.startConnection(InteractionHandler.getPlayerConnection());
  
         //a.prl(InteractionHandler.askForTerritory("hi").getTerritoryName());
          
