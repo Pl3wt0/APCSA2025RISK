@@ -33,7 +33,7 @@ public class Scene {
 
     public void setScene() {
         camera.setValues(-386.4161352963328, 409.89117845434197, 351.6666666666672, -(Math.PI / 2), 2.85, 1);
-        camera.setControllable(true);
+        camera.setControllable(false);
         camera.setActive();
 /*         Player player = new Player(sceneInfo);
         player.setValues(-386.4161352963328, 409.89117845434197, 351.6666666666672, -(Math.PI / 2), 2.85);
