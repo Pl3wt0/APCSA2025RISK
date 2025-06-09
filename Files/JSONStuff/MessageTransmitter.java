@@ -33,7 +33,7 @@ public class MessageTransmitter {
             
             while (true) {
                 Socket clientSocket = serverSocket.accept();
-                System.out.println("Client connected: " + clientSocket.getInetAddress());
+                
                 
                 // Submit client handling task to thread pool
                 executor.submit(new ClientHandler(clientSocket));

@@ -19,12 +19,16 @@ import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import Files.BoardManager;
+import Files.Continent;
 import Files.Player;
 
 import tools.ColorAdapter;
 import tools.InetAddressAdapter;
+
+import java.lang.reflect.Type;
 
 public class JSONManager {
     private static Gson gson = new GsonBuilder()
@@ -73,7 +77,7 @@ public class JSONManager {
         }
     
 
-    public static boolean validateGameStates(){
+    private static boolean validateGameStates(){
         String recivedFileExt = "JSONGameStates/recieved_GameState.json";
         String nativeFileExt = "JSONGameStates/GameState.json";
         boolean isValid = true;
@@ -93,6 +97,28 @@ public class JSONManager {
         return isValid;
     }
 
+    public static void syncGameStates(){
+        if(validateGameStates()){
+            return;
+        }
+
+        try(FileReader reader = new FileReader("JSONGameStates/recieved_GameState.json")){
+            Type listType = new TypeToken<Map<String,Object>>() {}.getType();
+            Map<String,Object> recievedState = gson.fromJson(reader, listType);
+
+            BoardManager.setAsia((Continent)recievedState.get("Asia"));
+            BoardManager.setAfrica((Continent)recievedState.get("Africa"));
+            BoardManager.setAustralia((Continent)recievedState.get("Australia"));
+            BoardManager.setEurope((Continent)recievedState.get("Europe"));
+            BoardManager.setNorthAmerica((Continent)recievedState.get("NorthAmerica"));
+            BoardManager.setSouthAmerica((Continent)recievedState.get("SouthAmerica"));
+            BoardManager.setPlayers((ArrayList<Player>)recievedState.get("Players"));
+
+        }catch(IOException e){
+
+        }
+
+    }
     
 }
 

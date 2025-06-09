@@ -169,21 +169,22 @@ public class JSONTransmitter {
     }
 
     private static void reInitializeIPs() {
-    Gson gson = new GsonBuilder()
+        Gson gson = new GsonBuilder()
         .registerTypeAdapter(InetAddress.class, new InetAddressAdapter())
         .create();
 
-    try (FileReader reader = new FileReader("Files/JSONStuff/JSONGameStates/IPAddresses.json")) {
-        Type listType = new TypeToken<ArrayList<InetAddress>>() {}.getType();
-        ArrayList<InetAddress> loadedIPs = gson.fromJson(reader, listType);
+        try (FileReader reader = new FileReader("Files/JSONStuff/JSONGameStates/IPAddresses.json")) {
+            Type listType = new TypeToken<ArrayList<InetAddress>>() {}.getType();
+            ArrayList<InetAddress> loadedIPs = gson.fromJson(reader, listType);
 
-        ipAddresses.addAll(loadedIPs); // assuming ipAddresses is already initialized
+            ipAddresses.addAll(loadedIPs); // assuming ipAddresses is already initialized
 
-    } catch (IOException e) {
-        e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-}
 
+    
 }
 
    

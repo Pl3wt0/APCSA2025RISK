@@ -143,6 +143,34 @@ public class BoardManager {
         return players;
     }
 
+    public static void setAsia(Continent a){
+        asia = a;
+    }
+
+    public static void setAfrica(Continent a){
+        africa = a;
+    }
+
+    public static void setAustralia(Continent a){
+        australia = a;
+    }
+
+    public static void setEurope(Continent e){
+        europe = e;
+    }
+
+    public static void setNorthAmerica(Continent na){
+        northAmerica = na;
+    }
+
+    public static void setSouthAmerica(Continent sa){
+        southAmerica = sa;
+    }
+
+    public static void setPlayers(ArrayList<Player> p){
+        players = p;
+    }
+
     /**
      * Evenly divides all the territories between the players.
      * If the amount of territories does not evenly divide by the amount of players
