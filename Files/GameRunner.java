@@ -16,26 +16,36 @@ import Files.JSONStuff.*;
 
 public class GameRunner extends Thread {
     private SceneInfo sceneInfo;
-    private BoardManager boardManager;
 
     public GameRunner(SceneInfo sceneInfo) {
         this.sceneInfo = sceneInfo;
     }
 
     public void run() {
+        InteractionHandler.setSceneInfo(sceneInfo, sceneInfo.getPanelInfo());
         BoardManager.setUp(5);
+        InteractionHandler.setPlayer(BoardManager.getPlayers().get(0));
         //JSONManager.writeJSONGameState();
         
 
-         for (Territory territory : BoardManager.getTerritories()) {
-            GamePiece gamePiece = new GamePiece(0);
-            InteractionHandler.addSceneObject(gamePiece);
-            InteractionHandler.moveObject(gamePiece, territory.getPosition(), 0.01);
+        for (Territory territory : BoardManager.getTerritories()) {
+            InteractionHandler.placeGamePiece(territory, BoardManager.getPlayers().get(0));
+        }
+                for (Territory territory : BoardManager.getTerritories()) {
+            InteractionHandler.placeGamePiece(territory, BoardManager.getPlayers().get(0));
+        }
+        for (Territory territory : BoardManager.getTerritories()) {
+            InteractionHandler.placeGamePiece(territory, BoardManager.getPlayers().get(0));
         }
 
-        JSONTransmitter.startConnection(InteractionHandler.getPlayerConnection());
+        
+        InteractionHandler.askTroopAssignment(10);
+        InteractionHandler.startWaiting("waiting");
+        InteractionHandler.sleep(3000);
+        InteractionHandler.stopWaiting();
+        //a.prl(InteractionHandler.getPlayerConnection());
  
         //a.prl(InteractionHandler.askForTerritory("hi").getTerritoryName());
-         
     }
+
 }
