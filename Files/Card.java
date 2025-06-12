@@ -22,7 +22,7 @@ public class Card extends TextButton {
      * @param troop determines whether or not the card has a troop on it
      * @param player Owning player. If not owned by player, it is null
      */
-    public Card(boolean horse, boolean cannon, boolean troop, Player player){
+    public Card(boolean horse, boolean cannon, boolean troop, Player player) {
         super(InteractionHandler.getSceneInfo(), null, 0.1, 0.1, null, "", 10);
         double[] location = {0, 0};
         setLocation(location);
@@ -109,7 +109,7 @@ public class Card extends TextButton {
     @Override
     public void render(Graphics2D g2d) {
         updateLocation();
-        if (owner == BoardManager.getPlayers().get(InteractionHandler.getPlayerNum())) {
+        if (owner == InteractionHandler.getPlayer()) {
             super.render(g2d);
         }
     }

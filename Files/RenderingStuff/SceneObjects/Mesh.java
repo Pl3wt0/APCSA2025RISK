@@ -72,7 +72,7 @@ public abstract class Mesh extends SceneElement implements SceneObject {
                     for (int i : faceNumber) {
                         facePoints.add(newPoints[i]);
                     }
-                    renderables.add(new Face(sceneInfo, facePoints, new Color(100, 100, 100)));    
+                    renderables.add(new Face(sceneInfo, facePoints, faceColor));    
                 } catch (IndexOutOfBoundsException e) {
                     //a.prl("Mesh face IndexOutOfBoundsException");
                 }
@@ -83,7 +83,7 @@ public abstract class Mesh extends SceneElement implements SceneObject {
 /*                     a.prl(lineNumber[0]);
                     a.prl(newPoints[lineNumber[0]]);
                     a.prl(newPoints[lineNumber[1]]);
- */                    renderables.add(new Line(sceneInfo, newPoints[lineNumber[0]], newPoints[lineNumber[1]], new Color(0, 0, 0)));
+ */                    renderables.add(new Line(sceneInfo, newPoints[lineNumber[0]], newPoints[lineNumber[1]], lineColor));
                 } catch (IndexOutOfBoundsException e) {
                 }
             }

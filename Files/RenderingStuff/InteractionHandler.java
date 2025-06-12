@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import Files.BoardManager;
+import Files.GamePiece;
 import Files.Territory;
 import Files.RenderingStuff.GUIElements.CustomButton;
 import Files.RenderingStuff.GUIElements.InputButton;
@@ -22,17 +23,26 @@ import java.util.*;
 import tools.a;
 import javax.swing.*;
 
-
 import tools.*;
 
 public class InteractionHandler {
     private static SceneInfo sceneInfo;
     private static PanelInfo panelInfo;
-    private static int playerNum = 0;
+    private static Files.Player player;
+
+    private static TextButton waitingButton = null;
 
     public static void setSceneInfo(SceneInfo sceneInfo, PanelInfo panelInfo) {
         InteractionHandler.sceneInfo = sceneInfo;
         InteractionHandler.panelInfo = panelInfo;
+    }
+
+    public static void setPlayer(Files.Player player) {
+        InteractionHandler.player = player;
+    }
+
+    public static Files.Player getPlayer() {
+        return player;
     }
 
     /**
@@ -42,50 +52,64 @@ public class InteractionHandler {
     public static void sleep(int time) {
         try {
             Thread.sleep(time);
-        } catch (InterruptedException e) {}
+        } catch (InterruptedException e) {
+        }
     }
 
     /**
      * 
-     * @param mesh Mesh to move
+     * @param mesh     Mesh to move
      * @param location Location to move to
-     * @param time Time to take moving in seconds
+     * @param time     Time to take moving in seconds
      */
     public static void moveObject(Mesh mesh, double[] location, double time) {
         double[] meshLocation = mesh.getPosition();
-        mesh.setVelocities((location[0] - meshLocation[0]) / time, (location[1] - meshLocation[1]) / time, (location[2] - meshLocation[2]) / time);
-        sleep((int)(time * 1000));
+        mesh.setVelocities((location[0] - meshLocation[0]) / time, (location[1] - meshLocation[1]) / time,
+                (location[2] - meshLocation[2]) / time);
+        sleep((int) (time * 1000));
         mesh.setPosition(location[0], location[1], location[2]);
         mesh.setVelocities(0, 0, 0);
     }
 
     public static void doSomething() {
-        sceneInfo.getCamera().rotate(1,0);
+        sceneInfo.getCamera().rotate(1, 0);
     }
 
     public static Color getColor(int playerNum) {
-        return new Color(0, 100, 200);
+        switch (playerNum) {
+            case 0:
+                return new Color(255, 17, 0);
+            case 1:
+                return new Color(0, 0, 255);
+            case 2:
+                return new Color(255, 238, 0);
+            case 3:
+                return new Color(26, 255, 0);
+            case 4:
+                return new Color(255, 0, 234);
+        }
+        return new Color(0, 0, 0);
+
     }
-    
 
     /**
      * Method to check if player wants to host or connect to another player
      * 
      * @return null if player is hosting returns ip if player is a peer
      */
-    public static String getPlayerConnection(){
+    public static String getPlayerConnection() {
         ArrayList<String> answers = new ArrayList<String>();
         answers.add("host");
         answers.add("peer");
         if (askPlayer("host or peer???", answers) == 0) {
             return null;
         } else {
-            double[] location = {0.3, 0.3};
+            double[] location = { 0.3, 0.3 };
             InputButton inputButton = new InputButton(sceneInfo, location, 0.4, 0.2, null, 18);
 
             sceneInfo.getGuiElements().add(inputButton);
 
-            while(!inputButton.isDone()) {
+            while (!inputButton.isDone()) {
                 sleep(100);
             }
 
@@ -95,23 +119,23 @@ public class InteractionHandler {
         }
     }
 
-    /** 
+    /**
      * Ask player to choose between set of options
      * 
      * @param question Question to be asked in top display
-     * @param answers ArrayList of answers to be selected from
+     * @param answers  ArrayList of answers to be selected from
      * 
      * @return Index of the option chosen
      */
     public static int askPlayer(String question, ArrayList<String> answers) {
-        
+
         ArrayList<GUIElement> guiElements = sceneInfo.getGuiElements();
         Dimension dimension = panelInfo.getDimension();
         double width = dimension.getWidth();
         double height = dimension.getHeight();
-        double[] point = {0.3, 0.1};
-        double[] hitBox1 = {0.4, 0.2};
-        CustomButton questionButton = new TextButton(sceneInfo, point, 0.4,  0.3, hitBox1, question, 30);
+        double[] point = { 0.3, 0.1 };
+        double[] hitBox1 = { 0.4, 0.2 };
+        CustomButton questionButton = new TextButton(sceneInfo, point, 0.4, 0.3, hitBox1, question, 30);
         guiElements.add(questionButton);
 
         Integer buttonClicked = -1;
@@ -119,19 +143,21 @@ public class InteractionHandler {
         ArrayList<CustomButton> answerButtons = new ArrayList<CustomButton>();
         for (int i = 0; i < answers.size(); i++) {
             String answer = answers.get(i);
-            double[] location = {0.025 + 1.0 / answers.size() * i, 0.6};
-            double[] hitBox2 = {1.0 / answers.size() - 0.1, 0.1};
-            
+            double[] location = { 0.025 + 1.0 / answers.size() * i, 0.6 };
+            double[] hitBox2 = { 1.0 / answers.size() - 0.1, 0.1 };
+
             final int j = i;
-            answerButtons.add(new TextButton(sceneInfo, location, 1.0 / answers.size() - 0.05, 0.25, hitBox2, answer, 20) {
-                private int i = j;
-                @Override
-                public void whenClicked(MouseEvent e) {
-                    // TODO Auto-generated method stub
-                    super.whenClicked(e);
-                    returnValue = Integer.valueOf(i);
-                }
-            });
+            answerButtons
+                    .add(new TextButton(sceneInfo, location, 1.0 / answers.size() - 0.05, 0.25, hitBox2, answer, 20) {
+                        private int i = j;
+
+                        @Override
+                        public void whenClicked(MouseEvent e) {
+                            // TODO Auto-generated method stub
+                            super.whenClicked(e);
+                            returnValue = Integer.valueOf(i);
+                        }
+                    });
         }
 
         for (CustomButton answerButton : answerButtons) {
@@ -143,7 +169,7 @@ public class InteractionHandler {
             sleep(100);
             for (CustomButton answerButton : answerButtons) {
                 if (answerButton.getReturnValue() != null) {
-                    returnValue = (Integer)answerButton.getReturnValue();
+                    returnValue = (Integer) answerButton.getReturnValue();
                 }
             }
         }
@@ -151,22 +177,23 @@ public class InteractionHandler {
         questionButton.remove();
         for (CustomButton answerButton : answerButtons) {
             answerButton.remove();
-        }        
+        }
 
         return returnValue;
     }
 
-    /** 
+    /**
      * Displays message to user
      * 
      * @param message Message to be displayed
-     * @param length Length of time in seconds before display disappears
+     * @param length  Length of time in seconds before display disappears
      */
     public static void displayMessage(String message, double length) {
-        double[] location = {0.05, 0.05};
+        double[] location = { 0.05, 0.05 };
         TextButton button = new TextButton(sceneInfo, location, 0.3, 0.1, null, message, 20);
         javax.swing.Timer timer = new javax.swing.Timer((int) (length * 1000), (new ActionListener() {
             TextButton originButton = button;
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 originButton.remove();
@@ -180,30 +207,43 @@ public class InteractionHandler {
     private static Territory askForTerritoryReturnTerritory;
 
     public static Territory askForTerritory(String displayMessage) {
-        double[] location = {0.5, 0.05};
+        double[] location = { 0.05, 0.05 };
+        TextButton button = new TextButton(sceneInfo, location, 0.3, 0.1, null, displayMessage, 20);
+        sceneInfo.getGuiElements().add(button);
+
         MouseListener mouseListener = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                double[] pointOnMap = Tools3D.getFloorPoint(sceneInfo.getCamera(), e.getX(), e.getY(), panelInfo.getDimension(), 0);
+                double[] pointOnMap = Tools3D.getFloorPoint(sceneInfo.getCamera(), e.getX(), e.getY(),
+                        panelInfo.getDimension(), 0);
                 a.prl(pointOnMap[0] + ", " + pointOnMap[1]);
                 ArrayList<Territory> territories = BoardManager.getTerritories();
-                territories.sort(Comparator.comparing((territory) -> Tools3D.getDistance((Point3D)territory, new Point3D() {
-                    public double[] getPosition() {
-                        double[] returnPoint = {pointOnMap[0], pointOnMap[1], 0};
-                        return returnPoint;
-                    };
-                })));
+                territories.sort(
+                        Comparator.comparing((territory) -> Tools3D.getDistance((Point3D) territory, new Point3D() {
+                            public double[] getPosition() {
+                                double[] returnPoint = { pointOnMap[0], pointOnMap[1], 0 };
+                                return returnPoint;
+                            };
+                        })));
                 setAskForTerritoryReturnValue(territories.get(0));
-                
+
             }
+
             @Override
-            public void mouseEntered(MouseEvent e) {}
+            public void mouseEntered(MouseEvent e) {
+            }
+
             @Override
-            public void mouseExited(MouseEvent e) {}
+            public void mouseExited(MouseEvent e) {
+            }
+
             @Override
-            public void mousePressed(MouseEvent e) {}
+            public void mousePressed(MouseEvent e) {
+            }
+
             @Override
-            public void mouseReleased(MouseEvent e) {}
+            public void mouseReleased(MouseEvent e) {
+            }
         };
         panelInfo.addMouseListener(mouseListener);
 
@@ -214,8 +254,9 @@ public class InteractionHandler {
                 break;
             }
         }
-        
+
         panelInfo.removeMouseListener(mouseListener);
+        sceneInfo.getGuiElements().remove(button);
 
         Territory returnTerritory = askForTerritoryReturnTerritory;
 
@@ -245,34 +286,45 @@ public class InteractionHandler {
     }
 
     public static int getPlayerNum() {
-        return playerNum;
+        return player.getNum();
     }
-
 
     public static void animateGameSetUp() {
 
     }
 
-    public static void announceMessage() {
-
-    }
-
     public static void startWaiting(String message) {
-
+        double[] location = { 0.05, 0.05 };
+        waitingButton = new TextButton(sceneInfo, location, 0.3, 0.1, null, message, 20);
+        sceneInfo.getGuiElements().add(waitingButton);
     }
 
     public static void stopWaiting() {
-        
+        sceneInfo.getGuiElements().remove(waitingButton);
+        waitingButton = null;
     }
 
-    public static void askTroopAssignment() {
-
+    public static void askTroopAssignment(int numTroops) {
+        while (true) {
+            Territory pickedTerritory = askForTerritory("Pick troop assignment");
+            placeGamePiece(pickedTerritory, player);
+            //send message to host
+            numTroops--;
+            if (numTroops == 0) {
+                break;
+            }
+        }
     }
 
     public static void animateTroopGain() {
 
     }
 
-    
-}
+    public static void placeGamePiece(Territory t, Files.Player p) {
+        GamePiece gamePiece = new GamePiece(0);
+        t.pieces.add(gamePiece);
+        gamePiece.setPosition(t.getPosition()[0], t.getPosition()[1], t.getPosition()[2] + t.getPieces().size() * 10);
+        sceneInfo.getSceneObjects().add(gamePiece);
+    }
 
+}
