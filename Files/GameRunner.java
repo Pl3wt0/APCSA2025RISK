@@ -23,29 +23,19 @@ public class GameRunner extends Thread {
 
     public void run() {
         InteractionHandler.setSceneInfo(sceneInfo, sceneInfo.getPanelInfo());
+        String ip = InteractionHandler.getPlayerConnection();
+        if (ip == null) {
+            //host
+        } else {
+            //peer
+        }
+
         BoardManager.setUp(5);
-        InteractionHandler.setPlayer(BoardManager.getPlayers().get(0));
-        //JSONManager.writeJSONGameState();
-        
-
-        for (Territory territory : BoardManager.getTerritories()) {
-            InteractionHandler.placeGamePiece(territory, BoardManager.getPlayers().get(0));
-        }
-                for (Territory territory : BoardManager.getTerritories()) {
-            InteractionHandler.placeGamePiece(territory, BoardManager.getPlayers().get(0));
-        }
-        for (Territory territory : BoardManager.getTerritories()) {
-            InteractionHandler.placeGamePiece(territory, BoardManager.getPlayers().get(0));
-        }
 
         
-        InteractionHandler.askTroopAssignment(10);
-        InteractionHandler.startWaiting("waiting");
-        InteractionHandler.sleep(3000);
-        InteractionHandler.stopWaiting();
-        //a.prl(InteractionHandler.getPlayerConnection());
- 
-        //a.prl(InteractionHandler.askForTerritory("hi").getTerritoryName());
+
+
+        
     }
 
 }
