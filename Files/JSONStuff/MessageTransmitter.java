@@ -9,12 +9,12 @@ import java.util.concurrent.Executors;
 public class MessageTransmitter {
     static final int port = 5000;
 
-    public static void sendMessage(String hostIP){
+    public static void sendMessage(String hostIP,String message){
         try{
             Socket socket = new Socket(hostIP,port);
             PrintWriter out = new PrintWriter(socket.getOutputStream(),true);
             
-            out.println("Test");
+            out.println(message);
 
 
             socket.close();
@@ -78,11 +78,7 @@ public class MessageTransmitter {
                     // Send acknowledgment back to client
                     out.println("ACK: " + message);
                     
-                    // Exit condition
-                    if ("QUIT".equalsIgnoreCase(message.trim())) {
-                        System.out.println("Client " + clientSocket.getInetAddress() + " requested to quit");
-                        break;
-                    }
+                    
                 }
                 
             } catch (IOException e) {
