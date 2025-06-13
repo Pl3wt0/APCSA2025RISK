@@ -310,8 +310,6 @@ public class JSONTransmitter {
                         broadcastMessage("From " + clientSocket.getInetAddress() + ": " + message, this);
                     }
                     
-                    // Send acknowledgment back to sender
-                    sendMessage("ACK: Message processed and broadcasted");
                 }
                 
             } catch (IOException e) {
