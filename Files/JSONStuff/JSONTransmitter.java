@@ -77,7 +77,7 @@ public class JSONTransmitter {
                     writeIPJSON();
                 }
                 */
-                
+
                 // Create client handler and add to connected clients list
                 ClientHandler clientHandler = new ClientHandler(clientSocket, true);
                 connectedClients.add(clientHandler);
@@ -175,7 +175,7 @@ public class JSONTransmitter {
     private static void receiveJsonFile(Socket socket, String fileName) throws IOException {
         System.out.println("Receiving file: " + fileName);
 
-        File file = new File("Files\\JSONStuff\\JSONGameStates\\received_" + fileName);
+        File file = new File("Files/JSONStuff/JSONGameStates/received_" + fileName);
         FileOutputStream fos = new FileOutputStream(file);
         BufferedInputStream bis = new BufferedInputStream(socket.getInputStream());
 
@@ -278,7 +278,7 @@ public class JSONTransmitter {
                 
                 // Initial handshake - send initial game state if host
                 if (isHost) {
-                    String filePath = "Files\\JSONStuff\\JSONGameStates\\GameState.json";
+                    String filePath = "Files/JSONStuff/JSONGameStates/GameState.json";
                     sendJsonFile(clientSocket, filePath);
                 }
                 
