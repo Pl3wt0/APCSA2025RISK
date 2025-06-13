@@ -67,7 +67,16 @@ public class JSONTransmitter {
         try {
             while (true) {
                 Socket clientSocket = serverSocket.accept();
-                System.out.println("New client connected: " + clientSocket.getInetAddress());                
+                System.out.println("New client connected: " + clientSocket.getInetAddress());
+                
+                // Add client IP to list
+               /* 
+               InetAddress peerIp = clientSocket.getInetAddress();
+                if (!ipAddresses.contains(peerIp)) {
+                    ipAddresses.add(peerIp);
+                    writeIPJSON();
+                }
+                */
                 
                 // Create client handler and add to connected clients list
                 ClientHandler clientHandler = new ClientHandler(clientSocket, true);
@@ -116,17 +125,24 @@ public class JSONTransmitter {
      */
     public static void broadcastJSON(Object objectToSend) {
         String jsonMessage = gson.toJson(objectToSend);
-        broadcastMessage("JSON_MESSAGE:" + jsonMessage);
+        broadcastMessage("JSON_MESSAGE:" + jsonMessage, null);
+    }
+
+    /**
+     * Broadcast a regular text message to all connected peers
+     */
+    public static void broadcastTextMessage(String message) {
+        broadcastMessage(message, null);
     }
 
     /**
      * Broadcasts a message to all connected clients except the sender
      */
-    private static void broadcastMessage(String message) {
-        System.out.println("Broadcasting message");
+    private static void broadcastMessage(String message, ClientHandler sender) {
+        System.out.println("Broadcasting message to " + (connectedClients.size() - (sender != null ? 1 : 0)) + " clients");
         
         for (ClientHandler client : connectedClients) {
-            if (client.isConnected()) {
+            if (client != sender && client.isConnected()) {
                 client.sendMessage(message);
             }
         }
@@ -159,7 +175,7 @@ public class JSONTransmitter {
     private static void receiveJsonFile(Socket socket, String fileName) throws IOException {
         System.out.println("Receiving file: " + fileName);
 
-        File file = new File("Files/JSONStuff/JSONGameStates/received_" + fileName);
+        File file = new File("Files\\JSONStuff\\JSONGameStates\\received_" + fileName);
         FileOutputStream fos = new FileOutputStream(file);
         BufferedInputStream bis = new BufferedInputStream(socket.getInputStream());
 
@@ -173,7 +189,7 @@ public class JSONTransmitter {
         System.out.println("File received and saved as: " + file.getAbsolutePath());
     }
 
-    /*private static void writeIPJSON() {
+  /*  private static void writeIPJSON() {
         reInitializeIPs();
         String fileName = "Files\\JSONStuff\\JSONGameStates\\IPAddresses.json";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
@@ -205,6 +221,7 @@ public class JSONTransmitter {
         }
     }
     */
+
 
     /**
      * Client handler for processing individual connections
@@ -261,7 +278,7 @@ public class JSONTransmitter {
                 
                 // Initial handshake - send initial game state if host
                 if (isHost) {
-                    String filePath = "Files/JSONStuff/JSONGameStates/GameState.json";
+                    String filePath = "Files\\JSONStuff\\JSONGameStates\\GameState.json";
                     sendJsonFile(clientSocket, filePath);
                 }
                 
@@ -275,7 +292,7 @@ public class JSONTransmitter {
                         System.out.println("JSON Data: " + jsonData);
                         
                         // Broadcast JSON to all other clients
-                        broadcastMessage(message);
+                        broadcastMessage(message, this);
                         
                         // Process the JSON data here as needed
                         // Example: Object receivedObject = gson.fromJson(jsonData, YourClass.class);
@@ -286,11 +303,11 @@ public class JSONTransmitter {
                         receiveJsonFile(clientSocket, fileName);
                         
                         // Broadcast that a file was received
-                        broadcastMessage("FILE_RECEIVED:" + fileName + " from " + clientSocket.getInetAddress());
+                        broadcastMessage("FILE_RECEIVED:" + fileName + " from " + clientSocket.getInetAddress(), this);
                         
                     } else {
                         // Handle regular text messages
-                        broadcastMessage("From " + clientSocket.getInetAddress() + ": " + message);
+                        broadcastMessage("From " + clientSocket.getInetAddress() + ": " + message, this);
                     }
                     
                     // Send acknowledgment back to sender

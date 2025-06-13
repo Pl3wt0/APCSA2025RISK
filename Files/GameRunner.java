@@ -24,6 +24,7 @@ public class GameRunner extends Thread {
     public void run() {
         InteractionHandler.setSceneInfo(sceneInfo, sceneInfo.getPanelInfo());
         JSONTransmitter.startConnection(null);
+        JSONTransmitter.broadcastJSON("Ian is dumb");
         String ip = InteractionHandler.getPlayerConnection();
         if (ip == null) {
             //host
