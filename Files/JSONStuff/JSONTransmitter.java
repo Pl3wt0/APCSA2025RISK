@@ -68,15 +68,6 @@ public class JSONTransmitter {
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("New client connected: " + clientSocket.getInetAddress());
-                
-                // Add client IP to list
-               /* 
-               InetAddress peerIp = clientSocket.getInetAddress();
-                if (!ipAddresses.contains(peerIp)) {
-                    ipAddresses.add(peerIp);
-                    writeIPJSON();
-                }
-                */
 
                 // Create client handler and add to connected clients list
                 ClientHandler clientHandler = new ClientHandler(clientSocket, true);
@@ -129,18 +120,32 @@ public class JSONTransmitter {
     }
 
     /**
+     * Send raw value directly to all connected peers
+     */
+    public static void sendValueToAll(Object value) {
+        String valueString = value.toString();
+        broadcastMessage("VALUE:" + valueString, null);
+    }
+
+    /**
+     * Send JSON data directly to all connected peers
+     */
+    public static void sendJSONToAll(Object objectToSend) {
+        String jsonMessage = gson.toJson(objectToSend);
+        broadcastMessage("JSON_DATA:" + jsonMessage, null);
+    }
+
+    /**
      * Broadcast a regular text message to all connected peers
      */
     public static void broadcastTextMessage(String message) {
-        broadcastMessage(message, null);
+        broadcastMessage("TEXT:" + message, null);
     }
 
     /**
      * Broadcasts a message to all connected clients except the sender
      */
     private static void broadcastMessage(String message, ClientHandler sender) {
-        System.out.println("Broadcasting message to " + (connectedClients.size() - (sender != null ? 1 : 0)) + " clients");
-        
         for (ClientHandler client : connectedClients) {
             if (client != sender && client.isConnected()) {
                 client.sendMessage(message);
@@ -188,40 +193,6 @@ public class JSONTransmitter {
         fos.close();
         System.out.println("File received and saved as: " + file.getAbsolutePath());
     }
-
-  /*  private static void writeIPJSON() {
-        reInitializeIPs();
-        String fileName = "Files\\JSONStuff\\JSONGameStates\\IPAddresses.json";
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
-            writer.write(gson.toJson(ipAddresses));
-            System.out.println("IP addresses JSON file updated!");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static void reInitializeIPs() {
-        Gson gson = new GsonBuilder()
-            .registerTypeAdapter(InetAddress.class, new InetAddressAdapter())
-            .create();
-
-        try (FileReader reader = new FileReader("Files/JSONStuff/JSONGameStates/IPAddresses.json")) {
-            Type listType = new TypeToken<ArrayList<InetAddress>>() {}.getType();
-            ArrayList<InetAddress> loadedIPs = gson.fromJson(reader, listType);
-            
-            if (loadedIPs != null) {
-                for (InetAddress ip : loadedIPs) {
-                    if (!ipAddresses.contains(ip)) {
-                        ipAddresses.add(ip);
-                    }
-                }
-            }
-        } catch (IOException e) {
-            // File doesn't exist yet, that's okay
-        }
-    }
-    */
-
 
     /**
      * Client handler for processing individual connections
@@ -271,8 +242,6 @@ public class JSONTransmitter {
         @Override
         public void run() {
             try {
-                System.out.println("Handling client: " + clientSocket.getInetAddress());
-                
                 in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 out = new PrintWriter(clientSocket.getOutputStream(), true);
                 
@@ -284,40 +253,45 @@ public class JSONTransmitter {
                 
                 String message;
                 while ((message = in.readLine()) != null && connected) {
-                    System.out.println("Received from " + clientSocket.getInetAddress() + ": " + message);
                     
                     if (message.startsWith("JSON_MESSAGE:")) {
-                        // Handle JSON message
+                        // Extract and forward JSON message directly
                         String jsonData = message.substring("JSON_MESSAGE:".length());
-                        System.out.println("JSON Data: " + jsonData);
+                        broadcastMessage("JSON_MESSAGE:" + jsonData, this);
                         
-                        // Broadcast JSON to all other clients
-                        broadcastMessage(message, this);
+                    } else if (message.startsWith("JSON_DATA:")) {
+                        // Forward JSON data directly
+                        String jsonData = message.substring("JSON_DATA:".length());
+                        broadcastMessage("JSON_DATA:" + jsonData, this);
                         
-                        // Process the JSON data here as needed
-                        // Example: Object receivedObject = gson.fromJson(jsonData, YourClass.class);
+                    } else if (message.startsWith("VALUE:")) {
+                        // Forward value directly
+                        String value = message.substring("VALUE:".length());
+                        broadcastMessage("VALUE:" + value, this);
+                        
+                    } else if (message.startsWith("TEXT:")) {
+                        // Forward text message directly
+                        String text = message.substring("TEXT:".length());
+                        broadcastMessage("TEXT:" + text, this);
                         
                     } else if (message.startsWith("FILE_TRANSFER:")) {
                         // Handle file transfer
                         String fileName = message.substring("FILE_TRANSFER:".length());
                         receiveJsonFile(clientSocket, fileName);
                         
-                        // Broadcast that a file was received
-                        broadcastMessage("FILE_RECEIVED:" + fileName + " from " + clientSocket.getInetAddress(), this);
+                        // Notify other clients about file reception
+                        broadcastMessage("FILE_RECEIVED:" + fileName, this);
                         
                     } else {
-                        // Handle regular text messages
-                        broadcastMessage("From " + clientSocket.getInetAddress() + ": " + message, this);
+                        // Forward any other message directly
+                        broadcastMessage(message, this);
                     }
-                    
                 }
                 
             } catch (IOException e) {
                 System.err.println("Error handling client " + clientSocket.getInetAddress() + ": " + e.getMessage());
             } finally {
                 disconnect();
-                System.out.println("Client disconnected: " + clientSocket.getInetAddress());
-                System.out.println("Remaining connected clients: " + connectedClients.size());
             }
         }
     }
