@@ -1,18 +1,8 @@
 package Files;
 
-import java.util.*;
-import javax.swing.*;
-import javax.swing.Timer;
-
-import tools.a;
-import javax.swing.Timer;
-import java.awt.*;
-import java.awt.event.*;
-
-import Files.RenderingStuff.SceneObjects.*;
-import Files.RenderingStuff.*;
-import Files.RenderingStuff.GUIElements.InputButton;
 import Files.JSONStuff.*;
+import Files.RenderingStuff.*;
+import java.util.*;
 
 public class GameRunner extends Thread {
     private SceneInfo sceneInfo;
@@ -23,7 +13,14 @@ public class GameRunner extends Thread {
 
     public void run() {
         InteractionHandler.setSceneInfo(sceneInfo, sceneInfo.getPanelInfo());
-        JSONTransmitter.startConnection(null);
+        JSONTransmitter.startConnection("10.1.33.158");
+
+        try {
+            Thread.sleep(1000); // Wait 1 second
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         JSONTransmitter.broadcastJSON("Ian is dumb");
         String ip = InteractionHandler.getPlayerConnection();
         if (ip == null) {
@@ -46,16 +43,7 @@ public class GameRunner extends Thread {
             //ask if ready to start
         } else {
             //peer
-
-
         }
-
         BoardManager.setUp(5);
-
-        
-
-
-        
     }
-
 }
