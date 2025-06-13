@@ -67,14 +67,7 @@ public class JSONTransmitter {
         try {
             while (true) {
                 Socket clientSocket = serverSocket.accept();
-                System.out.println("New client connected: " + clientSocket.getInetAddress());
-                
-                // Add client IP to list
-                InetAddress peerIp = clientSocket.getInetAddress();
-                if (!ipAddresses.contains(peerIp)) {
-                    ipAddresses.add(peerIp);
-                    writeIPJSON();
-                }
+                System.out.println("New client connected: " + clientSocket.getInetAddress());                
                 
                 // Create client handler and add to connected clients list
                 ClientHandler clientHandler = new ClientHandler(clientSocket, true);
@@ -166,7 +159,7 @@ public class JSONTransmitter {
     private static void receiveJsonFile(Socket socket, String fileName) throws IOException {
         System.out.println("Receiving file: " + fileName);
 
-        File file = new File("Files\\JSONStuff\\JSONGameStates\\received_" + fileName);
+        File file = new File("Files/JSONStuff/JSONGameStates/received_" + fileName);
         FileOutputStream fos = new FileOutputStream(file);
         BufferedInputStream bis = new BufferedInputStream(socket.getInputStream());
 
@@ -180,7 +173,7 @@ public class JSONTransmitter {
         System.out.println("File received and saved as: " + file.getAbsolutePath());
     }
 
-    private static void writeIPJSON() {
+    /*private static void writeIPJSON() {
         reInitializeIPs();
         String fileName = "Files\\JSONStuff\\JSONGameStates\\IPAddresses.json";
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
@@ -211,6 +204,7 @@ public class JSONTransmitter {
             // File doesn't exist yet, that's okay
         }
     }
+    */
 
     /**
      * Client handler for processing individual connections
@@ -267,7 +261,7 @@ public class JSONTransmitter {
                 
                 // Initial handshake - send initial game state if host
                 if (isHost) {
-                    String filePath = "Files\\JSONStuff\\JSONGameStates\\GameState.json";
+                    String filePath = "Files/JSONStuff/JSONGameStates/GameState.json";
                     sendJsonFile(clientSocket, filePath);
                 }
                 

@@ -23,6 +23,7 @@ public class GameRunner extends Thread {
 
     public void run() {
         InteractionHandler.setSceneInfo(sceneInfo, sceneInfo.getPanelInfo());
+        JSONTransmitter.startConnection(null);
         String ip = InteractionHandler.getPlayerConnection();
         if (ip == null) {
             //host
