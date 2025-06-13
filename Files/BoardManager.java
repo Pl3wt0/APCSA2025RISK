@@ -104,6 +104,8 @@ public class BoardManager {
         players.get(0).addCard(card1);
         players.get(0).addCard(card2);
 
+        initalizeTerritoryOwners();
+
     }
 
     public static Continent getNorthAmerica() {
@@ -176,7 +178,7 @@ public class BoardManager {
      * If the amount of territories does not evenly divide by the amount of players
      * then the extra territories are added one by one in turn order
      */
-    public static void initalizeTerritoryOwners() {
+    private static void initalizeTerritoryOwners() {
         Integer territoriesPerPlayer = territories.size() / players.size();
         Integer excessTerritories = territories.size() % territoriesPerPlayer;
         Integer playerNum = -1;
