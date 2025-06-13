@@ -1,4 +1,4 @@
-package Files.RenderingStuff;
+package Files;
 
 public class Parser {
     
