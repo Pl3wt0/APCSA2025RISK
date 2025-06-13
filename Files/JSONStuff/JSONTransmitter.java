@@ -114,19 +114,19 @@ public class JSONTransmitter {
     /**
      * Broadcast a JSON object to all connected peers
      */
-    public static void broadcastJSON(Object objectToSend, ClientHandler sender) {
+    public static void broadcastJSON(Object objectToSend) {
         String jsonMessage = gson.toJson(objectToSend);
-        broadcastMessage("JSON_MESSAGE:" + jsonMessage, sender);
+        broadcastMessage("JSON_MESSAGE:" + jsonMessage);
     }
 
     /**
      * Broadcasts a message to all connected clients except the sender
      */
-    private static void broadcastMessage(String message, ClientHandler sender) {
-        System.out.println("Broadcasting message to " + (connectedClients.size() - (sender != null ? 1 : 0)) + " clients");
+    private static void broadcastMessage(String message) {
+        System.out.println("Broadcasting message");
         
         for (ClientHandler client : connectedClients) {
-            if (client != sender && client.isConnected()) {
+            if (client.isConnected()) {
                 client.sendMessage(message);
             }
         }
@@ -275,7 +275,7 @@ public class JSONTransmitter {
                         System.out.println("JSON Data: " + jsonData);
                         
                         // Broadcast JSON to all other clients
-                        broadcastMessage(message, this);
+                        broadcastMessage(message);
                         
                         // Process the JSON data here as needed
                         // Example: Object receivedObject = gson.fromJson(jsonData, YourClass.class);
@@ -286,11 +286,11 @@ public class JSONTransmitter {
                         receiveJsonFile(clientSocket, fileName);
                         
                         // Broadcast that a file was received
-                        broadcastMessage("FILE_RECEIVED:" + fileName + " from " + clientSocket.getInetAddress(), this);
+                        broadcastMessage("FILE_RECEIVED:" + fileName + " from " + clientSocket.getInetAddress());
                         
                     } else {
                         // Handle regular text messages
-                        broadcastMessage("From " + clientSocket.getInetAddress() + ": " + message, this);
+                        broadcastMessage("From " + clientSocket.getInetAddress() + ": " + message);
                     }
                     
                     // Send acknowledgment back to sender
