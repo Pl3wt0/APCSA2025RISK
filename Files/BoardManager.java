@@ -176,7 +176,7 @@ public class BoardManager {
      * If the amount of territories does not evenly divide by the amount of players
      * then the extra territories are added one by one in turn order
      */
-    public void initalizeTerritoryOwners() {
+    public static void initalizeTerritoryOwners() {
         Integer territoriesPerPlayer = territories.size() / players.size();
         Integer excessTerritories = territories.size() % territoriesPerPlayer;
         Integer playerNum = -1;
@@ -199,7 +199,7 @@ public class BoardManager {
      * 
      * @return Integer amount of troops given at start of turn
      */
-    public Integer determineTroopAmnt(Player temp) {
+    public static Integer determineTroopAmnt(Player temp) {
         int numTerritory = 0;
         int continentBonus = 0;
 
@@ -228,6 +228,20 @@ public class BoardManager {
          * }
          * }
          */
+        return -1;
+    }
+
+    public static int winner() {
+        int playerNum = territories.get(0).getOwner();
+        boolean isWinner = true;
+        for (Territory t : territories) {
+            if (t.getOwner() != playerNum) {
+                isWinner = false;
+            }
+        }
+        if (isWinner) {
+            return playerNum;
+        } 
         return -1;
     }
 }
