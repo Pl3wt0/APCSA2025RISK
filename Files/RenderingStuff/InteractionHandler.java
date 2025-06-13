@@ -26,9 +26,9 @@ import javax.swing.*;
 import tools.*;
 
 public class InteractionHandler {
-    private static SceneInfo sceneInfo;
-    private static PanelInfo panelInfo;
-    private static Files.Player player;
+    public static SceneInfo sceneInfo;
+    public static PanelInfo panelInfo;
+    public static Files.Player player;
 
     private static TextButton waitingButton = null;
 
@@ -321,10 +321,31 @@ public class InteractionHandler {
     }
 
     public static void placeGamePiece(Territory t, Files.Player p) {
-        GamePiece gamePiece = new GamePiece(0);
+        GamePiece gamePiece = new GamePiece(0, t);
         t.pieces.add(gamePiece);
         gamePiece.setPosition(t.getPosition()[0], t.getPosition()[1], t.getPosition()[2] + t.getPieces().size() * 10);
         sceneInfo.getSceneObjects().add(gamePiece);
+    }
+
+    public static void updateTerritory(String territory, int owner, int numTroops) {
+        Territory t = null;
+        for (Territory t2 : BoardManager.getTerritories()) {
+            if (t2.territoryName.equals(territory)) {
+                t = t2;
+            }
+        }
+        if (t == null) {
+            a.prl("Territory name is wrong in updateTerritory");
+            return;
+        }
+        t.setOwner(owner);
+        for (GamePiece gamePiece : t.getPieces()) {
+            gamePiece.removeFromScene();
+        }
+        t.getPieces().clear();
+        for (int i = 0; i < numTroops; i++) {
+            t.getPieces().add(new GamePiece(owner, t));
+        }
     }
 
 }

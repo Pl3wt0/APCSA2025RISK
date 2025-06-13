@@ -20,8 +20,12 @@ public class InputButton extends TextButton implements KeyListener {
             text += c;
             updateImage();
         }
-        if (c == '-' && !done) {
-            text += '-';
+        if (c == '.' && !done) {
+            text += '.';
+            updateImage();
+        }
+        if (c == '\b') {
+            text = text.substring(0, text.length() - 1);
             updateImage();
         }
         if (c == '\n') {
