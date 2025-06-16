@@ -111,6 +111,8 @@ public class JSONTransmitter {
         }
     }
 
+    
+
     /**
      * Broadcast a JSON object to all connected peers
      */
@@ -192,6 +194,17 @@ public class JSONTransmitter {
 
         fos.close();
         System.out.println("File received and saved as: " + file.getAbsolutePath());
+    }
+
+    public static void sendGameState(){
+        for(ClientHandler client : connectedClients){
+            try{
+                sendJsonFile(client.clientSocket,"Files/JSONStuff/JSONGameStates/GameState.json" );
+            }catch(IOException e){
+                System.out.println(e);
+            }
+        }
+       
     }
 
     // Interface for handling received messages
