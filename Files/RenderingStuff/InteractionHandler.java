@@ -216,7 +216,6 @@ public class InteractionHandler {
             public void mouseClicked(MouseEvent e) {
                 double[] pointOnMap = Tools3D.getFloorPoint(sceneInfo.getCamera(), e.getX(), e.getY(),
                         panelInfo.getDimension(), 0);
-                a.prl(pointOnMap[0] + ", " + pointOnMap[1]);
                 ArrayList<Territory> territories = BoardManager.getTerritories();
                 territories.sort(
                         Comparator.comparing((territory) -> Tools3D.getDistance((Point3D) territory, new Point3D() {
@@ -346,6 +345,66 @@ public class InteractionHandler {
         for (int i = 0; i < numTroops; i++) {
             t.getPieces().add(new GamePiece(owner, t));
         }
+    }
+
+    public static void parseMessage(String message) {
+        if (message.substring(0, 3).equals("ATK")) {
+            message = message.substring(4);
+            Territory territory1 = BoardManager.getTerritory(message.substring(0, message.indexOf(".")));
+            message = message.substring(message.indexOf(".") + 1);
+            Territory territory2 = BoardManager.getTerritory(message.substring(0, message.indexOf(".")));
+            message = message.substring(message.indexOf(".") + 1);
+            if (territory1 == null || territory2 == null) {
+                a.prl("parsemessage ATK error");
+            }
+            int numTroops = Integer.valueOf(message.substring(0, message.indexOf(".")));
+            String displayMessage = message;
+            a.prl("ATK of " + territory1.getTerritoryName() + ", " + territory2.getTerritoryName() + ", " + numTroops + ". " + displayMessage);
+
+
+        } else if (message.substring(0, 3).equals("TRN")) {
+            message = message.substring(4);
+            int playerNum = Integer.valueOf(message.substring(0, message.indexOf(".")));
+            message = message.substring(message.indexOf(".") + 1);
+            int numTroops = Integer.valueOf(message.substring(0, message.indexOf(".")));
+            message = message.substring(message.indexOf(".") + 1);
+            String displayMessage = message;
+            a.prl("TRN of " + playerNum + ", " + numTroops + ". " + displayMessage);
+
+
+        } else if (message.substring(0, 3).equals("UPT")) {
+            message = message.substring(4);
+            Territory territory = BoardManager.getTerritory(message.substring(0, message.indexOf(".")));
+            if (territory == null) {
+                a.prl("parsemessage UPT error");
+            }
+            message = message.substring(message.indexOf(".") + 1);
+            int numTroops = Integer.valueOf(message.substring(0, message.indexOf(".")));
+            message = message.substring(message.indexOf(".") + 1);
+            int playerNum = Integer.valueOf(message.substring(0, message.indexOf(".")));
+            message = message.substring(message.indexOf(".") + 1);
+            String displayMessage = message;
+            updateTerritory(territory.getTerritoryName(), playerNum, numTroops);
+            displayMessage(displayMessage, 5);
+
+        } else if (message.substring(0, 3).equals("DEF")) {
+            message = message.substring(4);
+            int numTroops = Integer.valueOf(message.substring(0, message.indexOf(".")));
+            String displayMessage = message;
+            a.prl("DEF of " + numTroops + ". " + displayMessage);
+
+        }
+    }
+
+    public static void assignTroops() {
+        int territoryCount = 0;
+        for (Territory territory : BoardManager.getTerritories()) {
+            if (territory.getOwner() == player.getNum()) {
+                territoryCount++;
+            }
+        }
+        int numTroops = Math.max(3, territoryCount / 3);
+        askTroopAssignment(numTroops);
     }
 
 }

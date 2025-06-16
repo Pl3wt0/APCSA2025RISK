@@ -90,6 +90,11 @@ public class Territory implements Point3D {
         return pieces;
     }
 
+
+    public void setPieces(ArrayList<GamePiece> gamePieces) {
+        this.pieces = gamePieces;
+    }
+
     public Integer determineNumDice(boolean attack, String territoryName){
         if(attack){
           if(this.getPieces().size() > 3){

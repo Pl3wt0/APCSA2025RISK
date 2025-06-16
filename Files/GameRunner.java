@@ -15,19 +15,20 @@ public class GameRunner extends Thread {
         InteractionHandler.setSceneInfo(sceneInfo, sceneInfo.getPanelInfo());
         String ip = InteractionHandler.getPlayerConnection();
         if (ip == null) {
-            ArrayList<String> answers = new ArrayList<>();
-            answers.add("2");
-            answers.add("3");
-            answers.add("4");
-            answers.add("5");
+            ArrayList<String> answers = new ArrayList<>(Arrays.asList("2", "3", "4", "5"));
             int numOfPlayers = InteractionHandler.askPlayer("How many players?", answers) + 2;
             BoardManager.setUp(numOfPlayers);
-            
+            InteractionHandler.player = BoardManager.getPlayers().get(0);
+            InteractionHandler.sleep(5000);
+            InteractionHandler.parseMessage("UPT:Alaska.2.0.display message");
+            InteractionHandler.sleep(5000);
+            InteractionHandler.assignTroops();
+
             //connection
-            JSONTransmitter.startConnection(ip);
+            //JSONTransmitter.startConnection(ip);
 
             while (BoardManager.winner() == -1) {
-                
+                //JSONTransmitter.broadcastTextMessage("");
                 //assign troops
                 //attacking
                 //free move
@@ -37,7 +38,6 @@ public class GameRunner extends Thread {
             //ask if ready to start
         } else {
             JSONTransmitter.startConnection(ip);
-            //peer
         }
         
     }

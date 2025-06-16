@@ -5,9 +5,11 @@ import Files.Player;
 import Files.Territory;
 import Files.RenderingStuff.GUIElement;
 import Files.RenderingStuff.InteractionHandler;
+import tools.a;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 public class BoardManager {
     private static ArrayList<Player> players = new ArrayList<Player>();
@@ -21,6 +23,9 @@ public class BoardManager {
     private static ArrayList<Continent> continents;
 
     private static ArrayList<Territory> territories = new ArrayList<Territory>();
+
+    private static int playerTurn = 0;
+    private static int turnPart = 0;
 
     /**
      * Constructs the BoardManager object
@@ -140,6 +145,15 @@ public class BoardManager {
         return territories;
     }
 
+    public static Territory getTerritory(String s) {
+        for (Territory territory : territories) {
+            if (territory.getTerritoryName().equals(s)) {
+                return territory;
+            }
+        }
+        return null;
+    }
+
 
     public static ArrayList<Player> getPlayers() {
         return players;
@@ -176,21 +190,30 @@ public class BoardManager {
     /**
      * Evenly divides all the territories between the players.
      * If the amount of territories does not evenly divide by the amount of players
-     * then the extra territories are added one by one in turn order
+     * then the extra territories are added one by one randomly
      */
     private static void initalizeTerritoryOwners() {
         Integer territoriesPerPlayer = territories.size() / players.size();
         Integer excessTerritories = territories.size() % territoriesPerPlayer;
-        Integer playerNum = -1;
 
-        for (int i = 0; i < territories.size() - excessTerritories; i++) {
-            if (i % players.size() == 0) {
-                playerNum++;
+        ArrayList<Territory> territoriesToAssign = (ArrayList<Territory>)territories.clone();
+
+        for (Player player : players) {
+            for (int i = 0; i < territoriesPerPlayer; i++) {
+                Random random = new Random();
+                int randomIndex = random.nextInt(territoriesToAssign.size());
+                territoriesToAssign.get(randomIndex).setOwner(player.getNum());
+                territoriesToAssign.get(randomIndex).setPieces(new ArrayList<GamePiece>(Arrays.asList(new GamePiece(player.getNum(), territoriesToAssign.get(randomIndex)))));
+
+                territoriesToAssign.remove(randomIndex);
             }
-            territories.get(i).setOwner(playerNum);
         }
-        for (int i = territories.size() - excessTerritories; i < territories.size(); i++) {
-            territories.get(i).setOwner(i - territories.size());
+
+        for (Territory territory : territoriesToAssign) {
+            Random random = new Random();
+            int randomIndex = random.nextInt(players.size());
+            territory.setOwner(players.get(randomIndex).getNum());
+            territory.setPieces(new ArrayList<GamePiece>(Arrays.asList(new GamePiece(players.get(randomIndex).getNum(), territory))));
         }
 
     }
