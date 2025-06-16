@@ -39,17 +39,16 @@ public class GameRunner extends Thread {
         InteractionHandler.setSceneInfo(sceneInfo, sceneInfo.getPanelInfo());
         String ip = InteractionHandler.getPlayerConnection();
         if (ip == null) {
+            JSONTransmitter.startConnection(null);
             ArrayList<String> answers = new ArrayList<>(Arrays.asList("2", "3", "4", "5"));
             int numOfPlayers = InteractionHandler.askPlayer("How many players?", answers) + 2;
             BoardManager.setUp(numOfPlayers);
             InteractionHandler.player = BoardManager.getPlayers().get(0);
-            InteractionHandler.sleep(5000);
-            InteractionHandler.parseMessage("UPT:Alaska.2.0.display message");
-            InteractionHandler.sleep(5000);
-            InteractionHandler.assignTroops();
+            InteractionHandler.sleep(15000);
+            JSONTransmitter.broadcastTextMessage("UPT:Alaska.2.0.display message");
+            
 
             //connection
-            //JSONTransmitter.startConnection(ip);
 
             while (BoardManager.winner() == -1) {
                 //JSONTransmitter.broadcastTextMessage("");
