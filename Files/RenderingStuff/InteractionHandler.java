@@ -214,18 +214,6 @@ public class InteractionHandler {
         MouseListener mouseListener = new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                double[] pointOnMap = Tools3D.getFloorPoint(sceneInfo.getCamera(), e.getX(), e.getY(),
-                        panelInfo.getDimension(), 0);
-                ArrayList<Territory> territories = BoardManager.getTerritories();
-                territories.sort(
-                        Comparator.comparing((territory) -> Tools3D.getDistance((Point3D) territory, new Point3D() {
-                            public double[] getPosition() {
-                                double[] returnPoint = { pointOnMap[0], pointOnMap[1], 0 };
-                                return returnPoint;
-                            };
-                        })));
-                setAskForTerritoryReturnValue(territories.get(0));
-
             }
 
             @Override
@@ -238,6 +226,17 @@ public class InteractionHandler {
 
             @Override
             public void mousePressed(MouseEvent e) {
+                double[] pointOnMap = Tools3D.getFloorPoint(sceneInfo.getCamera(), e.getX(), e.getY(),
+                panelInfo.getDimension(), 0);
+                ArrayList<Territory> territories = BoardManager.getTerritories();
+                territories.sort(
+                        Comparator.comparing((territory) -> Tools3D.getDistance((Point3D) territory, new Point3D() {
+                            public double[] getPosition() {
+                                double[] returnPoint = { pointOnMap[0], pointOnMap[1], 0 };
+                                return returnPoint;
+                            };
+                        })));
+                setAskForTerritoryReturnValue(territories.get(0));
             }
 
             @Override

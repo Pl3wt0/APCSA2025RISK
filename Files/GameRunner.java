@@ -20,21 +20,18 @@ public class GameRunner extends Thread {
 
                 @Override
                 public void onJSONReceived(String jsonData) {
-                    // TODO Auto-generated method stub
-                    throw new UnsupportedOperationException("Unimplemented method 'onJSONReceived'");
                 }
 
                 @Override
                 public void onTextReceived(String text) {
-                    // TODO Auto-generated method stub
-                    throw new UnsupportedOperationException("Unimplemented method 'onTextReceived'");
+                    InteractionHandler.parseMessage(text);
                 }
 
                 @Override
                 public void onFileReceived(String fileName) {
                     // TODO Auto-generated method stub
                     JSONManager.syncGameStates();
-                    ;
+                    
                 }
 
             });
