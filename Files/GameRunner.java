@@ -12,6 +12,33 @@ public class GameRunner extends Thread {
     }
 
     public void run() {
+        JSONTransmitter.setMessageHandler(new JSONTransmitter.MessageHandler() {
+                @Override
+                public void onValueReceived(String value){
+                    System.out.println(value);
+                }
+
+                @Override
+                public void onJSONReceived(String jsonData) {
+                    // TODO Auto-generated method stub
+                    throw new UnsupportedOperationException("Unimplemented method 'onJSONReceived'");
+                }
+
+                @Override
+                public void onTextReceived(String text) {
+                    // TODO Auto-generated method stub
+                    throw new UnsupportedOperationException("Unimplemented method 'onTextReceived'");
+                }
+
+                @Override
+                public void onFileReceived(String fileName) {
+                    // TODO Auto-generated method stub
+                    JSONManager.syncGameStates();
+                    ;
+                }
+
+            });
+
         InteractionHandler.setSceneInfo(sceneInfo, sceneInfo.getPanelInfo());
         String ip = InteractionHandler.getPlayerConnection();
         if (ip == null) {

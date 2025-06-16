@@ -194,6 +194,23 @@ public class JSONTransmitter {
         System.out.println("File received and saved as: " + file.getAbsolutePath());
     }
 
+    // Interface for handling received messages
+    public interface MessageHandler {
+        void onValueReceived(String value);
+        void onJSONReceived(String jsonData);
+        void onTextReceived(String text);
+        void onFileReceived(String fileName);
+    }
+    
+    private static MessageHandler messageHandler;
+    
+    /**
+     * Set the message handler to process received messages
+     */
+    public static void setMessageHandler(MessageHandler handler) {
+        messageHandler = handler;
+    }
+
     /**
      * Client handler for processing individual connections
      */
@@ -255,29 +272,62 @@ public class JSONTransmitter {
                 while ((message = in.readLine()) != null && connected) {
                     
                     if (message.startsWith("JSON_MESSAGE:")) {
-                        // Extract and forward JSON message directly
+                        // Extract JSON data and process locally, then forward
                         String jsonData = message.substring("JSON_MESSAGE:".length());
+                        
+                        // Process locally if handler exists
+                        if (messageHandler != null) {
+                            messageHandler.onJSONReceived(jsonData);
+                        }
+                        
+                        // Forward to other clients
                         broadcastMessage("JSON_MESSAGE:" + jsonData, this);
                         
                     } else if (message.startsWith("JSON_DATA:")) {
-                        // Forward JSON data directly
+                        // Process JSON data locally and forward
                         String jsonData = message.substring("JSON_DATA:".length());
+                        
+                        // Process locally if handler exists
+                        if (messageHandler != null) {
+                            messageHandler.onJSONReceived(jsonData);
+                        }
+                        
+                        // Forward to other clients
                         broadcastMessage("JSON_DATA:" + jsonData, this);
                         
                     } else if (message.startsWith("VALUE:")) {
-                        // Forward value directly
+                        // Process value locally and forward
                         String value = message.substring("VALUE:".length());
+                        
+                        // Process locally if handler exists
+                        if (messageHandler != null) {
+                            messageHandler.onValueReceived(value);
+                        }
+                        
+                        // Forward to other clients
                         broadcastMessage("VALUE:" + value, this);
                         
                     } else if (message.startsWith("TEXT:")) {
-                        // Forward text message directly
+                        // Process text locally and forward
                         String text = message.substring("TEXT:".length());
+                        
+                        // Process locally if handler exists
+                        if (messageHandler != null) {
+                            messageHandler.onTextReceived(text);
+                        }
+                        
+                        // Forward to other clients
                         broadcastMessage("TEXT:" + text, this);
                         
                     } else if (message.startsWith("FILE_TRANSFER:")) {
                         // Handle file transfer
                         String fileName = message.substring("FILE_TRANSFER:".length());
                         receiveJsonFile(clientSocket, fileName);
+                        
+                        // Process locally if handler exists
+                        if (messageHandler != null) {
+                            messageHandler.onFileReceived(fileName);
+                        }
                         
                         // Notify other clients about file reception
                         broadcastMessage("FILE_RECEIVED:" + fileName, this);
