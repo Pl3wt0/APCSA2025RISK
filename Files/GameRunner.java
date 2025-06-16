@@ -6,45 +6,25 @@ import java.util.*;
 
 public class GameRunner extends Thread {
     private SceneInfo sceneInfo;
+    public static String ip;
 
     public GameRunner(SceneInfo sceneInfo) {
         this.sceneInfo = sceneInfo;
     }
 
+
     public void run() {
-        JSONTransmitter.setMessageHandler(new JSONTransmitter.MessageHandler() {
-                @Override
-                public void onValueReceived(String value){
-                    System.out.println(value);
-                }
-
-                @Override
-                public void onJSONReceived(String jsonData) {
-                }
-
-                @Override
-                public void onTextReceived(String text) {
-                    InteractionHandler.parseMessage(text);
-                }
-
-                @Override
-                public void onFileReceived(String fileName) {
-                    // TODO Auto-generated method stub
-                    JSONManager.syncGameStates();
-                    
-                }
-
-            });
-
         InteractionHandler.setSceneInfo(sceneInfo, sceneInfo.getPanelInfo());
-        String ip = InteractionHandler.getPlayerConnection();
+        ip = InteractionHandler.getPlayerConnection();
         if (ip == null) {
-            JSONTransmitter.startConnection(null);
+            JSONThread jsonThread = new JSONThread();
+            jsonThread.start();
             ArrayList<String> answers = new ArrayList<>(Arrays.asList("2", "3", "4", "5"));
             int numOfPlayers = InteractionHandler.askPlayer("How many players?", answers) + 2;
             BoardManager.setUp(numOfPlayers);
             InteractionHandler.player = BoardManager.getPlayers().get(0);
             InteractionHandler.sleep(15000);
+            InteractionHandler.parseMessage("UPT:Alaska.2.0.display message");
             JSONTransmitter.broadcastTextMessage("UPT:Alaska.2.0.display message");
             
 
@@ -61,6 +41,8 @@ public class GameRunner extends Thread {
             //ask if ready to start
         } else {
             JSONTransmitter.startConnection(ip);
+            JSONThread jsonThread = new JSONThread();
+            jsonThread.start();
         }
         
     }
