@@ -18,14 +18,14 @@ public class GameRunner extends Thread {
         ip = InteractionHandler.getPlayerConnection();
         if (ip == null) {
             JSONThread jsonThread = new JSONThread();
-            jsonThread.start();
             ArrayList<String> answers = new ArrayList<>(Arrays.asList("2", "3", "4", "5"));
             int numOfPlayers = InteractionHandler.askPlayer("How many players?", answers) + 2;
             BoardManager.setUp(numOfPlayers);
             JSONManager.writeJSONGameState();
             InteractionHandler.player = BoardManager.getPlayers().get(0);
-            InteractionHandler.sleep(15000);
-            JSONTransmitter.broadcastTextMessage("UPT:Alaska.2.0.display message");
+            jsonThread.start();
+            
+            
             
 
             //connection
