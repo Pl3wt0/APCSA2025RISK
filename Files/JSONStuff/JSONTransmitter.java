@@ -24,7 +24,7 @@ import java.awt.*;
 import java.lang.reflect.Type;
 
 public class JSONTransmitter {
-    private static final int PORT = 5000;
+    private static final int PORT = 5001;
     private static ArrayList<InetAddress> ipAddresses = new ArrayList<>();
     private static final CopyOnWriteArrayList<ClientHandler> connectedClients = new CopyOnWriteArrayList<>();
     
@@ -198,11 +198,14 @@ public class JSONTransmitter {
 
     public static void sendGameState(){
         for(ClientHandler client : connectedClients){
-            try{
-                sendJsonFile(client.clientSocket,"Files/JSONStuff/JSONGameStates/GameState.json" );
-            }catch(IOException e){
-                System.out.println(e);
+            if(client.isConnected()){
+                try{
+                    sendJsonFile(client.clientSocket,"Files/JSONStuff/JSONGameStates/GameState.json" );
+                }catch(IOException e){
+                    System.out.println(e);
+                }
             }
+            
         }
        
     }

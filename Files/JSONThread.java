@@ -24,7 +24,6 @@ public class JSONThread extends Thread {
 
                 @Override
                 public void onFileReceived(String fileName) {
-                    // TODO Auto-generated method stub
                     JSONManager.syncGameStates();
                     
                 }
