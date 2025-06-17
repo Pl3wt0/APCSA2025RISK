@@ -22,9 +22,9 @@ public class GameRunner extends Thread {
             ArrayList<String> answers = new ArrayList<>(Arrays.asList("2", "3", "4", "5"));
             int numOfPlayers = InteractionHandler.askPlayer("How many players?", answers) + 2;
             BoardManager.setUp(numOfPlayers);
+            JSONManager.writeJSONGameState();
             InteractionHandler.player = BoardManager.getPlayers().get(0);
             InteractionHandler.sleep(15000);
-            InteractionHandler.parseMessage("UPT:Alaska.2.0.display message");
             JSONTransmitter.broadcastTextMessage("UPT:Alaska.2.0.display message");
             
 
