@@ -8,28 +8,21 @@ public class JSONThread extends Thread {
     @Override
     public void run() {
         JSONTransmitter.setMessageHandler(new JSONTransmitter.MessageHandler() {
-                @Override
-                public void onValueReceived(String value){
-                    System.out.println(value);
-                }
-
-                @Override
-                public void onJSONReceived(String jsonData) {
-                }
-
+                
                 @Override
                 public void onTextReceived(String text) {
+                    System.out.println(text);
                     InteractionHandler.parseMessage(text);
                 }
 
                 @Override
-                public void onFileReceived(String fileName) {
-                    JSONManager.syncGameStates();
-                    
+                public void onGameStateReceived(String fileName) {
+                   JSONManager.syncGameStates();
                 }
             });
 
             JSONTransmitter.startConnection(GameRunner.ip);
+            JSONTransmitter.sendGameState();
             InteractionHandler.sleep(15000);
             JSONTransmitter.broadcastTextMessage("UPT:Alaska.2.0.display message");
 
