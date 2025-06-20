@@ -65,6 +65,7 @@ public class JSONTransmitter {
      * Broadcast a text message to all connected peers
      */
     public static void broadcastTextMessage(String message) {
+        System.out.println("Broadcasting text message: " + message);
         broadcastMessage("TEXT:" + message, null);
     }
 
@@ -72,6 +73,7 @@ public class JSONTransmitter {
      * Send GameState.json file to all connected clients
      */
     public static void sendGameState() {
+        System.out.println("Sending GameState to all clients...");
         for (ClientHandler client : connectedClients) {
             if (client.isConnected()) {
                 try {
@@ -131,9 +133,12 @@ public class JSONTransmitter {
         public void sendMessage(String message) {
             if (out != null && isConnected()) {
                 try {
-                    out.println(message);
-                    if (out.checkError()) {
-                        disconnect();
+                    synchronized(out) {  // Synchronize access to output stream
+                        out.println(message);
+                        out.flush();
+                        if (out.checkError()) {
+                            disconnect();
+                        }
                     }
                 } catch (Exception e) {
                     System.err.println("Error sending message to client: " + e.getMessage());
@@ -149,36 +154,51 @@ public class JSONTransmitter {
                 return;
             }
 
-            out.println("GAMESTATE_TRANSFER:" + file.getName());
+            synchronized(out) {  // Synchronize to prevent text messages from interfering
+                // Send file transfer header
+                out.println("GAMESTATE_TRANSFER:" + file.getName() + ":" + file.length());
+                out.flush();
 
-            FileInputStream fileInputStream = new FileInputStream(file);
-            BufferedOutputStream bos = new BufferedOutputStream(clientSocket.getOutputStream());
+                // Read file content and send as Base64 to avoid binary data issues
+                FileInputStream fileInputStream = new FileInputStream(file);
+                byte[] fileBytes = new byte[(int) file.length()];
+                fileInputStream.read(fileBytes);
+                fileInputStream.close();
 
-            byte[] buffer = new byte[4096];
-            int bytesRead;
-            while ((bytesRead = fileInputStream.read(buffer)) > 0) {
-                bos.write(buffer, 0, bytesRead);
+                // Convert to Base64 and send line by line
+                String base64Content = java.util.Base64.getEncoder().encodeToString(fileBytes);
+                out.println("FILE_DATA:" + base64Content);
+                out.println("FILE_END");
+                out.flush();
             }
 
-            bos.flush();
-            fileInputStream.close();
-            System.out.println("GameState.json sent successfully!");
+            System.out.println("GameState.json sent successfully to " + clientSocket.getInetAddress());
         }
         
-        private void receiveGameStateFile(String fileName) throws IOException {
-            System.out.println("Receiving GameState file: " + fileName);
+        private void receiveGameStateFile(String fileName, long fileSize) throws IOException {
+            System.out.println("Receiving GameState file: " + fileName + " (size: " + fileSize + " bytes)");
 
-            File file = new File("Files/JSONStuff/JSONGameStates/received_" + fileName);
-            FileOutputStream fos = new FileOutputStream(file);
-            BufferedInputStream bis = new BufferedInputStream(clientSocket.getInputStream());
-
-            byte[] buffer = new byte[4096];
-            int bytesRead;
-            while ((bytesRead = bis.read(buffer)) > 0) {
-                fos.write(buffer, 0, bytesRead);
+            // Read the Base64 encoded file data
+            String dataLine = in.readLine();
+            if (!dataLine.startsWith("FILE_DATA:")) {
+                throw new IOException("Expected FILE_DATA but got: " + dataLine);
+            }
+            
+            String base64Content = dataLine.substring("FILE_DATA:".length());
+            
+            // Read FILE_END marker
+            String endMarker = in.readLine();
+            if (!"FILE_END".equals(endMarker)) {
+                throw new IOException("Expected FILE_END but got: " + endMarker);
             }
 
+            // Decode and save file
+            byte[] fileBytes = java.util.Base64.getDecoder().decode(base64Content);
+            File file = new File("Files/JSONStuff/JSONGameStates/received_" + fileName);
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(fileBytes);
             fos.close();
+
             System.out.println("GameState file received and saved as: " + file.getAbsolutePath());
         }
         
@@ -192,6 +212,7 @@ public class JSONTransmitter {
             } catch (IOException e) {
                 System.err.println("Error closing client resources: " + e.getMessage());
             }
+            System.out.println("Client disconnected: " + clientSocket.getInetAddress());
         }
         
         @Override
@@ -202,16 +223,18 @@ public class JSONTransmitter {
                 
                 // Initial handshake - send GameState.json if host
                 if (isHost) {
+                    Thread.sleep(100); // Small delay to ensure connection is stable
                     sendGameStateFile();
                 }
                 
                 String message;
                 while ((message = in.readLine()) != null && connected) {
+                    System.out.println("Received message: " + message);
                     
                     if (message.startsWith("TEXT:")) {
                         // Process text locally and forward
                         String text = message.substring("TEXT:".length());
-                        System.out.println("Received text message: " + text);
+                        System.out.println("Processing text message: " + text);
                         
                         if (messageHandler != null) {
                             messageHandler.onTextReceived(text);
@@ -221,31 +244,26 @@ public class JSONTransmitter {
                         
                     } else if (message.startsWith("GAMESTATE_TRANSFER:")) {
                         // Handle GameState file transfer
-                        String fileName = message.substring("GAMESTATE_TRANSFER:".length());
-                        System.out.println("Receiving GameState file transfer: " + fileName);
-                        receiveGameStateFile(fileName);
+                        String[] parts = message.substring("GAMESTATE_TRANSFER:".length()).split(":");
+                        String fileName = parts[0];
+                        long fileSize = Long.parseLong(parts[1]);
+                        
+                        System.out.println("Starting GameState file transfer: " + fileName);
+                        receiveGameStateFile(fileName, fileSize);
                         
                         if (messageHandler != null) {
                             messageHandler.onGameStateReceived(fileName);
                         }
                         
-                        // Notify other clients about GameState reception
-                        broadcastMessage("GAMESTATE_RECEIVED:" + fileName, this);
-                        
-                    } else if (message.startsWith("GAMESTATE_RECEIVED:")) {
-                        // Just forward the notification, don't process as file transfer
-                        String fileName = message.substring("GAMESTATE_RECEIVED:".length());
-                        
-                        if (messageHandler != null) {
-                            messageHandler.onGameStateReceived(fileName);
-                        }
-                        
-                        broadcastMessage("GAMESTATE_RECEIVED:" + fileName, this);
+                    } else {
+                        System.out.println("Unknown message type: " + message);
                     }
                 }
                 
             } catch (IOException e) {
                 System.err.println("Error handling client " + clientSocket.getInetAddress() + ": " + e.getMessage());
+            } catch (InterruptedException e) {
+                System.err.println("Thread interrupted: " + e.getMessage());
             } finally {
                 disconnect();
             }
