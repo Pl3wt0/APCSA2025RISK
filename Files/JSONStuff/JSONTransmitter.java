@@ -72,12 +72,12 @@ public class JSONTransmitter {
     /**
      * Send GameState.json file to all connected clients
      */
-    public static void sendGameState(boolean isFirst) {
+    public static void sendGameState() {
         System.out.println("Sending GameState to all clients...");
         for (ClientHandler client : connectedClients) {
             if (client.isConnected()) {
                 try {
-                    client.sendGameStateFile(isFirst);
+                    client.sendGameStateFile();
                 } catch (IOException e) {
                     System.out.println("Error sending game state: " + e);
                 }
@@ -147,7 +147,7 @@ public class JSONTransmitter {
             }
         }
         
-        public void sendGameStateFile(boolean isFirst) throws IOException {
+        public void sendGameStateFile() throws IOException {
             File file = new File("Files/JSONStuff/JSONGameStates/GameState.json");
             if (!file.exists()) {
                 System.out.println("GameState.json file not found!");
@@ -175,7 +175,7 @@ public class JSONTransmitter {
             System.out.println("GameState.json sent successfully to " + clientSocket.getInetAddress());
         }
         
-        private void receiveGameStateFile(String fileName, long fileSize, boolean isFirst) throws IOException {
+        private void receiveGameStateFile(String fileName, long fileSize) throws IOException {
             System.out.println("Receiving GameState file: " + fileName + " (size: " + fileSize + " bytes)");
 
             // Read the Base64 encoded file data
@@ -193,21 +193,15 @@ public class JSONTransmitter {
             }
 
             // Decode and save file
-           if(isFirst){
-                byte[] fileBytes = java.util.Base64.getDecoder().decode(base64Content);
-                File file = new File("Files/JSONStuff/JSONGameStates/" + fileName);
-                FileOutputStream fos = new FileOutputStream(file);
-                fos.write(fileBytes);
-                fos.close();
-                System.out.println("GameState file received and saved as: " + file.getAbsolutePath());
-           } else{
-                byte[] fileBytes = java.util.Base64.getDecoder().decode(base64Content);
-                File file = new File("Files/JSONStuff/JSONGameStates/received_" + fileName);
-                FileOutputStream fos = new FileOutputStream(file);
-                fos.write(fileBytes);
-                fos.close();
-                System.out.println("GameState file received and saved as: " + file.getAbsolutePath());
-           }
+           
+          
+            byte[] fileBytes = java.util.Base64.getDecoder().decode(base64Content);
+            File file = new File("Files/JSONStuff/JSONGameStates/received_" + fileName);
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(fileBytes);
+            fos.close();
+            System.out.println("GameState file received and saved as: " + file.getAbsolutePath());
+           
             
 
             
@@ -235,7 +229,7 @@ public class JSONTransmitter {
                 // Initial handshake - send GameState.json if host
                 if (isHost) {
                     Thread.sleep(100); // Small delay to ensure connection is stable
-                    sendGameStateFile(true);
+                    sendGameStateFile();
                 }
                 
                 String message;
@@ -260,7 +254,7 @@ public class JSONTransmitter {
                         long fileSize = Long.parseLong(parts[1]);
                         
                         System.out.println("Starting GameState file transfer: " + fileName);
-                        receiveGameStateFile(fileName, fileSize,true);
+                        receiveGameStateFile(fileName, fileSize);
                         
                         if (messageHandler != null) {
                             messageHandler.onGameStateReceived(fileName);
