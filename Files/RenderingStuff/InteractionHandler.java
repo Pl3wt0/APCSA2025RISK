@@ -410,6 +410,9 @@ public class InteractionHandler {
     public static void renderBoardManager() {
         for (Territory t : BoardManager.getTerritories()) {
             updateTerritory(t.territoryName, t.getOwner(), t.getPieces().size());
+            for (GamePiece gamePiece : t.getPieces()) {
+                InteractionHandler.getSceneInfo().getSceneObjects().add(gamePiece);
+            }
         }
     }
 

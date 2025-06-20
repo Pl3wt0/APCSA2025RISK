@@ -23,8 +23,10 @@ import com.google.gson.reflect.TypeToken;
 
 import Files.BoardManager;
 import Files.Continent;
+import Files.GamePiece;
 import Files.Player;
-
+import Files.RenderingStuff.InteractionHandler;
+import Files.RenderingStuff.SceneElement;
 import tools.ColorAdapter;
 import tools.InetAddressAdapter;
 
@@ -113,6 +115,11 @@ public class JSONManager {
             BoardManager.setNorthAmerica((Continent)recievedState.get("NorthAmerica"));
             BoardManager.setSouthAmerica((Continent)recievedState.get("SouthAmerica"));
             BoardManager.setPlayers((ArrayList<Player>)recievedState.get("Players"));
+
+            for (SceneElement sceneElement : InteractionHandler.getSceneInfo().getSceneObjects(GamePiece.class)) {
+                InteractionHandler.getSceneInfo().getSceneObjects().remove(sceneElement);
+            }
+            
 
         }catch(IOException e){
 
