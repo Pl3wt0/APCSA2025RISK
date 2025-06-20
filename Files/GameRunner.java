@@ -32,7 +32,7 @@ public class GameRunner extends Thread {
 
             int num = 0;
             while (BoardManager.winner() == -1) {
-                JSONTransmitter.broadcastTextMessage("UPT:" + BoardManager.getTerritories().get(num).territoryName + "0.2.hiiii");
+                JSONTransmitter.broadcastTextMessage("UPT:" + BoardManager.getTerritories().get(num).territoryName + ".0.2.hiiii");
                 num++;
                 InteractionHandler.sleep(1000);
                 //JSONTransmitter.broadcastTextMessage("");
