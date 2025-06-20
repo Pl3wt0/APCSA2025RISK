@@ -45,7 +45,6 @@ public class GameRunner extends Thread {
             //ask if ready to start
         } else {
             BoardManager.setUp(2);
-            InteractionHandler.renderBoardManager();
             JSONTransmitter.startConnection(ip);
             JSONThread jsonThread = new JSONThread();
             jsonThread.start();

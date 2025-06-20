@@ -227,7 +227,7 @@ public class InteractionHandler {
             @Override
             public void mousePressed(MouseEvent e) {
                 double[] pointOnMap = Tools3D.getFloorPoint(sceneInfo.getCamera(), e.getX(), e.getY(),
-                panelInfo.getDimension(), 0);
+                        panelInfo.getDimension(), 0);
                 ArrayList<Territory> territories = BoardManager.getTerritories();
                 territories.sort(
                         Comparator.comparing((territory) -> Tools3D.getDistance((Point3D) territory, new Point3D() {
@@ -306,7 +306,7 @@ public class InteractionHandler {
         while (true) {
             Territory pickedTerritory = askForTerritory("Pick troop assignment");
             placeGamePiece(pickedTerritory, player);
-            //send message to host
+            // send message to host
             numTroops--;
             if (numTroops == 0) {
                 break;
@@ -358,8 +358,8 @@ public class InteractionHandler {
             }
             int numTroops = Integer.valueOf(message.substring(0, message.indexOf(".")));
             String displayMessage = message;
-            a.prl("ATK of " + territory1.getTerritoryName() + ", " + territory2.getTerritoryName() + ", " + numTroops + ". " + displayMessage);
-
+            a.prl("ATK of " + territory1.getTerritoryName() + ", " + territory2.getTerritoryName() + ", " + numTroops
+                    + ". " + displayMessage);
 
         } else if (message.substring(0, 3).equals("TRN")) {
             message = message.substring(4);
@@ -369,7 +369,6 @@ public class InteractionHandler {
             message = message.substring(message.indexOf(".") + 1);
             String displayMessage = message;
             a.prl("TRN of " + playerNum + ", " + numTroops + ". " + displayMessage);
-
 
         } else if (message.substring(0, 3).equals("UPT")) {
             message = message.substring(4);
@@ -407,7 +406,6 @@ public class InteractionHandler {
         askTroopAssignment(numTroops);
     }
 
-
     public static void renderBoardManager() {
         for (Territory t : BoardManager.getTerritories()) {
             updateTerritory(t.territoryName, t.getOwner(), t.getPieces().size());
@@ -415,13 +413,12 @@ public class InteractionHandler {
                 InteractionHandler.getSceneInfo().getSceneObjects().add(gamePiece);
             }
         }
-                    for (SceneElement sceneElement : InteractionHandler.getSceneInfo().getSceneObjects(GamePiece.class)) {
-                InteractionHandler.getSceneInfo().getSceneObjects().remove(sceneElement);
-            }
-            for (Files.Territory t : BoardManager.getTerritories()) {
-                InteractionHandler.getSceneInfo().getSceneObjects().addAll(t.getPieces());
-            }
-
+        for (SceneElement sceneElement : InteractionHandler.getSceneInfo().getSceneObjects(GamePiece.class)) {
+            InteractionHandler.getSceneInfo().getSceneObjects().remove(sceneElement);
+        }
+        for (Files.Territory t : BoardManager.getTerritories()) {
+            InteractionHandler.getSceneInfo().getSceneObjects().addAll(t.getPieces());
+        }
 
     }
 
