@@ -406,4 +406,11 @@ public class InteractionHandler {
         askTroopAssignment(numTroops);
     }
 
+
+    public static void renderBoardManager() {
+        for (Territory t : BoardManager.getTerritories()) {
+            updateTerritory(t.territoryName, t.getOwner(), t.getPieces().size());
+        }
+    }
+
 }
