@@ -21,8 +21,8 @@ public class JSONThread extends Thread {
                 }
             });
 
+            
             JSONTransmitter.startConnection(GameRunner.ip);
-            JSONTransmitter.sendGameState();
             InteractionHandler.sleep(15000);
             JSONTransmitter.broadcastTextMessage("UPT:Alaska.2.0.display message");
 
