@@ -201,6 +201,7 @@ public class JSONTransmitter {
             fos.write(fileBytes);
             fos.close();
             System.out.println("GameState file received and saved as: " + file.getAbsolutePath());
+            JSONManager.syncGameStates();
            
             
 

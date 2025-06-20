@@ -11,13 +11,12 @@ public class JSONThread extends Thread {
                 
                 @Override
                 public void onTextReceived(String text) {
-                    System.out.println(text);
                     InteractionHandler.parseMessage(text);
                 }
 
                 @Override
                 public void onGameStateReceived(String fileName) {
-                   JSONManager.syncGameStates();
+                   
                 }
             });
 
