@@ -385,6 +385,7 @@ public class InteractionHandler {
             String displayMessage = message;
             updateTerritory(territory.getTerritoryName(), playerNum, numTroops);
             displayMessage(displayMessage, 5);
+            a.prl(territory.getTerritoryName() + numTroops + playerNum);
 
         } else if (message.substring(0, 3).equals("DEF")) {
             message = message.substring(4);
@@ -414,6 +415,14 @@ public class InteractionHandler {
                 InteractionHandler.getSceneInfo().getSceneObjects().add(gamePiece);
             }
         }
+                    for (SceneElement sceneElement : InteractionHandler.getSceneInfo().getSceneObjects(GamePiece.class)) {
+                InteractionHandler.getSceneInfo().getSceneObjects().remove(sceneElement);
+            }
+            for (Files.Territory t : BoardManager.getTerritories()) {
+                InteractionHandler.getSceneInfo().getSceneObjects().addAll(t.getPieces());
+            }
+
+
     }
 
 }

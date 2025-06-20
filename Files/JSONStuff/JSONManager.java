@@ -116,13 +116,6 @@ public class JSONManager {
             BoardManager.setSouthAmerica((Continent)recievedState.get("SouthAmerica"));
             BoardManager.setPlayers((ArrayList<Player>)recievedState.get("Players"));
 
-            for (SceneElement sceneElement : InteractionHandler.getSceneInfo().getSceneObjects(GamePiece.class)) {
-                InteractionHandler.getSceneInfo().getSceneObjects().remove(sceneElement);
-            }
-            for (Files.Territory t : BoardManager.getTerritories()) {
-                InteractionHandler.getSceneInfo().getSceneObjects().addAll(t.getPieces());
-            }
-
         }catch(IOException e){
 
         }
