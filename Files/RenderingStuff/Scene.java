@@ -76,7 +76,11 @@ public class Scene {
     }
 
     public void tickScene(int fps, int tick) {
-        a.prl(BoardManager.getTerritories().get(10).getOwner());
+        try {
+            a.prl(BoardManager.getTerritories().get(10).getOwner());
+        } catch (Error e) {
+            
+        }
         camera.tick();
 
         ArrayList<SceneObject> sceneObjectsCopy = (ArrayList<SceneObject>)sceneObjects.clone();
