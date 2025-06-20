@@ -30,7 +30,11 @@ public class GameRunner extends Thread {
 
             //connection
 
+            int num = 0;
             while (BoardManager.winner() == -1) {
+                JSONTransmitter.broadcastTextMessage("UPT:" + BoardManager.getTerritories().get(num).territoryName + "0.2.hiiii");
+                num++;
+                InteractionHandler.sleep(1000);
                 //JSONTransmitter.broadcastTextMessage("");
                 //assign troops
                 //attacking
@@ -40,6 +44,7 @@ public class GameRunner extends Thread {
             //allow connections
             //ask if ready to start
         } else {
+            BoardManager.setUp(2);
             JSONTransmitter.startConnection(ip);
             JSONThread jsonThread = new JSONThread();
             jsonThread.start();
