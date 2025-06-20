@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
+
 public class BoardManager {
     private static ArrayList<Player> players = new ArrayList<Player>();
 
@@ -142,6 +143,15 @@ public class BoardManager {
     }
 
     public static ArrayList<Territory> getTerritories() {
+        ArrayList<Territory> territories = new ArrayList<>();
+        territories.addAll(northAmerica.getTerritories());
+        territories.addAll(asia.getTerritories());
+        territories.addAll(europe.getTerritories());
+        territories.addAll(southAmerica.getTerritories());
+        territories.addAll(australia.getTerritories());
+        territories.addAll(africa.getTerritories());
+
+
         return territories;
     }
 
@@ -153,6 +163,7 @@ public class BoardManager {
         }
         return null;
     }
+
 
 
     public static ArrayList<Player> getPlayers() {

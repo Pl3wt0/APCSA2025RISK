@@ -119,7 +119,9 @@ public class JSONManager {
             for (SceneElement sceneElement : InteractionHandler.getSceneInfo().getSceneObjects(GamePiece.class)) {
                 InteractionHandler.getSceneInfo().getSceneObjects().remove(sceneElement);
             }
-            
+            for (Files.Territory t : BoardManager.getTerritories()) {
+                InteractionHandler.getSceneInfo().getSceneObjects().addAll(t.getPieces());
+            }
 
         }catch(IOException e){
 
