@@ -29,6 +29,7 @@ import Files.RenderingStuff.InteractionHandler;
 import Files.RenderingStuff.SceneElement;
 import tools.ColorAdapter;
 import tools.InetAddressAdapter;
+import tools.a;
 
 import java.lang.reflect.Type;
 
@@ -115,6 +116,7 @@ public class JSONManager {
             BoardManager.setNorthAmerica((Continent)recievedState.get("NorthAmerica"));
             BoardManager.setSouthAmerica((Continent)recievedState.get("SouthAmerica"));
             BoardManager.setPlayers((ArrayList<Player>)recievedState.get("Players"));
+            a.prl("getting called");
 
             InteractionHandler.renderBoardManager();
         }catch(IOException e){

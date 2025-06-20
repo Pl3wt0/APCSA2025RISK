@@ -36,6 +36,5 @@ public class GamePiece extends Cube {
         x = position[0];
         y = position[1];
         z = position[2] + 5 + 10 * numAtTerritory; 
-        a.prl("GamePiece: " + (InteractionHandler.getSceneInfo().getSceneObjects().indexOf(this) != -1));
     }
 }
