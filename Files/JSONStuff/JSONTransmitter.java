@@ -211,6 +211,7 @@ public class JSONTransmitter {
                     if (message.startsWith("TEXT:")) {
                         // Process text locally and forward
                         String text = message.substring("TEXT:".length());
+                        System.out.println("Received text message: " + text);
                         
                         if (messageHandler != null) {
                             messageHandler.onTextReceived(text);
@@ -221,6 +222,7 @@ public class JSONTransmitter {
                     } else if (message.startsWith("GAMESTATE_TRANSFER:")) {
                         // Handle GameState file transfer
                         String fileName = message.substring("GAMESTATE_TRANSFER:".length());
+                        System.out.println("Receiving GameState file transfer: " + fileName);
                         receiveGameStateFile(fileName);
                         
                         if (messageHandler != null) {
@@ -228,6 +230,16 @@ public class JSONTransmitter {
                         }
                         
                         // Notify other clients about GameState reception
+                        broadcastMessage("GAMESTATE_RECEIVED:" + fileName, this);
+                        
+                    } else if (message.startsWith("GAMESTATE_RECEIVED:")) {
+                        // Just forward the notification, don't process as file transfer
+                        String fileName = message.substring("GAMESTATE_RECEIVED:".length());
+                        
+                        if (messageHandler != null) {
+                            messageHandler.onGameStateReceived(fileName);
+                        }
+                        
                         broadcastMessage("GAMESTATE_RECEIVED:" + fileName, this);
                     }
                 }
