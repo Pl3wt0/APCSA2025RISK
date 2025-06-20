@@ -116,6 +116,7 @@ public class JSONManager {
             BoardManager.setSouthAmerica((Continent)recievedState.get("SouthAmerica"));
             BoardManager.setPlayers((ArrayList<Player>)recievedState.get("Players"));
 
+            InteractionHandler.renderBoardManager();
         }catch(IOException e){
 
         }
